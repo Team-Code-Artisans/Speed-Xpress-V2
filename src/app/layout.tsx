@@ -20,7 +20,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.className}`}>
         <NextThemeProvider>
-          <div className="h-screen bg-light dark:bg-dark dark:text-light text-dark">
+          <div className="text-dark dark:text-light bg-light dark:bg-dark">
             <div className="absolute right-0 inset-y-0 z-50 p-4">
               <ThemeSwitcher />
             </div>
