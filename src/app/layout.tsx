@@ -18,14 +18,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body
-        className={`${inter.className} h-screen dark:bg-dark bg-light dark:text-light text-dark`}
-      >
+      <body className={`${inter.className}`}>
         <NextThemeProvider>
-          <div className="absolute right-0 inset-y-0 z-50 p-4">
-            <ThemeSwitcher />
+          <div className="text-dark dark:text-light bg-light dark:bg-dark">
+            <div className="absolute right-0 inset-y-0 z-50 p-4">
+              <ThemeSwitcher />
+            </div>
+            {children}
           </div>
-          {children}
         </NextThemeProvider>
       </body>
     </html>

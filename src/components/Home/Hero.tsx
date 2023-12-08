@@ -1,0 +1,57 @@
+"use client"
+
+import { useEffect, useRef } from "react"
+
+export default function Hero() {
+  const videoRef = useRef<any>(null)
+  useEffect(() => {
+    const video = videoRef.current
+    video.play()
+  }, [])
+
+  return (
+    <section>
+      <div className="max-w-screen-xl mx-auto px-4 py-28 gap-12 md:px-8">
+        <div className="space-y-5 max-w-4xl mx-auto text-center">
+          <h1 className="text-sm text-primary font-medium">
+            Welcome to Speed Xpress
+          </h1>
+          <h2 className="text-3xl sm:text-4xl font-extrabold mx-auto lg:text-5xl">
+            Swift, Secure, Seamless Experience{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-300 to-sky-800">
+              Effortless Parcel Management
+            </span>
+          </h2>
+          <p className="max-w-2xl mx-auto text-gray-600 max-sm:text-sm">
+            Send, receive, and track with ease. Tailored dashboards for
+            customers, merchants, and admins. Your shortcut to efficient parcel
+            management.
+          </p>
+          <div className="flex items-center justify-center sm:max-w-sm mx-auto">
+            <input
+              className="p-4 border border-r-0 border-solid border-primary rounded-l-md bg-transparent focus:outline-none w-full"
+              type="text"
+              placeholder="Parcel ID Here"
+            />
+            <button
+              className="px-4 py-[17px] border-solid rounded-r-md bg-primary text-light cursor-pointer transition duration-300 ease-in-out hover:bg-gradient-to-r from-sky-500 to-sky-300 focus:outline-none whitespace-nowrap"
+              type="button"
+            >
+              Track Parcel
+            </button>
+          </div>
+        </div>
+        <div className="mt-14">
+          <video
+            autoPlay
+            loop
+            muted
+            ref={videoRef}
+            src="/assets/videos/logistics.mp4"
+            className="w-full object-cover sm:h-[40rem] shadow-lg rounded-lg"
+          />
+        </div>
+      </div>
+    </section>
+  )
+}
