@@ -1,10 +1,10 @@
-// import MainNavbar from "@/components/Navbar/Navbar"
+import MainNavbar from "@/components/Navbar/Navbar"
 import { PropsWithChildren } from "react"
 
 const PrimaryLayout = ({ children }: PropsWithChildren) => {
   return (
     <div>
-      {/* <MainNavbar /> */}
+      <MainNavbar />
       {children}
     </div>
   )
