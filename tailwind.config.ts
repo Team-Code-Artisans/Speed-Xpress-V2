@@ -27,16 +27,16 @@ const config: Config = {
           colors: {
             // foreground: "#030712",
             // background: "#f3f4f6",
-            primary: "#0ea5e9",
-            secondary: "#38bdf8",
+            primary: "#3b82f6",
+            secondary: "#93c5fd",
           },
         },
         dark: {
           colors: {
             // foreground: "#f3f4f6",
             // background: "#0f0f0f",
-            primary: "#0ea5e9",
-            secondary: "#38bdf8",
+            primary: "#3b82f6",
+            secondary: "#93c5fd",
           },
         },
       },
