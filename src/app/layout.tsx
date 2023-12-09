@@ -18,7 +18,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className}`}>
+      <body className={`${inter.className} h-screen bg-light dark:bg-dark`}>
         <NextThemeProvider>
           <div className="text-dark dark:text-light bg-light dark:bg-dark">
             <div className="fixed right-0 z-50 p-4">

@@ -1,8 +1,12 @@
 "use client"
 
+import { useDisclosure } from "@nextui-org/react"
 import { useEffect, useRef } from "react"
+import TrackingModal from "./TrackingModal"
 
 export default function Hero() {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure()
+
   const videoRef = useRef<any>(null)
   useEffect(() => {
     const video = videoRef.current
@@ -34,11 +38,15 @@ export default function Hero() {
               placeholder="Parcel ID Here"
             />
             <button
+              onClick={onOpen}
               className="px-4 py-[17px] border-solid rounded-r-md bg-primary text-light cursor-pointer transition duration-300 ease-in-out hover:bg-gradient-to-r from-primary to-secondary focus:outline-none whitespace-nowrap"
               type="button"
             >
               Track Parcel
             </button>
+
+            {/* Tracking Modal */}
+            <TrackingModal isOpen={isOpen} onOpenChange={onOpenChange} />
           </div>
         </div>
         <div className="mt-14">
