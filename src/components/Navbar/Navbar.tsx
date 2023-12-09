@@ -1,34 +1,20 @@
 "use client"
 
-import React from "react"
+import Link from "next/link"
 import {
   Navbar,
-  NavbarBrand,
   NavbarContent,
   NavbarItem,
-  Link,
-  Button,
-  NavbarMenuItem,
   NavbarMenu,
   NavbarMenuToggle,
 } from "@nextui-org/react"
 import { mainNavbarData } from "@/data/mainNavbarData"
+import SecondaryButton from "../ui/SecondaryButton"
+import PrimaryButton from "../ui/PrimaryButton"
+import { useState } from "react"
 
 export default function MainNavbar() {
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false)
-
-  const menuItems = [
-    "Profile",
-    "Dashboard",
-    "Activity",
-    "Analytics",
-    "System",
-    "Deployments",
-    "My Settings",
-    "Team Settings",
-    "Help & Feedback",
-    "Log Out",
-  ]
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   return (
     <Navbar
@@ -43,47 +29,43 @@ export default function MainNavbar() {
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           className="sm:hidden"
         />
-        <NavbarBrand>
-          <p className="font-bold text-inherit text-xl">
-            SPEED<span className="text-primary">XPRESS</span>
-          </p>
-        </NavbarBrand>
+        <Link href={"/"} className="font-bold text-inherit text-xl select-none">
+          SPEED<span className="text-primary">XPRESS</span>
+        </Link>
       </NavbarContent>
 
-      <NavbarContent className="hidden sm:flex gap-4" justify="center">
+      <NavbarContent className="hidden sm:flex gap-6" justify="center">
         {mainNavbarData.map((item, index) => (
-          <NavbarItem>
-            <Link
-              key={index}
-              href={item.link}
-              className="text-dark dark:text-light text-xl"
-            >
-              {item.name}
-            </Link>
-          </NavbarItem>
+          <Link
+            key={index}
+            href={item.link}
+            className="text-dark dark:text-light hover:text-primary before:bg-primary text-xl before:absolute before:-bottom-1 before:h-0.5 before:w-full before:origin-left before:scale-x-0 before:transition hover:before:scale-100 relative"
+          >
+            {item.name}
+          </Link>
         ))}
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem className="hidden lg:flex">
-          <Link href="#">Login</Link>
+          <SecondaryButton className="py-2 px-6">
+            <Link href="#">Login</Link>
+          </SecondaryButton>
         </NavbarItem>
         <NavbarItem>
-          <Button as={Link} color="primary" href="#" variant="flat">
-            Sign Up
-          </Button>
+          <PrimaryButton className="py-2 px-6">
+            <Link href={"/signup"}>Sign Up</Link>
+          </PrimaryButton>
         </NavbarItem>
       </NavbarContent>
       <NavbarMenu className="bg-light dark:bg-dark bg-opacity-95">
         {mainNavbarData.map((item, index) => (
-          <NavbarMenuItem key={`${item}-${index}`}>
-            <Link
-              className="w-full text-dark dark:text-light"
-              href={item.link}
-              size="lg"
-            >
-              {item.name}
-            </Link>
-          </NavbarMenuItem>
+          <Link
+            href={item.link}
+            key={index}
+            className="text-dark dark:text-light hover:text-primary before:bg-primary before:absolute before:-bottom-1 before:h-0.5 before:w-full before:origin-left before:scale-x-0 before:transition hover:before:scale-100 relative text-2xl"
+          >
+            {item.name}
+          </Link>
         ))}
       </NavbarMenu>
     </Navbar>

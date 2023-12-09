@@ -1,5 +1,5 @@
+import { ButtonProps } from "@/types/ButtonProps"
 import { cn } from "@/utils/className"
-import { ButtonProps } from "@nextui-org/react"
 
 const PrimaryButton = ({ children, className }: ButtonProps) => {
   return (
