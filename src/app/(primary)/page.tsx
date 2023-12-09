@@ -1,4 +1,5 @@
 import Feature from "@/components/Home/Feature"
+import GetStarted from "@/components/Home/GetStarted"
 import Hero from "@/components/Home/Hero"
 import OrderNow from "@/components/Home/OrderNow"
 import OrderPlace from "@/components/Home/OrderPlace"
@@ -14,6 +15,7 @@ const HomePage = () => {
       <Feature />
       <OrderPlace />
       <OrderNow />
+      <GetStarted />
     </div>
   )
 }
