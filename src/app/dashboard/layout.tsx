@@ -1,7 +1,7 @@
-import { PropsWithChildren } from "react";
+import { ChildrenProps } from "@/types/ChildrenProps"
 
-const DashboardLayout = ({ children }: PropsWithChildren) => {
-  return <div>{children}</div>;
-};
+const DashboardLayout = ({ children }: ChildrenProps) => {
+  return <div>{children}</div>
+}
 
-export default DashboardLayout;
+export default DashboardLayout

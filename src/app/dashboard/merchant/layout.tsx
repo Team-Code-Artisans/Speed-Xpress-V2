@@ -1,6 +1,6 @@
-import { PropsWithChildren } from "react"
+import { ChildrenProps } from "@/types/ChildrenProps"
 
-const MerchantDashboardLayout = ({ children }: PropsWithChildren) => {
+const MerchantDashboardLayout = ({ children }: ChildrenProps) => {
   return <div>{children}</div>
 }
 
