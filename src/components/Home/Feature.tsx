@@ -8,13 +8,10 @@ const Feature = () => {
       <div className="mx-auto max-w-screen-xl px-4 py-4 sm:py-12 lg:px-8 border border-gray-200 dark:border-gray-800 rounded-2xl">
         <div className="flex md:flex-row flex-col justify-between sm:flex-row gap-8">
           <h2 className="lg:text-4xl font-bold text-4xl lg:max-w-md">
-            Deliver Your{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-secondary to-blue-700">
-              Logistic
-            </span>{" "}
-            Safely & Quickly
+            Deliver Your <span className="text-primary">Logistic</span> Safely &
+            Quickly
           </h2>
-          <div className="flex justify-center items-center">
+          <div className="flex justify-start lg:justify-center items-center">
             <span className="w-1 h-16 bg-primary mr-4"></span>
             <p className="text-lg font-medium max-w-sm text-gray-500">
               This is reason why you should use our service instead of using
