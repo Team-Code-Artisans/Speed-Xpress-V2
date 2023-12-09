@@ -1,7 +1,10 @@
-import Feature from "@/components/Home/Feature";
-import Hero from "@/components/Home/Hero";
-import Processes from "@/components/Home/Processes";
-import WhatWeOffer from "@/components/Home/WhatWeOffer";
+import Feature from "@/components/Home/Feature"
+import GetStarted from "@/components/Home/GetStarted"
+import Hero from "@/components/Home/Hero"
+import OrderNow from "@/components/Home/OrderNow"
+import OrderPlace from "@/components/Home/OrderPlace"
+import Processes from "@/components/Home/Processes"
+import WhatWeOffer from "@/components/Home/WhatWeOffer"
 
 const HomePage = () => {
   return (
@@ -10,8 +13,11 @@ const HomePage = () => {
       <WhatWeOffer />
       <Processes />
       <Feature />
+      <OrderPlace />
+      <OrderNow />
+      <GetStarted />
     </div>
-  );
-};
+  )
+}
 
-export default HomePage;
+export default HomePage

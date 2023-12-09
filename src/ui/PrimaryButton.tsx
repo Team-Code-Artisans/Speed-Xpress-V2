@@ -5,7 +5,7 @@ const PrimaryButton = ({ children, className }: ButtonProps) => {
   return (
     <button
       className={cn(
-        "px-8 py-4 shadow-md bg-primary text-light rounded-md transition duration-300 ease-in-out transform hover:bg-gradient-to-r from-primary to-secondary active:translate-y-1 active:translate-x-0",
+        "px-8 py-4 shadow-md bg-primary text-light rounded-md hover:bg-gradient-to-r from-primary to-secondary transition duration-300 hover:scale-105 active:scale-95",
         className
       )}
     >

@@ -1,6 +1,6 @@
-import { PropsWithChildren } from "react"
+import { ChildrenProps } from "@/types/ChildrenProps"
 
-const RiderDashboardLayout = ({ children }: PropsWithChildren) => {
+const RiderDashboardLayout = ({ children }: ChildrenProps) => {
   return <div>{children}</div>
 }
 
