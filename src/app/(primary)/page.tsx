@@ -1,5 +1,6 @@
 import Feature from "@/components/Home/Feature"
 import Hero from "@/components/Home/Hero"
+import OrderNow from "@/components/Home/OrderNow"
 import OrderPlace from "@/components/Home/OrderPlace"
 import Processes from "@/components/Home/Processes"
 import WhatWeOffer from "@/components/Home/WhatWeOffer"
@@ -12,6 +13,7 @@ const HomePage = () => {
       <Processes />
       <Feature />
       <OrderPlace />
+      <OrderNow />
     </div>
   )
 }

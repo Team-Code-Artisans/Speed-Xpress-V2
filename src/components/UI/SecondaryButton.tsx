@@ -5,7 +5,7 @@ const SecondaryButton = ({ children, className }: ButtonProps) => {
   return (
     <button
       className={cn(
-        "px-8 py-4 shadow-md rounded-md transition duration-300 ease-in-out transform hover:bg-primary hover:text-light border border-primary active:translate-y-1 active:translate-x-0",
+        "px-8 py-4 shadow-md rounded-md hover:bg-primary hover:text-light border border-primary transition duration-300 hover:scale-105 active:scale-95",
         className
       )}
     >

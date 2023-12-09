@@ -5,8 +5,8 @@ import SecondaryButton from "../ui/SecondaryButton"
 
 const OrderPlace = () => {
   return (
-    <section className="max-w-screen-xl mx-auto px-4 pb-10">
-      <div className="md:grid grid-cols-2 gap-10">
+    <section className="max-w-screen-xl mx-auto px-4 pb-20">
+      <div className="grid md:grid-cols-2 gap-10">
         <div className="flex flex-col justify-center text-center md:text-left">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold capitalize">
             Customers can place <span className="text-primary">Orders</span>{" "}
