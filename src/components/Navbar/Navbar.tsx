@@ -9,8 +9,8 @@ import {
   NavbarMenuToggle,
 } from "@nextui-org/react"
 import { mainNavbarData } from "@/data/mainNavbarData"
-import SecondaryButton from "../ui/SecondaryButton"
-import PrimaryButton from "../ui/PrimaryButton"
+import SecondaryButton from "../../ui/SecondaryButton"
+import PrimaryButton from "../../ui/PrimaryButton"
 import { useState } from "react"
 
 export default function MainNavbar() {
