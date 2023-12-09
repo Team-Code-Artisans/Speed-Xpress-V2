@@ -18,11 +18,7 @@ const Processes = () => {
         </div>
         <div className="flex flex-col justify-center text-center md:text-left">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold capitalize">
-            Streamline{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-secondary to-blue-700">
-              Logistics
-            </span>{" "}
-            processes
+            Streamline <span className="text-primary">Logistics</span> processes
           </h1>
           <p className="mt-6 mb-8 text-lg sm:mb-12 text-gray-500">
             The website should aim to streamline logistics processes, such as
