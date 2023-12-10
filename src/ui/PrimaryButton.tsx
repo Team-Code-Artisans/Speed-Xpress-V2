@@ -11,6 +11,7 @@ const PrimaryButton = ({
   isDisabled = false,
   isLoading = false,
   fullWidth = false,
+  type = "button",
 }: ButtonProps) => {
   if (href) {
     return (
@@ -40,6 +41,7 @@ const PrimaryButton = ({
       radius="sm"
       color="primary"
       variant="solid"
+      type={type}
       fullWidth={fullWidth}
       className={cn(
         "text-light hover:bg-gradient-to-r from-primary to-secondary",
