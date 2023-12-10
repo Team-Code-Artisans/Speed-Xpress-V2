@@ -1,6 +1,6 @@
-import { nextui } from "@nextui-org/react"
-const colors = require("tailwindcss/colors")
-import type { Config } from "tailwindcss"
+import { nextui } from "@nextui-org/react";
+const colors = require("tailwindcss/colors");
+import type { Config } from "tailwindcss";
 
 const config: Config = {
   content: [
@@ -25,7 +25,7 @@ const config: Config = {
           colors: {
             // foreground: "#030712",
             // background: "#f3f4f6",
-            primary: "#3b82f6",
+            primary: { DEFAULT: "#3b82f6", foreground: "#f3f4f6" },
             secondary: "#93c5fd",
           },
         },
@@ -33,12 +33,12 @@ const config: Config = {
           colors: {
             // foreground: "#f3f4f6",
             // background: "#0f0f0f",
-            primary: "#3b82f6",
+            primary: { DEFAULT: "#3b82f6", foreground: "#f3f4f6" },
             secondary: "#93c5fd",
           },
         },
       },
     }),
   ],
-}
-export default config
+};
+export default config;

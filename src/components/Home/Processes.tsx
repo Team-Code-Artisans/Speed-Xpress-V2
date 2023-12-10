@@ -1,7 +1,7 @@
-import Image from "next/image"
-import Link from "next/link"
-import PrimaryButton from "../../ui/PrimaryButton"
-import SecondaryButton from "../../ui/SecondaryButton"
+import Image from "next/image";
+import Link from "next/link";
+import PrimaryButton from "../../ui/PrimaryButton";
+import SecondaryButton from "../../ui/SecondaryButton";
 
 const Processes = () => {
   return (
@@ -29,17 +29,13 @@ const Processes = () => {
             inventory management, order tracking, and delivery scheduling.
           </p>
           <div className="flex flex-col space-y-4 sm:items-center sm:justify-center sm:flex-row sm:space-y-0 sm:space-x-4 md:justify-start">
-            <PrimaryButton>
-              <Link href={"/login"}>Get Stated</Link>
-            </PrimaryButton>
-            <SecondaryButton>
-              <Link href={"/register"}>Order Now</Link>
-            </SecondaryButton>
+            <PrimaryButton href="/login">Get Stated</PrimaryButton>
+            <SecondaryButton href="/register">Order Now</SecondaryButton>
           </div>
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default Processes
+export default Processes;

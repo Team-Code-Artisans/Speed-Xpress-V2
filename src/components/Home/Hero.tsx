@@ -1,17 +1,18 @@
-"use client"
+"use client";
 
-import { useDisclosure } from "@nextui-org/react"
-import { useEffect, useRef } from "react"
-import TrackingModal from "./TrackingModal"
+import { useDisclosure } from "@nextui-org/react";
+import { useEffect, useRef } from "react";
+import TrackingModal from "./TrackingModal";
 
 export default function Hero() {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure()
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-  const videoRef = useRef<any>(null)
+  const videoRef = useRef(null);
   useEffect(() => {
-    const video = videoRef.current
-    video.play()
-  }, [])
+    const video = videoRef.current;
+    // @ts-ignore
+    video.play();
+  }, []);
 
   return (
     <section>
@@ -61,5 +62,5 @@ export default function Hero() {
         </div>
       </div>
     </section>
-  )
+  );
 }
