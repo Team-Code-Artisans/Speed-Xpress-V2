@@ -5,3 +5,13 @@ export type RegisterFormType = {
   number: string;
   address: string;
 };
+
+export type DivisionType = {
+  division: string;
+  setDivision: React.Dispatch<React.SetStateAction<string>>;
+};
+
+export type DistrictType = {
+  district: string;
+  setDistrict: React.Dispatch<React.SetStateAction<string>>;
+};

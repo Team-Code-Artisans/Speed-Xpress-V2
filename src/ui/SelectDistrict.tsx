@@ -1,6 +1,6 @@
 import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
 import { districtData } from "@/data/districtData";
-import { DistrictType } from "@/types/DistrictType";
+import { DistrictType } from "@/types/FormTypes";
 
 const SelectDistrict = ({ district, setDistrict }: DistrictType) => {
   return (

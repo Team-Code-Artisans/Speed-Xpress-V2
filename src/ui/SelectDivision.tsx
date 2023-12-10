@@ -1,6 +1,6 @@
 import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
 import { divisionData } from "@/data/divisionData";
-import { DivisionType } from "@/types/DivisionType";
+import { DivisionType } from "@/types/FormTypes";
 
 const SelectDivision = ({ division, setDivision }: DivisionType) => {
   return (
