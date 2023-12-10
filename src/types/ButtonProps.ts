@@ -4,4 +4,5 @@ export type ButtonProps = {
   className?: string | string[];
   isLoading?: boolean;
   isDisabled?: boolean;
+  fullWidth?: boolean;
 };

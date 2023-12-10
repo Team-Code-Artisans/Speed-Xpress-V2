@@ -8,10 +8,10 @@ import {
   NavbarMenu,
   NavbarMenuToggle,
 } from "@nextui-org/react";
-import { mainNavbarData } from "@/data/mainNavbarData";
 import SecondaryButton from "../../ui/SecondaryButton";
 import PrimaryButton from "../../ui/PrimaryButton";
 import { useState } from "react";
+import { mainNavbarData } from "@/data/mainNavbarData";
 
 export default function MainNavbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
