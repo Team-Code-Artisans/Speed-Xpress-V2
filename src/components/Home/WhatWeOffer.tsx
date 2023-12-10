@@ -2,7 +2,7 @@ import {
   MdOutlineShareLocation,
   MdAddHome,
   MdAttachMoney,
-} from "react-icons/md"
+} from "react-icons/md";
 
 const WhatWeOffer = () => {
   return (
@@ -66,7 +66,7 @@ const WhatWeOffer = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default WhatWeOffer
+export default WhatWeOffer;

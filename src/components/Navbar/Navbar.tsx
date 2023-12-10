@@ -1,20 +1,20 @@
-"use client"
+"use client";
 
-import Link from "next/link"
+import Link from "next/link";
 import {
   Navbar,
   NavbarContent,
   NavbarItem,
   NavbarMenu,
   NavbarMenuToggle,
-} from "@nextui-org/react"
-import { mainNavbarData } from "@/data/mainNavbarData"
-import SecondaryButton from "../../ui/SecondaryButton"
-import PrimaryButton from "../../ui/PrimaryButton"
-import { useState } from "react"
+} from "@nextui-org/react";
+import SecondaryButton from "../../ui/SecondaryButton";
+import PrimaryButton from "../../ui/PrimaryButton";
+import { useState } from "react";
+import { mainNavbarData } from "@/data/mainNavbarData";
 
 export default function MainNavbar() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
     <Navbar
@@ -47,14 +47,10 @@ export default function MainNavbar() {
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem className="hidden lg:flex">
-          <SecondaryButton className="py-2 px-6">
-            <Link href="#">Login</Link>
-          </SecondaryButton>
+          <SecondaryButton href="/login">Login</SecondaryButton>
         </NavbarItem>
         <NavbarItem>
-          <PrimaryButton className="py-2 px-6">
-            <Link href={"/signup"}>Sign Up</Link>
-          </PrimaryButton>
+          <PrimaryButton href="/register">Sign Up</PrimaryButton>
         </NavbarItem>
       </NavbarContent>
       <NavbarMenu className="bg-light dark:bg-dark bg-opacity-95">
@@ -69,5 +65,5 @@ export default function MainNavbar() {
         ))}
       </NavbarMenu>
     </Navbar>
-  )
+  );
 }

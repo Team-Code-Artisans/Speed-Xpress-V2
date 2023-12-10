@@ -1,11 +1,11 @@
-import { FiPackage } from "react-icons/fi"
-import { MdShareLocation } from "react-icons/md"
-import { RiCustomerService2Line } from "react-icons/ri"
+import { FiPackage } from "react-icons/fi";
+import { MdShareLocation } from "react-icons/md";
+import { RiCustomerService2Line } from "react-icons/ri";
 
 const Feature = () => {
   return (
     <section className="max-w-screen-xl mx-auto px-4 pb-20">
-      <div className="mx-auto max-w-screen-xl px-4 py-4 sm:py-12 lg:px-8 border border-gray-200 dark:border-gray-800 rounded-2xl">
+      <div className="mx-auto max-w-screen-xl px-4 py-4 sm:py-12 lg:px-8 border border-gray-200 dark:border-gray-800 rounded-2xl shadow-xl">
         <div className="flex md:flex-row flex-col justify-between sm:flex-row gap-8">
           <h2 className="lg:text-4xl font-bold text-4xl lg:max-w-md">
             Deliver Your <span className="text-primary">Logistic</span> Safely &
@@ -62,7 +62,7 @@ const Feature = () => {
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default Feature
+export default Feature;
