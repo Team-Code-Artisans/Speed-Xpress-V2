@@ -9,11 +9,12 @@ const Register = () => {
 
   return (
     <div className="flex flex-col w-full">
-      <Card className="max-w-full w-[30rem] max-h-min">
+      <Card radius="sm" className="max-w-full w-[30rem] max-h-min">
         <CardBody className="overflow-hidden">
           <Tabs
             fullWidth
             size="md"
+            radius="sm"
             aria-label="Tabs form"
             selectedKey={selected}
             // @ts-ignore

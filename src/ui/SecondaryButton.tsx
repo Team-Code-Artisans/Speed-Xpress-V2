@@ -8,8 +8,11 @@ const SecondaryButton = ({
   children,
   className,
   href,
+  onClick,
   isDisabled = false,
   isLoading = false,
+  fullWidth = false,
+  type = "button",
 }: ButtonProps) => {
   if (href) {
     return (
@@ -19,6 +22,9 @@ const SecondaryButton = ({
           radius="sm"
           color="primary"
           variant="ghost"
+          onClick={onClick}
+          type={type}
+          fullWidth={fullWidth}
           className={cn("dark:text-light", className)}
         >
           {children}
@@ -36,6 +42,9 @@ const SecondaryButton = ({
       radius="sm"
       color="primary"
       variant="ghost"
+      onClick={onClick}
+      type={type}
+      fullWidth={fullWidth}
       className={cn("dark:text-light", className)}
     >
       {children}

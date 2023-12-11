@@ -16,6 +16,10 @@ import {
 import app from "@/config/firebaseConfig";
 import { ChildrenProps } from "@/types/ChildrenProps";
 import { AuthContextType } from "@/types/AuthContextType";
+import { saveUser } from "@/utils/api/user";
+import { useRouter } from "next/navigation";
+import { UserType } from "@/types/UserType";
+import { toast } from "react-toastify";
 
 const auth = getAuth(app);
 
@@ -26,6 +30,7 @@ export const AuthContext = createContext<AuthContextType>(
 const AuthProvider = ({ children }: ChildrenProps) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const router = useRouter();
 
   const registerUser = async (
     email: string,
@@ -64,10 +69,23 @@ const AuthProvider = ({ children }: ChildrenProps) => {
     }
   };
 
-  const googleSignIn = async () => {
+  const googleSignIn = async (role: string) => {
     const provider = new GoogleAuthProvider();
     try {
-      await signInWithPopup(auth, provider);
+      const userCredential = await signInWithPopup(auth, provider);
+
+      const data: UserType = {
+        name: userCredential.user.displayName,
+        email: userCredential.user.email,
+        photoURL: userCredential.user.photoURL,
+        role: role,
+      };
+
+      const response = await saveUser(data);
+      console.log(response);
+
+      toast.success("Google SignIn Successfully");
+      router.push("/");
     } catch (error) {
       console.error(error);
     }

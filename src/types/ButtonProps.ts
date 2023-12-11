@@ -6,5 +6,5 @@ export type ButtonProps = {
   isDisabled?: boolean;
   fullWidth?: boolean;
   type?: "button" | "submit" | "reset";
-  onClick?: () => void;
+  onClick?: (...args: any[]) => void;
 };

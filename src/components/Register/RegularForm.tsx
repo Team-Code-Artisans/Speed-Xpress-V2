@@ -1,17 +1,21 @@
 "use client";
 
+import { AuthContext } from "@/providers/AuthProvider";
 import { RegisterFormType } from "@/types/FormTypes";
 import PrimaryButton from "@/ui/PrimaryButton";
+import SecondaryButton from "@/ui/SecondaryButton";
 import SelectDistrict from "@/ui/SelectDistrict";
 import SelectDivision from "@/ui/SelectDivision";
 import { Input } from "@nextui-org/react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 
 // icons
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaGoogle } from "react-icons/fa";
 
 const RegularForm = () => {
+  const { googleSignIn, registerUser } = useContext(AuthContext);
+
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
 
@@ -25,12 +29,20 @@ const RegularForm = () => {
       ...data,
       division,
       district,
+      role: "regular",
     };
-    console.log(regularData);
   };
 
   return (
     <form onSubmit={handleSubmit(handleForm)} className="flex flex-col gap-4">
+      <SecondaryButton
+        type="button"
+        onClick={() => {
+          googleSignIn("regular");
+        }}
+      >
+        <FaGoogle /> Sign in with Google
+      </SecondaryButton>
       <Input
         {...register("name")}
         radius="sm"

@@ -22,6 +22,9 @@ const PrimaryButton = ({
           radius="sm"
           color="primary"
           variant="solid"
+          onClick={onClick}
+          type={type}
+          fullWidth={fullWidth}
           className={cn(
             "text-light hover:bg-gradient-to-r from-primary to-secondary",
             className

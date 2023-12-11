@@ -1,19 +1,19 @@
 import api from "../axios";
 import { requestHandler } from "../requestHandler";
-import { User } from "@/types/UserType";
+import { UserType } from "@/types/UserType";
 
-export const getAllUsers = requestHandler<string, User[]>(() =>
+export const getAllUsers = requestHandler<string, UserType[]>(() =>
   api.get(`/users`)
 );
 
-export const getSingleUser = requestHandler<string, User>((email) =>
+export const getSingleUser = requestHandler<string, UserType>((email) =>
   api.get(`/users/${email}`)
 );
 
-export const saveUser = requestHandler<string, User>((data) =>
+export const saveUser = requestHandler<{}, UserType>((data) =>
   api.post("/users", data)
 );
 
-export const updateUser = requestHandler<string, User>((data) =>
+export const updateUser = requestHandler<string, UserType>((data) =>
   api.put("/users", data)
 );
