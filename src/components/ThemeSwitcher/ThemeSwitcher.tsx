@@ -1,21 +1,21 @@
-"use client"
+"use client";
 
-import { useTheme } from "next-themes"
-import { useEffect, useState } from "react"
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
 // icons
-import { FaMoon } from "react-icons/fa"
-import { BsSunFill } from "react-icons/bs"
+import { FaMoon } from "react-icons/fa";
+import { BsSunFill } from "react-icons/bs";
 
 export function ThemeSwitcher() {
-  const [mounted, setMounted] = useState(false)
-  const { theme, setTheme } = useTheme()
+  const [mounted, setMounted] = useState(false);
+  const { theme, setTheme } = useTheme();
 
   useEffect(() => {
-    setMounted(true)
-  }, [])
+    setMounted(true);
+  }, []);
 
-  if (!mounted) return null
+  if (!mounted) return null;
 
   return (
     <>
@@ -29,5 +29,5 @@ export function ThemeSwitcher() {
         </button>
       )}
     </>
-  )
+  );
 }
