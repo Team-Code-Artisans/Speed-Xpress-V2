@@ -1,19 +1,25 @@
 "use client";
 
-import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 // icons
 import { FaMoon } from "react-icons/fa";
 import { BsSunFill } from "react-icons/bs";
+import { AllStateContext } from "@/providers/AllStateProvider";
+import { useTheme } from "next-themes";
 
 export function ThemeSwitcher() {
-  const [mounted, setMounted] = useState(false);
+  const { setLocalTheme } = useContext(AllStateContext);
+
   const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    if (theme) {
+      setLocalTheme(theme as "dark" | "light");
+    }
     setMounted(true);
-  }, []);
+  }, [theme, setLocalTheme]);
 
   if (!mounted) return null;
 

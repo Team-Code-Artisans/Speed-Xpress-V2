@@ -8,6 +8,7 @@ const PrimaryButton = ({
   children,
   className,
   href,
+  onClick,
   isDisabled = false,
   isLoading = false,
   fullWidth = false,
@@ -41,6 +42,7 @@ const PrimaryButton = ({
       radius="sm"
       color="primary"
       variant="solid"
+      onClick={onClick}
       type={type}
       fullWidth={fullWidth}
       className={cn(
