@@ -7,5 +7,5 @@ export type UserType = {
   division?: string | null;
   district?: string | null;
   address?: string | null;
-  role: string;
+  role: string | null;
 };
