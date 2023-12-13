@@ -34,6 +34,7 @@ const RegularForm = () => {
       division,
       district,
       address,
+      photoURL: "",
       role: "regular",
     };
 

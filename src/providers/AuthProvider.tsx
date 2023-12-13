@@ -95,6 +95,10 @@ const AuthProvider = ({ children }: ChildrenProps) => {
         name: userCredential.user.displayName,
         email: userCredential.user.email,
         photoURL: userCredential.user.photoURL,
+        number: "",
+        division: "",
+        district: "",
+        address: "",
         role: role,
       };
 

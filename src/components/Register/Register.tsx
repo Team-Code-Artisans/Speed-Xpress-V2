@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Tabs, Tab, Link, Card, CardBody } from "@nextui-org/react";
 import RegularForm from "./RegularForm";
+import MerchantForm from "./MerchantForm";
 
 const Register = () => {
   const [selected, setSelected] = useState("Regular");
@@ -25,7 +26,9 @@ const Register = () => {
             <Tab key="Regular" title="Regular">
               <RegularForm />
             </Tab>
-            <Tab key="Merchant" title="Merchant"></Tab>
+            <Tab key="Merchant" title="Merchant">
+              <MerchantForm />
+            </Tab>
             <Tab key="Rider" title="Rider"></Tab>
           </Tabs>
           <p className="text-center text-small py-2">
