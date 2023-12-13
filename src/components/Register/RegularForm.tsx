@@ -6,6 +6,7 @@ import PrimaryButton from "@/ui/PrimaryButton";
 import SecondaryButton from "@/ui/SecondaryButton";
 import SelectDistrict from "@/ui/SelectDistrict";
 import SelectDivision from "@/ui/SelectDivision";
+import { saveUser } from "@/utils/api/user";
 import { Input } from "@nextui-org/react";
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -24,13 +25,22 @@ const RegularForm = () => {
 
   const { register, reset, handleSubmit } = useForm<RegisterFormType>();
 
-  const handleForm = (data: RegisterFormType) => {
+  const handleForm = async (data: RegisterFormType) => {
+    const { name, email, password, number, address } = data;
     const regularData = {
-      ...data,
+      name,
+      email,
+      number,
       division,
       district,
+      address,
       role: "regular",
     };
+    const userCredential = await registerUser(email, password, name);
+    console.log("userCredential:", userCredential);
+    if (userCredential) {
+      saveUser(regularData);
+    }
   };
 
   return (

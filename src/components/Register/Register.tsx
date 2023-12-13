@@ -17,6 +17,7 @@ const Register = () => {
             radius="sm"
             aria-label="Tabs form"
             selectedKey={selected}
+            color="primary"
             // @ts-ignore
             onSelectionChange={setSelected}
             className="py-2"

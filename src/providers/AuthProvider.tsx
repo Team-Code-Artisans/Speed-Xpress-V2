@@ -52,9 +52,11 @@ const AuthProvider = ({ children }: ChildrenProps) => {
 
       setLoading(false);
       await updateProfile(userCredential.user, { displayName: displayName });
+      return userCredential.user;
     } catch (error) {
       setLoading(false);
       console.error(error);
+      return null;
     }
   };
 
