@@ -36,7 +36,7 @@ const AuthProvider = ({ children }: ChildrenProps) => {
     email: string,
     password: string,
     displayName: string
-  ) => {
+  ): Promise<User | null> => {
     setLoading(true);
     try {
       const userCredential = await createUserWithEmailAndPassword(
@@ -52,10 +52,18 @@ const AuthProvider = ({ children }: ChildrenProps) => {
 
       setLoading(false);
       await updateProfile(userCredential.user, { displayName: displayName });
+      toast.success("Register successfully");
+      router.push("/");
       return userCredential.user;
-    } catch (error) {
+    } catch (error: any) {
+      if (error.message && error.message.includes("password")) {
+        toast.error("Password must be 6 characters");
+      } else if (error.message && error.message.includes("email")) {
+        toast.error("Email already exist");
+      } else {
+        toast.error("Something went wrong!");
+      }
       setLoading(false);
-      console.error(error);
       return null;
     }
   };
@@ -64,10 +72,17 @@ const AuthProvider = ({ children }: ChildrenProps) => {
     setLoading(true);
     try {
       setLoading(false);
+      toast.success("Sign in successfully");
       await signInWithEmailAndPassword(auth, email, password);
-    } catch (error) {
+    } catch (error: any) {
+      if (error.message && error.message.includes("password")) {
+        toast.error("Invalid password");
+      } else if (error.message && error.message.includes("email")) {
+        toast.error("Invalid email address");
+      } else {
+        toast.error("Something went wrong!");
+      }
       setLoading(false);
-      console.error(error);
     }
   };
 
@@ -83,12 +98,11 @@ const AuthProvider = ({ children }: ChildrenProps) => {
         role: role,
       };
 
-      const response = await saveUser(data);
-      console.log(response);
-
-      toast.success("Google SignIn Successfully");
+      await saveUser(data);
+      toast.success("Google sign in Successfully");
       router.push("/");
     } catch (error) {
+      toast.error("Google sign in failed");
       console.error(error);
     }
   };
@@ -96,9 +110,11 @@ const AuthProvider = ({ children }: ChildrenProps) => {
   const logOut = async () => {
     setLoading(true);
     try {
+      toast.warning("Sign out successfully");
       setLoading(false);
       await signOut(auth);
     } catch (error) {
+      toast.error("Sign out failed");
       console.error(error);
     }
   };

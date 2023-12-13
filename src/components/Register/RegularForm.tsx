@@ -36,10 +36,12 @@ const RegularForm = () => {
       address,
       role: "regular",
     };
+
     const userCredential = await registerUser(email, password, name);
-    console.log("userCredential:", userCredential);
-    if (userCredential) {
-      saveUser(regularData);
+
+    if (userCredential !== null) {
+      reset();
+      await saveUser(regularData);
     }
   };
 
