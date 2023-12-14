@@ -12,8 +12,11 @@ import SecondaryButton from "../../ui/SecondaryButton";
 import PrimaryButton from "../../ui/PrimaryButton";
 import { useState } from "react";
 import { mainNavbarData } from "@/data/mainNavbarData";
+import { useAuthContext } from "@/hooks/useAuthContext";
 
-export default function MainNavbar() {
+const MainNavbar = () => {
+  const { user, logOut } = useAuthContext();
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
@@ -45,14 +48,25 @@ export default function MainNavbar() {
           </Link>
         ))}
       </NavbarContent>
-      <NavbarContent justify="end">
-        <NavbarItem className="hidden lg:flex">
-          <SecondaryButton href="/login">Login</SecondaryButton>
-        </NavbarItem>
-        <NavbarItem>
-          <PrimaryButton href="/register">Sign Up</PrimaryButton>
-        </NavbarItem>
-      </NavbarContent>
+      {!user ? (
+        <NavbarContent justify="end">
+          <NavbarItem className="hidden lg:flex">
+            <SecondaryButton href="/login">Login</SecondaryButton>
+          </NavbarItem>
+          <NavbarItem>
+            <PrimaryButton href="/register">Sign Up</PrimaryButton>
+          </NavbarItem>
+        </NavbarContent>
+      ) : (
+        <NavbarContent justify="end">
+          <NavbarItem className="hidden lg:flex">
+            <SecondaryButton onClick={() => logOut()}>Log Out</SecondaryButton>
+          </NavbarItem>
+          <NavbarItem>
+            <PrimaryButton href="/dashboard/user">Dashboard</PrimaryButton>
+          </NavbarItem>
+        </NavbarContent>
+      )}
       <NavbarMenu className="bg-light dark:bg-dark bg-opacity-95">
         {mainNavbarData.map((item, index) => (
           <Link
@@ -66,4 +80,6 @@ export default function MainNavbar() {
       </NavbarMenu>
     </Navbar>
   );
-}
+};
+
+export default MainNavbar;

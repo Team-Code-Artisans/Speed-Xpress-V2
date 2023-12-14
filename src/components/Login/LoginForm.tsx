@@ -1,21 +1,25 @@
 "use client";
 
-import { AuthContext } from "@/providers/AuthProvider";
+import { useAuthContext } from "@/hooks/useAuthContext";
 import { RegisterFormType } from "@/types/FormTypes";
 import PrimaryButton from "@/ui/PrimaryButton";
 import SecondaryButton from "@/ui/SecondaryButton";
 import { Input } from "@nextui-org/react";
-import { useContext, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 // icons
 import { FaEye, FaEyeSlash, FaGoogle } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 const LoginForm = () => {
-  const { googleSignIn, loginUser } = useContext(AuthContext);
+  const { googleSignIn, loginUser } = useAuthContext();
 
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
+
+  const router = useRouter();
 
   const { register, reset, handleSubmit } = useForm<RegisterFormType>();
 
@@ -25,6 +29,8 @@ const LoginForm = () => {
     const userCredential = await loginUser(email, password);
     if (userCredential !== null) {
       reset();
+      router.push("/");
+      toast.success("Sign in successfully");
     }
   };
 

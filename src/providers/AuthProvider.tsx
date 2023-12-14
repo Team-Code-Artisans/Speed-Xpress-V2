@@ -52,13 +52,11 @@ const AuthProvider = ({ children }: ChildrenProps) => {
 
       setLoading(false);
       await updateProfile(userCredential.user, { displayName: displayName });
-      toast.success("Register successfully");
-      router.push("/");
       return userCredential.user;
     } catch (error: any) {
-      if (error.message && error.message.includes("password")) {
+      if (error.message.includes("password")) {
         toast.error("Password must be 6 characters");
-      } else if (error.message && error.message.includes("email")) {
+      } else if (error.message.includes("email")) {
         toast.error("Email already exist");
       } else {
         toast.error("Something went wrong!");
@@ -71,22 +69,15 @@ const AuthProvider = ({ children }: ChildrenProps) => {
   const loginUser = async (email: string, password: string) => {
     setLoading(true);
     try {
-      setLoading(false);
-      toast.success("Sign in successfully");
       const userCredential = await signInWithEmailAndPassword(
         auth,
         email,
         password
       );
+      setLoading(false);
       return userCredential.user;
-    } catch (error: any) {
-      if (error.message && error.message.includes("password")) {
-        toast.error("Invalid password");
-      } else if (error.message && error.message.includes("email")) {
-        toast.error("Invalid email address");
-      } else {
-        toast.error("Something went wrong!");
-      }
+    } catch (error) {
+      toast.error("Invalid email or password");
       setLoading(false);
       return null;
     }
@@ -108,9 +99,11 @@ const AuthProvider = ({ children }: ChildrenProps) => {
         role: role,
       };
 
-      await saveUser(data);
-      toast.success("Google sign in Successfully");
-      router.push("/");
+      if (userCredential.user) {
+        router.push("/");
+        await saveUser(data);
+        toast.success("Google sign in Successfully");
+      }
     } catch (error) {
       console.error(error);
     }
@@ -119,9 +112,9 @@ const AuthProvider = ({ children }: ChildrenProps) => {
   const logOut = async () => {
     setLoading(true);
     try {
-      toast.warning("Sign out successfully");
       setLoading(false);
       await signOut(auth);
+      toast.warning("Sign out successfully");
     } catch (error) {
       toast.error("Sign out failed");
       console.error(error);

@@ -1,7 +1,8 @@
+import { LoadingType } from "@/types/LoadingType";
 import { Spinner } from "@nextui-org/react";
 
-const Loading = () => {
-  return <Spinner size="sm" color="current" />;
+const Loading = ({ size = "sm" }: LoadingType) => {
+  return <Spinner size={size} color="current" />;
 };
 
 export default Loading;

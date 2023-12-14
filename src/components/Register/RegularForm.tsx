@@ -1,6 +1,6 @@
 "use client";
 
-import { AuthContext } from "@/providers/AuthProvider";
+import { useAuthContext } from "@/hooks/useAuthContext";
 import { RegisterFormType } from "@/types/FormTypes";
 import PrimaryButton from "@/ui/PrimaryButton";
 import SecondaryButton from "@/ui/SecondaryButton";
@@ -8,20 +8,24 @@ import SelectDistrict from "@/ui/SelectDistrict";
 import SelectDivision from "@/ui/SelectDivision";
 import { saveUser } from "@/utils/api/user";
 import { Input } from "@nextui-org/react";
-import { useContext, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 // icons
 import { FaEye, FaEyeSlash, FaGoogle } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 const RegularForm = () => {
-  const { googleSignIn, registerUser } = useContext(AuthContext);
+  const { googleSignIn, registerUser, loading } = useAuthContext();
 
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
 
   const [division, setDivision] = useState<string>("Dhaka");
   const [district, setDistrict] = useState<string>("Dhaka");
+
+  const router = useRouter();
 
   const { register, reset, handleSubmit } = useForm<RegisterFormType>();
 
@@ -42,7 +46,9 @@ const RegularForm = () => {
 
     if (userCredential !== null) {
       reset();
+      router.push("/");
       await saveUser(regularData);
+      toast.success("Register successfully");
     }
   };
 
@@ -108,7 +114,12 @@ const RegularForm = () => {
         type="text"
         label="Address"
       />
-      <PrimaryButton type="submit" fullWidth={true}>
+      <PrimaryButton
+        type="submit"
+        fullWidth={true}
+        isDisabled={loading}
+        isLoading={loading}
+      >
         Register Now Free
       </PrimaryButton>
     </form>
