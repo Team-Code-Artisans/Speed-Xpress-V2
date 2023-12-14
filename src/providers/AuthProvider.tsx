@@ -30,8 +30,7 @@ export const AuthContext = createContext<AuthContextType>(
 const AuthProvider = ({ children }: ChildrenProps) => {
   const [user, setUser] = useState<User | null>(null);
   const [role, setRole] = useState<string | null>(null);
-  console.log("role:", role);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const router = useRouter();
 
   const registerUser = async (
@@ -39,7 +38,6 @@ const AuthProvider = ({ children }: ChildrenProps) => {
     password: string,
     displayName: string
   ): Promise<User | null> => {
-    setLoading(true);
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
@@ -69,7 +67,6 @@ const AuthProvider = ({ children }: ChildrenProps) => {
   };
 
   const loginUser = async (email: string, password: string) => {
-    setLoading(true);
     try {
       const userCredential = await signInWithEmailAndPassword(
         auth,
@@ -112,19 +109,18 @@ const AuthProvider = ({ children }: ChildrenProps) => {
   };
 
   const logOut = async () => {
-    setLoading(true);
     try {
       setLoading(false);
       await signOut(auth);
       toast.warning("Sign out successfully");
     } catch (error) {
+      setLoading(false);
       toast.error("Sign out failed");
       console.error(error);
     }
   };
 
   const resetPassword = async (email: string) => {
-    setLoading(true);
     try {
       setLoading(false);
       await sendPasswordResetEmail(auth, email);
@@ -135,19 +131,41 @@ const AuthProvider = ({ children }: ChildrenProps) => {
   };
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      setUser(currentUser);
-      setLoading(false);
+    const fetchData = async () => {
+      try {
+        const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+          setUser(currentUser);
 
-      if (currentUser?.email) {
-        const userResponse = await getSingleUser(currentUser.email);
-        if (userResponse.code === "success") {
-          const userRole = userResponse.data?.data?.role;
-          setRole(userRole);
-        }
+          if (currentUser?.email) {
+            setLoading(true);
+
+            try {
+              const userResponse = await getSingleUser(currentUser.email);
+
+              if (userResponse.code === "success") {
+                const userRole = userResponse.data?.data?.role;
+                setRole(userRole);
+              } else {
+                console.error(userResponse.error.message);
+              }
+            } catch (error) {
+              console.error("Error fetching user data:", error);
+            } finally {
+              setLoading(false);
+            }
+          } else {
+            setLoading(false);
+          }
+        });
+
+        return () => unsubscribe();
+      } catch (error) {
+        console.error(error);
+        setLoading(false);
       }
-    });
-    return () => unsubscribe();
+    };
+
+    fetchData();
   }, []);
 
   const value: AuthContextType = {

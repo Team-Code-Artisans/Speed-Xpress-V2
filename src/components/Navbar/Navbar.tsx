@@ -16,7 +16,7 @@ import { useAuthContext } from "@/hooks/useAuthContext";
 import { useRouter } from "next/navigation";
 
 const MainNavbar = () => {
-  const { user, role, logOut } = useAuthContext();
+  const { user, role, logOut, loading } = useAuthContext();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const router = useRouter();
@@ -57,7 +57,16 @@ const MainNavbar = () => {
           </Link>
         ))}
       </NavbarContent>
-      {!user ? (
+      {!user && loading ? (
+        <NavbarContent justify="end">
+          <NavbarItem className="hidden lg:flex">
+            <SecondaryButton isLoading={loading}></SecondaryButton>
+          </NavbarItem>
+          <NavbarItem>
+            <PrimaryButton isLoading={loading}></PrimaryButton>
+          </NavbarItem>
+        </NavbarContent>
+      ) : !user ? (
         <NavbarContent justify="end">
           <NavbarItem className="hidden lg:flex">
             <SecondaryButton href="/login">Login</SecondaryButton>
