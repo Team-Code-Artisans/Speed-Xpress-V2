@@ -13,11 +13,20 @@ import PrimaryButton from "../../ui/PrimaryButton";
 import { useState } from "react";
 import { mainNavbarData } from "@/data/mainNavbarData";
 import { useAuthContext } from "@/hooks/useAuthContext";
+import { useRouter } from "next/navigation";
 
 const MainNavbar = () => {
-  const { user, logOut } = useAuthContext();
-
+  const { user, role, logOut } = useAuthContext();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const router = useRouter();
+
+  const handleDashboardClick = () => {
+    if (role) {
+      const dashboardUrl = `/dashboard/${role.toLowerCase()}`;
+      router.push(dashboardUrl);
+    }
+  };
 
   return (
     <Navbar
@@ -63,7 +72,9 @@ const MainNavbar = () => {
             <SecondaryButton onClick={() => logOut()}>Log Out</SecondaryButton>
           </NavbarItem>
           <NavbarItem>
-            <PrimaryButton href="/dashboard/user">Dashboard</PrimaryButton>
+            <PrimaryButton onClick={handleDashboardClick}>
+              Dashboard
+            </PrimaryButton>
           </NavbarItem>
         </NavbarContent>
       )}

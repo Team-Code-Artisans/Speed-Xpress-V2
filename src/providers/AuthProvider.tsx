@@ -16,7 +16,7 @@ import {
 import app from "@/config/firebaseConfig";
 import { ChildrenProps } from "@/types/ChildrenProps";
 import { AuthContextType } from "@/types/AuthContextType";
-import { saveUser } from "@/utils/api/user";
+import { getSingleUser, saveUser } from "@/utils/api/user";
 import { useRouter } from "next/navigation";
 import { UserType } from "@/types/UserType";
 import { toast } from "react-toastify";
@@ -29,6 +29,8 @@ export const AuthContext = createContext<AuthContextType>(
 
 const AuthProvider = ({ children }: ChildrenProps) => {
   const [user, setUser] = useState<User | null>(null);
+  const [role, setRole] = useState<string | null>(null);
+  console.log("role:", role);
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
 
@@ -88,7 +90,7 @@ const AuthProvider = ({ children }: ChildrenProps) => {
     try {
       const userCredential = await signInWithPopup(auth, provider);
 
-      const data: UserType = {
+      const userData: UserType = {
         name: userCredential.user.displayName,
         email: userCredential.user.email,
         photoURL: userCredential.user.photoURL,
@@ -101,7 +103,7 @@ const AuthProvider = ({ children }: ChildrenProps) => {
 
       if (userCredential.user) {
         router.push("/");
-        await saveUser(data);
+        await saveUser(userData);
         toast.success("Google sign in Successfully");
       }
     } catch (error) {
@@ -133,15 +135,24 @@ const AuthProvider = ({ children }: ChildrenProps) => {
   };
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
       setLoading(false);
+
+      if (currentUser?.email) {
+        const userResponse = await getSingleUser(currentUser.email);
+        if (userResponse.code === "success") {
+          const userRole = userResponse.data?.data?.role;
+          setRole(userRole);
+        }
+      }
     });
     return () => unsubscribe();
   }, []);
 
   const value: AuthContextType = {
     user,
+    role,
     registerUser,
     googleSignIn,
     loginUser,
