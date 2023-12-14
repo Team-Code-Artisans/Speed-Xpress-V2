@@ -73,7 +73,12 @@ const AuthProvider = ({ children }: ChildrenProps) => {
     try {
       setLoading(false);
       toast.success("Sign in successfully");
-      await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      return userCredential.user;
     } catch (error: any) {
       if (error.message && error.message.includes("password")) {
         toast.error("Invalid password");
@@ -83,6 +88,7 @@ const AuthProvider = ({ children }: ChildrenProps) => {
         toast.error("Something went wrong!");
       }
       setLoading(false);
+      return null;
     }
   };
 
@@ -106,7 +112,6 @@ const AuthProvider = ({ children }: ChildrenProps) => {
       toast.success("Google sign in Successfully");
       router.push("/");
     } catch (error) {
-      toast.error("Google sign in failed");
       console.error(error);
     }
   };

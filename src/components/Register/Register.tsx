@@ -10,8 +10,8 @@ const Register = () => {
   const [selected, setSelected] = useState("Regular");
 
   return (
-    <div className="flex flex-col w-full">
-      <Card radius="sm" className="max-w-full w-[30rem] max-h-min">
+    <div className="flex flex-col w-full sm:w-[30rem]">
+      <Card radius="sm">
         <CardBody className="overflow-hidden">
           <Tabs
             fullWidth
