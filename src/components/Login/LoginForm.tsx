@@ -4,9 +4,6 @@ import { useAuthContext } from "@/hooks/useAuthContext";
 import { RegisterFormType } from "@/types/FormTypes";
 import PrimaryButton from "@/ui/PrimaryButton";
 import SecondaryButton from "@/ui/SecondaryButton";
-import SelectDistrict from "@/ui/SelectDistrict";
-import SelectDivision from "@/ui/SelectDivision";
-import { saveUser } from "@/utils/api/user";
 import { Input } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -14,39 +11,26 @@ import { useForm } from "react-hook-form";
 
 // icons
 import { FaEye, FaEyeSlash, FaGoogle } from "react-icons/fa";
+import { toast } from "react-toastify";
 
-const RiderForm = () => {
-  const { googleSignIn, registerUser, loading } = useAuthContext();
+const LoginForm = () => {
+  const { googleSignIn, loginUser } = useAuthContext();
 
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
-
-  const [division, setDivision] = useState<string>("Dhaka");
-  const [district, setDistrict] = useState<string>("Dhaka");
 
   const router = useRouter();
 
   const { register, reset, handleSubmit } = useForm<RegisterFormType>();
 
-  const handleForm = async (data: RegisterFormType) => {
-    const { name, email, password, number, address } = data;
-    const regularData = {
-      name,
-      email,
-      number,
-      division,
-      district,
-      address,
-      photoURL: "",
-      role: "rider",
-    };
+  const handleForm = async (data: { email: string; password: string }) => {
+    const { email, password } = data;
 
-    const userCredential = await registerUser(email, password, name);
-
+    const userCredential = await loginUser(email, password);
     if (userCredential !== null) {
       reset();
       router.push("/");
-      await saveUser(regularData);
+      toast.success("Sign in successfully");
     }
   };
 
@@ -55,18 +39,11 @@ const RiderForm = () => {
       <SecondaryButton
         type="button"
         onClick={() => {
-          googleSignIn("rider");
+          googleSignIn("regular");
         }}
       >
         <FaGoogle /> Sign in with Google
       </SecondaryButton>
-      <Input
-        {...register("name")}
-        radius="sm"
-        type="text"
-        isRequired
-        label="Name"
-      />
       <Input
         {...register("email")}
         radius="sm"
@@ -94,34 +71,11 @@ const RiderForm = () => {
         }
         type={isVisible ? "text" : "password"}
       />
-      <Input
-        {...register("number")}
-        radius="sm"
-        isRequired
-        type="text"
-        label="Phone Number"
-      />
-      <div className="flex gap-4">
-        <SelectDivision division={division} setDivision={setDivision} />
-        <SelectDistrict district={district} setDistrict={setDistrict} />
-      </div>
-      <Input
-        {...register("address")}
-        radius="sm"
-        isRequired
-        type="text"
-        label="Address"
-      />
-      <PrimaryButton
-        type="submit"
-        fullWidth={true}
-        isDisabled={loading}
-        isLoading={loading}
-      >
-        Register Now Free
+      <PrimaryButton type="submit" fullWidth={true}>
+        Login Now
       </PrimaryButton>
     </form>
   );
 };
 
-export default RiderForm;
+export default LoginForm;

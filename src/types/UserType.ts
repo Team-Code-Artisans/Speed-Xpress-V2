@@ -9,3 +9,9 @@ export type UserType = {
   address?: string | null;
   role: string | null;
 };
+
+export type UserDataType = {
+  status: string;
+  message: string;
+  data: UserType;
+};

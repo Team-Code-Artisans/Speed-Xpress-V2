@@ -2,7 +2,11 @@ import { Accordion, AccordionItem } from "@nextui-org/react";
 
 const CustomerAccordion = () => {
   return (
-    <Accordion variant="shadow" defaultExpandedKeys={["1"]}>
+    <Accordion
+      variant="shadow"
+      defaultExpandedKeys={["1"]}
+      className="dark:bg-gray-900"
+    >
       <AccordionItem
         key="1"
         aria-label="Accordion 1"

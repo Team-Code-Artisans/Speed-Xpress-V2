@@ -27,11 +27,11 @@ export default function FAQ() {
           />
         </div>
         <div className="flex flex-col mx-auto md:h-[30rem]">
-          <Tabs aria-label="Options" className="">
-            <Tab key="photos" title="I'm a customer">
+          <Tabs aria-label="Options" color="primary">
+            <Tab key="customer" title="I'm a customer">
               <CustomerAccordion />
             </Tab>
-            <Tab key="music" title="I'm a rider">
+            <Tab key="rider" title="I'm a rider">
               <RiderAccordion />
             </Tab>
           </Tabs>

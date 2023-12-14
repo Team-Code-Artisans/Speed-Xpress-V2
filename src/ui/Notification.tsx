@@ -1,17 +1,16 @@
 "use client";
 
-import { AllStateContext } from "@/providers/AllStateProvider";
-import { useContext } from "react";
+import { useAllState } from "@/hooks/useAllState";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Notification = () => {
-  const { localTheme } = useContext(AllStateContext);
+  const { localTheme } = useAllState();
 
   return (
     <ToastContainer
       position="top-right"
-      autoClose={3000}
+      autoClose={1000}
       hideProgressBar={false}
       newestOnTop={false}
       closeOnClick

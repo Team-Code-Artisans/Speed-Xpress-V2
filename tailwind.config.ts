@@ -23,6 +23,7 @@ const config: Config = {
       themes: {
         light: {
           colors: {
+            // default: "#111827",
             // foreground: "#030712",
             // background: "#f3f4f6",
             primary: { DEFAULT: "#3b82f6", foreground: "#f3f4f6" },
@@ -31,8 +32,9 @@ const config: Config = {
         },
         dark: {
           colors: {
+            // default: "#f3f4f6",
             // foreground: "#f3f4f6",
-            // background: "#0f0f0f",
+            // background: "#111827",
             primary: { DEFAULT: "#3b82f6", foreground: "#f3f4f6" },
             secondary: "#93c5fd",
           },
