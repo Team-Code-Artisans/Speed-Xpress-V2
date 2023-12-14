@@ -1,7 +1,12 @@
-import { ChildrenProps } from "@/types/ChildrenProps"
+import { ChildrenProps } from "@/types/ChildrenProps";
+import DashboardLayout from "../layout";
 
 const RiderDashboardLayout = ({ children }: ChildrenProps) => {
-  return <div>{children}</div>
-}
+  return (
+    <DashboardLayout allowedRole="rider">
+      <div>{children}</div>
+    </DashboardLayout>
+  );
+};
 
-export default RiderDashboardLayout
+export default RiderDashboardLayout;

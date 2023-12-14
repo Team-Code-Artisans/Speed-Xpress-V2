@@ -1,7 +1,12 @@
-import { ChildrenProps } from "@/types/ChildrenProps"
+import { ChildrenProps } from "@/types/ChildrenProps";
+import DashboardLayout from "../layout";
 
 const MerchantDashboardLayout = ({ children }: ChildrenProps) => {
-  return <div>{children}</div>
-}
+  return (
+    <DashboardLayout allowedRole="merchant">
+      <div>{children}</div>
+    </DashboardLayout>
+  );
+};
 
-export default MerchantDashboardLayout
+export default MerchantDashboardLayout;

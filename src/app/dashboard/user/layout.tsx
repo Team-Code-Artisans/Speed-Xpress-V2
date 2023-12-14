@@ -1,7 +1,12 @@
-import { ChildrenProps } from "@/types/ChildrenProps"
+import { ChildrenProps } from "@/types/ChildrenProps";
+import DashboardLayout from "../layout";
 
 const UserDashboardLayout = ({ children }: ChildrenProps) => {
-  return <div>{children}</div>
-}
+  return (
+    <DashboardLayout allowedRole="user">
+      <div>{children}</div>
+    </DashboardLayout>
+  );
+};
 
-export default UserDashboardLayout
+export default UserDashboardLayout;
