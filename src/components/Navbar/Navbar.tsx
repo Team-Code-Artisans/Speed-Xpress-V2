@@ -12,11 +12,11 @@ import SecondaryButton from "../../ui/SecondaryButton";
 import PrimaryButton from "../../ui/PrimaryButton";
 import { useState } from "react";
 import { mainNavbarData } from "@/data/mainNavbarData";
-import { useAuthContext } from "@/hooks/useAuthContext";
+import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
 
 const MainNavbar = () => {
-  const { user, role, logOut, loading } = useAuthContext();
+  const { user, role, logOut, loading } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const router = useRouter();

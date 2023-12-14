@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuthContext } from "@/hooks/useAuthContext";
+import { useAuth } from "@/hooks/useAuth";
 import { RegisterFormType } from "@/types/FormTypes";
 import PrimaryButton from "@/ui/PrimaryButton";
 import SecondaryButton from "@/ui/SecondaryButton";
@@ -17,7 +17,7 @@ import { FaEye, FaEyeSlash, FaGoogle } from "react-icons/fa";
 import { toast } from "react-toastify";
 
 const RegularForm = () => {
-  const { googleSignIn, registerUser, loading } = useAuthContext();
+  const { googleSignIn, registerUser, loading } = useAuth();
 
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const toggleVisibility = () => setIsVisible(!isVisible);

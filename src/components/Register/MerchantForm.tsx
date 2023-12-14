@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuthContext } from "@/hooks/useAuthContext";
+import { useAuth } from "@/hooks/useAuth";
 import { RegisterFormType } from "@/types/FormTypes";
 import PrimaryButton from "@/ui/PrimaryButton";
 import SecondaryButton from "@/ui/SecondaryButton";
@@ -16,7 +16,7 @@ import { useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash, FaGoogle } from "react-icons/fa";
 
 const MerchantForm = () => {
-  const { googleSignIn, registerUser, loading } = useAuthContext();
+  const { googleSignIn, registerUser, loading } = useAuth();
 
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const toggleVisibility = () => setIsVisible(!isVisible);

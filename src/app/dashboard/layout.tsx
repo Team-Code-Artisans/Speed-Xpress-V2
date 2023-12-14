@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuthContext } from "@/hooks/useAuthContext";
+import { useAuth } from "@/hooks/useAuth";
 import Loading from "@/ui/Loading";
 import AdminDashboardLayout from "./admin/layout";
 import UserDashboardLayout from "./user/layout";
@@ -9,7 +9,7 @@ import RiderDashboardLayout from "./rider/layout";
 import { ChildrenProps } from "@/types/ChildrenProps";
 
 const DashboardLayout = ({ children }: ChildrenProps) => {
-  const { user, role } = useAuthContext();
+  const { user, role } = useAuth();
 
   if (!user) {
     return <Loading size="lg" />;
