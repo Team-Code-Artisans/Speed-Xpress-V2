@@ -1,10 +1,22 @@
 "use client";
 
 import Link from "next/link";
-import { Navbar, NavbarContent, NavbarItem } from "@nextui-org/react";
+import {
+  Avatar,
+  Navbar,
+  NavbarContent,
+  NavbarItem,
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownSection,
+  DropdownItem,
+} from "@nextui-org/react";
 import PrimaryButton from "@/ui/PrimaryButton";
 import {
+  adminDropdownData,
   adminNavbarData,
+  dropdownData,
   merchantNavbarData,
   regularNavbarData,
   riderNavbarData,
@@ -52,16 +64,48 @@ const DashboardNavbar = () => {
           <Link
             key={index}
             href={item.link}
-            className="text-dark dark:text-light hover:text-primary before:bg-primary text-xl before:absolute before:-bottom-1 before:h-0.5 before:w-full before:origin-left before:scale-x-0 before:transition hover:before:scale-100 relative whitespace-nowrap select-none"
+            className="text-dark dark:text-light before:bg-primary text-lg before:absolute before:-bottom-1 before:h-0.5 before:w-full before:origin-left before:scale-x-0 before:transition hover:before:scale-100 relative whitespace-nowrap select-none"
           >
             {item.name}
           </Link>
         ))}
         <NavbarItem>
-          <PrimaryButton href="/register" size="md">
-            Sign Up
+          <PrimaryButton href="create-parcel" size="md">
+            Create Parcel
           </PrimaryButton>
         </NavbarItem>
+        <Dropdown placement="bottom-end" backdrop="opaque">
+          <DropdownTrigger className="cursor-pointer">
+            <Avatar
+              as="button"
+              isBordered
+              showFallback
+              src={user?.photoURL ?? ""}
+              className="transition-transform"
+            />
+          </DropdownTrigger>
+          <DropdownMenu aria-label="Profile Actions">
+            <DropdownSection>
+              <DropdownItem key="profile" className="h-14 gap-2">
+                Signed in as
+                <p className="font-semibold">{user?.email}</p>
+              </DropdownItem>
+            </DropdownSection>
+            <DropdownSection>
+              {role === "admin"
+                ? adminDropdownData.map((item) => (
+                    <DropdownItem as={Link} href={item.link} key={item.name}>
+                      {item.name}
+                    </DropdownItem>
+                  ))
+                : dropdownData.map((item) => (
+                    <DropdownItem as={Link} href={item.link} key={item.name}>
+                      {item.name}
+                    </DropdownItem>
+                  ))}
+            </DropdownSection>
+          </DropdownMenu>
+        </Dropdown>
       </NavbarContent>
     </Navbar>
   );
