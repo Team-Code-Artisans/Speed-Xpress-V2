@@ -1,13 +1,17 @@
 enum Status {
   Pending = "pending",
   Accepted = "accepted",
+  InTransit = "in-transit",
   Picked = "picked",
+  OutForDelivery = "out-for-delivery",
   Delivered = "delivered",
+  Returned = "returned",
 }
 
 enum PaymentStatus {
   Pending = "pending",
   Paid = "paid",
+  Canceled = "cancelled",
 }
 
 type SenderInfo = {

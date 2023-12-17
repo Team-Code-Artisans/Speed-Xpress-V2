@@ -11,7 +11,7 @@ import {
 import SecondaryButton from "../../ui/SecondaryButton";
 import PrimaryButton from "../../ui/PrimaryButton";
 import { useState } from "react";
-import { mainNavbarData } from "@/data/mainNavbarData";
+import { mainNavbarData } from "@/data/navbarData";
 import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
 
