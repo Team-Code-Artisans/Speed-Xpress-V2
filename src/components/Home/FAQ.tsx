@@ -16,7 +16,7 @@ export default function FAQ() {
         Get Your <span className="text-primary">Queries Solved</span>
       </h2>
 
-      <div className="grid md:grid-cols-2 w-full mx-auto px-2 gap-10">
+      <div className="grid lg:grid-cols-2 w-full mx-auto px-2 gap-10">
         <div className="max-md:order-last place-self-center">
           <Image
             src={"/assets/images/FAQ.png"}
@@ -26,7 +26,7 @@ export default function FAQ() {
             className="w-[30rem]"
           />
         </div>
-        <div className="flex flex-col mx-auto md:h-[30rem]">
+        <div className="flex flex-col mx-auto lg:h-[30rem]">
           <Tabs aria-label="Options" color="primary">
             <Tab key="customer" title="I'm a customer">
               <CustomerAccordion />

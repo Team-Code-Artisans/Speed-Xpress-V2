@@ -21,7 +21,7 @@ export default function Hero() {
           <h1 className="text-sm text-primary font-medium">
             Welcome to Speed Xpress
           </h1>
-          <h2 className="text-3xl sm:text-4xl font-extrabold mx-auto lg:text-5xl">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold mx-auto lg:text-5xl">
             Swift, Secure, Seamless Experience{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-secondary to-blue-700">
               Effortless Parcel Management
@@ -40,7 +40,7 @@ export default function Hero() {
             />
             <button
               onClick={onOpen}
-              className="px-4 py-[17px] border-solid rounded-r-md bg-primary text-light cursor-pointer transition duration-300 ease-in-out hover:bg-gradient-to-r from-primary to-secondary focus:outline-none whitespace-nowrap"
+              className="px-4 max-sm:text-sm py-[19px] sm:py-[17px] border-solid rounded-r-md bg-primary text-light cursor-pointer transition duration-300 ease-in-out hover:bg-gradient-to-r from-primary to-secondary focus:outline-none whitespace-nowrap"
               type="button"
             >
               Track Parcel

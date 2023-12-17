@@ -69,19 +69,25 @@ const MainNavbar = () => {
       ) : !user ? (
         <NavbarContent justify="end">
           <NavbarItem className="hidden lg:flex">
-            <SecondaryButton href="/login">Login</SecondaryButton>
+            <SecondaryButton href="/login" size="md">
+              Login
+            </SecondaryButton>
           </NavbarItem>
           <NavbarItem>
-            <PrimaryButton href="/register">Sign Up</PrimaryButton>
+            <PrimaryButton href="/register" size="md">
+              Sign Up
+            </PrimaryButton>
           </NavbarItem>
         </NavbarContent>
       ) : (
         <NavbarContent justify="end">
           <NavbarItem className="hidden lg:flex">
-            <SecondaryButton onClick={() => logOut()}>Log Out</SecondaryButton>
+            <SecondaryButton onClick={() => logOut()} size="md">
+              Log Out
+            </SecondaryButton>
           </NavbarItem>
           <NavbarItem>
-            <PrimaryButton onClick={handleDashboardClick}>
+            <PrimaryButton onClick={handleDashboardClick} size="md">
               Dashboard
             </PrimaryButton>
           </NavbarItem>

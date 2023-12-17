@@ -27,7 +27,11 @@ const PrivateRoute = ({ children, allowedRole }: PrivateRouteType) => {
   }, [user, role, allowedRole, loading]);
 
   if (loading || !isInitialized) {
-    return <Loading size="lg" />;
+    return (
+      <div className="grid place-items-center h-screen">
+        <Loading size="lg" />
+      </div>
+    );
   }
 
   return <>{children}</>;

@@ -17,8 +17,12 @@ const OrderPlace = () => {
             and reducing the need for manual intervention.
           </p>
           <div className="flex flex-col space-y-4 sm:items-center sm:justify-center sm:flex-row sm:space-y-0 sm:space-x-4 md:justify-start">
-            <PrimaryButton href="/login">Get Stated</PrimaryButton>
-            <SecondaryButton href="/register">Order Now</SecondaryButton>
+            <PrimaryButton href="/login" fullWidth>
+              Get Stated
+            </PrimaryButton>
+            <SecondaryButton href="/register" fullWidth>
+              Order Now
+            </SecondaryButton>
           </div>
         </div>
 

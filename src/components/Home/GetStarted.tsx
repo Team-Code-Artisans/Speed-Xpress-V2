@@ -1,4 +1,3 @@
-import Link from "next/link";
 import PrimaryButton from "../../ui/PrimaryButton";
 
 const GetStarted = () => {

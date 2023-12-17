@@ -9,6 +9,10 @@ const PrimaryButton = ({
   className,
   href,
   onClick,
+  size = "lg",
+  radius = "sm",
+  color = "primary",
+  variant = "solid",
   isDisabled = false,
   isLoading = false,
   fullWidth = false,
@@ -18,10 +22,10 @@ const PrimaryButton = ({
     return (
       <Link href={href} className="inline-block">
         <Button
-          size="lg"
-          radius="sm"
-          color="primary"
-          variant="solid"
+          size={size}
+          radius={radius}
+          color={color}
+          variant={variant}
           onClick={onClick}
           type={type}
           fullWidth={fullWidth}
@@ -41,10 +45,10 @@ const PrimaryButton = ({
       isDisabled={isDisabled}
       isLoading={isLoading}
       spinner={<Loading />}
-      size="lg"
-      radius="sm"
-      color="primary"
-      variant="solid"
+      size={size}
+      radius={radius}
+      color={color}
+      variant={variant}
       onClick={onClick}
       type={type}
       fullWidth={fullWidth}

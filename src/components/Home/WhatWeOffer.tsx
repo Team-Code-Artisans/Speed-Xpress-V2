@@ -7,7 +7,7 @@ import {
 const WhatWeOffer = () => {
   return (
     <div className="max-w-screen-xl mx-auto pb-20 px-4">
-      <div className="border border-gray-200 dark:border-gray-800 p-8 rounded-2xl bg-light dark:bg-dark shadow-xl">
+      <div className="border border-gray-200 dark:border-gray-800 md:p-8 p-4 rounded-2xl bg-light dark:bg-dark shadow-xl">
         <div className="grid md:grid-cols-2 gap-4 pb-8">
           <div className="space-y-6">
             <div className="group relative inline-block text-sm font-medium text-primary">

@@ -9,6 +9,10 @@ const SecondaryButton = ({
   className,
   href,
   onClick,
+  size = "lg",
+  radius = "sm",
+  color = "primary",
+  variant = "ghost",
   isDisabled = false,
   isLoading = false,
   fullWidth = false,
@@ -18,10 +22,10 @@ const SecondaryButton = ({
     return (
       <Link href={href} className="inline-block">
         <Button
-          size="lg"
-          radius="sm"
-          color="primary"
-          variant="ghost"
+          size={size}
+          radius={radius}
+          color={color}
+          variant={variant}
           onClick={onClick}
           type={type}
           fullWidth={fullWidth}
@@ -38,10 +42,10 @@ const SecondaryButton = ({
       isDisabled={isDisabled}
       isLoading={isLoading}
       spinner={<Loading />}
-      size="lg"
-      radius="sm"
-      color="primary"
-      variant="ghost"
+      size={size}
+      radius={radius}
+      color={color}
+      variant={variant}
       onClick={onClick}
       type={type}
       fullWidth={fullWidth}

@@ -1,12 +1,12 @@
 import { ChildrenProps } from "@/types/ChildrenProps";
 import DashboardLayout from "../layout";
 
-const UserDashboardLayout = ({ children }: ChildrenProps) => {
+const RegularDashboardLayout = ({ children }: ChildrenProps) => {
   return (
-    <DashboardLayout allowedRole="user">
+    <DashboardLayout allowedRole="regular">
       <div>{children}</div>
     </DashboardLayout>
   );
 };
 
-export default UserDashboardLayout;
+export default RegularDashboardLayout;
