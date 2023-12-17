@@ -29,9 +29,10 @@ const MerchantForm = () => {
   const { register, reset, handleSubmit } = useForm<RegisterFormType>();
 
   const handleForm = async (data: RegisterFormType) => {
-    const { name, email, password, number, address } = data;
-    const regularData = {
+    const { name, email, password, number, address, shop_name } = data;
+    const merchantData = {
       name,
+      shop_name,
       email,
       number,
       division,
@@ -46,7 +47,7 @@ const MerchantForm = () => {
     if (userCredential !== null) {
       reset();
       router.push("/");
-      await saveUser(regularData);
+      await saveUser(merchantData);
     }
   };
 
@@ -66,6 +67,13 @@ const MerchantForm = () => {
         type="text"
         isRequired
         label="Owner Name"
+      />
+      <Input
+        {...register("shop_name")}
+        radius="sm"
+        type="text"
+        isRequired
+        label="Shop Name"
       />
       <Input
         {...register("email")}

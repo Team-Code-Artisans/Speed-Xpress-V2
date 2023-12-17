@@ -4,6 +4,7 @@ export type RegisterFormType = {
   password: string;
   number: string;
   address: string;
+  shop_name?: string;
 };
 
 export type DivisionType = {

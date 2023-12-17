@@ -19,69 +19,57 @@ export const mainNavbarData = [
 
 export const regularNavbarData = [
   {
-    name: "Home",
-    link: "/",
+    name: "Dashboard",
+    link: "/dashboard/regular",
   },
   {
     name: "Track Parcel",
     link: "/track-parcel",
   },
   {
-    name: "My Parcels",
-    link: "/my-parcels",
+    name: "Parcels",
+    link: "/parcels",
   },
   {
     name: "Invoices",
     link: "/invoices",
-  },
-  {
-    name: "Return",
-    link: "/return",
   },
 ];
 
 export const merchantNavbarData = [
   {
-    name: "Home",
-    link: "/",
+    name: "Dashboard",
+    link: "/dashboard/merchant",
   },
   {
     name: "Track Parcel",
     link: "/track-parcel",
   },
   {
-    name: "My Parcels",
-    link: "/my-parcels",
+    name: "Parcels",
+    link: "/parcels",
   },
   {
-    name: "My Shops",
-    link: "/my-shops",
-  },
-  {
-    name: "Product Management",
-    link: "/product-management",
+    name: "Shops",
+    link: "/shops",
   },
   {
     name: "Invoices",
     link: "/invoices",
   },
-  {
-    name: "Return",
-    link: "/return",
-  },
 ];
 
 export const riderNavbarData = [
   {
-    name: "Home",
-    link: "/",
+    name: "Dashboard",
+    link: "/dashboard/rider",
   },
   {
     name: "Deliveries",
     link: "/deliveries",
   },
   {
-    name: "Completed Deliveries",
+    name: "Completed",
     link: "/completed-deliveries",
   },
   {
@@ -92,24 +80,24 @@ export const riderNavbarData = [
 
 export const adminNavbarData = [
   {
-    name: "Home",
-    link: "/",
+    name: "Dashboard",
+    link: "/dashboard/admin",
   },
   {
     name: "Track Parcel",
     link: "/track-parcel",
   },
   {
-    name: "Parcel Management",
-    link: "/parcel-management",
+    name: "Parcels",
+    link: "/parcels",
   },
   {
-    name: "User Management",
-    link: "/user-management",
+    name: "Users",
+    link: "/users",
   },
   {
-    name: "Invoice Management",
-    link: "/invoice-management",
+    name: "Invoices",
+    link: "/invoices",
   },
 ];
 
@@ -134,16 +122,12 @@ export const dropdownData = [
 
 export const adminDropdownData = [
   {
-    name: "Regular Management",
-    link: "/regular-management",
+    name: "Merchants",
+    link: "/merchants",
   },
   {
-    name: "Merchant Management",
-    link: "/merchant-management",
-  },
-  {
-    name: "Rider Management",
-    link: "/rider-management",
+    name: "Riders",
+    link: "/riders",
   },
   {
     name: "Profile",

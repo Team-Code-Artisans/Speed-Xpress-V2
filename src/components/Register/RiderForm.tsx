@@ -30,7 +30,7 @@ const RiderForm = () => {
 
   const handleForm = async (data: RegisterFormType) => {
     const { name, email, password, number, address } = data;
-    const regularData = {
+    const merchantData = {
       name,
       email,
       number,
@@ -46,7 +46,7 @@ const RiderForm = () => {
     if (userCredential !== null) {
       reset();
       router.push("/");
-      await saveUser(regularData);
+      await saveUser(merchantData);
     }
   };
 
