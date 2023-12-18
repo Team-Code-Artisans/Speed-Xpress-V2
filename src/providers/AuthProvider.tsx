@@ -99,7 +99,7 @@ const AuthProvider = ({ children }: ChildrenProps) => {
       };
 
       if (userCredential.user) {
-        router.push("/");
+        router.push(`/dashboard/${role}`);
         await saveUser(userData);
         toast.success("Google sign in Successfully");
       }
@@ -112,7 +112,8 @@ const AuthProvider = ({ children }: ChildrenProps) => {
     try {
       setLoading(false);
       await signOut(auth);
-      toast.warning("Sign out successfully");
+      toast.success("Sign out successfully");
+      router.push("/login");
     } catch (error) {
       setLoading(false);
       toast.error("Sign out failed");
@@ -144,7 +145,7 @@ const AuthProvider = ({ children }: ChildrenProps) => {
 
               if (userResponse.code === "success") {
                 const userRole = userResponse.data?.data?.role;
-                setRole(userRole);
+                setRole(userRole !== undefined ? userRole : null);
               } else {
                 console.error(userResponse.error.message);
               }

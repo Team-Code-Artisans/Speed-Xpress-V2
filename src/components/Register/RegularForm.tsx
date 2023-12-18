@@ -31,6 +31,7 @@ const RegularForm = () => {
 
   const handleForm = async (data: RegisterFormType) => {
     const { name, email, password, number, address } = data;
+    const role = "regular";
     const regularData = {
       name,
       email,
@@ -38,16 +39,16 @@ const RegularForm = () => {
       division,
       district,
       address,
+      role,
       photoURL: "",
-      role: "regular",
     };
 
     const userCredential = await registerUser(email, password, name);
 
     if (userCredential !== null) {
       reset();
-      router.push("/");
       await saveUser(regularData);
+      router.push(`/dashboard/${role}`);
       toast.success("Register successfully");
     }
   };
@@ -56,6 +57,7 @@ const RegularForm = () => {
     <form onSubmit={handleSubmit(handleForm)} className="flex flex-col gap-4">
       <SecondaryButton
         type="button"
+        fullWidth
         onClick={() => {
           googleSignIn("regular");
         }}

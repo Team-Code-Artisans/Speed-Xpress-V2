@@ -29,7 +29,7 @@ const LoginForm = () => {
     const userCredential = await loginUser(email, password);
     if (userCredential !== null) {
       reset();
-      router.push("/");
+      router.push(`/dashboard`);
       toast.success("Sign in successfully");
     }
   };
@@ -38,6 +38,7 @@ const LoginForm = () => {
     <form onSubmit={handleSubmit(handleForm)} className="flex flex-col gap-4">
       <SecondaryButton
         type="button"
+        fullWidth
         onClick={() => {
           googleSignIn("regular");
         }}

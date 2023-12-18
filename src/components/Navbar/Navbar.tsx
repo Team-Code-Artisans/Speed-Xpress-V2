@@ -60,10 +60,10 @@ const MainNavbar = () => {
       {!user && loading ? (
         <NavbarContent justify="end">
           <NavbarItem className="hidden lg:flex">
-            <SecondaryButton isLoading={loading}></SecondaryButton>
+            <SecondaryButton size="md" isLoading={loading}></SecondaryButton>
           </NavbarItem>
           <NavbarItem>
-            <PrimaryButton isLoading={loading}></PrimaryButton>
+            <PrimaryButton size="md" isLoading={loading}></PrimaryButton>
           </NavbarItem>
         </NavbarContent>
       ) : !user ? (

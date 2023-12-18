@@ -30,6 +30,7 @@ const RiderForm = () => {
 
   const handleForm = async (data: RegisterFormType) => {
     const { name, email, password, number, address } = data;
+    const role = "rider";
     const merchantData = {
       name,
       email,
@@ -37,16 +38,16 @@ const RiderForm = () => {
       division,
       district,
       address,
+      role,
       photoURL: "",
-      role: "rider",
     };
 
     const userCredential = await registerUser(email, password, name);
 
     if (userCredential !== null) {
       reset();
-      router.push("/");
       await saveUser(merchantData);
+      router.push(`/dashboard/${role}`);
     }
   };
 
@@ -54,6 +55,7 @@ const RiderForm = () => {
     <form onSubmit={handleSubmit(handleForm)} className="flex flex-col gap-4">
       <SecondaryButton
         type="button"
+        fullWidth
         onClick={() => {
           googleSignIn("rider");
         }}

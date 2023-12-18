@@ -18,47 +18,29 @@ const PrimaryButton = ({
   fullWidth = false,
   type = "button",
 }: ButtonProps) => {
-  if (href) {
-    return (
-      <Link href={href} className="inline-block">
-        <Button
-          size={size}
-          radius={radius}
-          color={color}
-          variant={variant}
-          onClick={onClick}
-          type={type}
-          fullWidth={fullWidth}
-          className={cn(
-            "text-light hover:bg-gradient-to-r from-primary to-secondary",
-            className
-          )}
-        >
-          {children}
-        </Button>
-      </Link>
-    );
-  }
-
   return (
-    <Button
-      isDisabled={isDisabled}
-      isLoading={isLoading}
-      spinner={<Loading />}
-      size={size}
-      radius={radius}
-      color={color}
-      variant={variant}
-      onClick={onClick}
-      type={type}
-      fullWidth={fullWidth}
-      className={cn(
-        "text-light hover:bg-gradient-to-r from-primary to-secondary",
-        className
-      )}
-    >
-      {children}
-    </Button>
+    <div>
+      <Button
+        as={href ? Link : "button"}
+        href={href}
+        isDisabled={isDisabled}
+        isLoading={isLoading}
+        spinner={<Loading />}
+        size={size}
+        radius={radius}
+        color={color}
+        variant={variant}
+        onClick={onClick}
+        type={type}
+        fullWidth={fullWidth}
+        className={cn(
+          "text-light hover:bg-gradient-to-r from-primary to-secondary",
+          className
+        )}
+      >
+        {children}
+      </Button>
+    </div>
   );
 };
 

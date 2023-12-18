@@ -24,7 +24,7 @@ import {
 import { useAuth } from "@/hooks/useAuth";
 
 const DashboardNavbar = () => {
-  const { user, role, logOut, loading } = useAuth();
+  const { user, role, logOut } = useAuth();
 
   let navbarData = [];
 
@@ -70,28 +70,28 @@ const DashboardNavbar = () => {
           </Link>
         ))}
         <NavbarItem>
-          <PrimaryButton href="create-parcel" size="md">
+          <PrimaryButton href={`/dashboard/regular/create-parcel`} size="md">
             Create Parcel
           </PrimaryButton>
         </NavbarItem>
-        <Dropdown placement="bottom-end" backdrop="opaque">
+        <Dropdown placement="bottom-end" backdrop="opaque" showArrow>
           <DropdownTrigger className="cursor-pointer">
             <Avatar
               as="button"
               isBordered
               showFallback
               src={user?.photoURL ?? ""}
-              className="transition-transform"
+              className="transition-transform text-gray-600 dark:text-light"
             />
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions">
-            <DropdownSection>
+            <DropdownSection aria-label="email" showDivider>
               <DropdownItem key="profile" className="h-14 gap-2">
                 Signed in as
                 <p className="font-semibold">{user?.email}</p>
               </DropdownItem>
             </DropdownSection>
-            <DropdownSection>
+            <DropdownSection aria-label="link" showDivider>
               {role === "admin"
                 ? adminDropdownData.map((item) => (
                     <DropdownItem as={Link} href={item.link} key={item.name}>
@@ -103,6 +103,15 @@ const DashboardNavbar = () => {
                       {item.name}
                     </DropdownItem>
                   ))}
+            </DropdownSection>
+            <DropdownSection aria-label="logout">
+              <DropdownItem
+                onClick={() => logOut()}
+                className="text-danger"
+                color="danger"
+              >
+                Sign Out
+              </DropdownItem>
             </DropdownSection>
           </DropdownMenu>
         </Dropdown>

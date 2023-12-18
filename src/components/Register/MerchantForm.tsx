@@ -30,6 +30,7 @@ const MerchantForm = () => {
 
   const handleForm = async (data: RegisterFormType) => {
     const { name, email, password, number, address, shop_name } = data;
+    const role = "merchant";
     const merchantData = {
       name,
       shop_name,
@@ -38,16 +39,16 @@ const MerchantForm = () => {
       division,
       district,
       address,
+      role,
       photoURL: "",
-      role: "merchant",
     };
 
     const userCredential = await registerUser(email, password, name);
 
     if (userCredential !== null) {
       reset();
-      router.push("/");
       await saveUser(merchantData);
+      router.push(`/dashboard/${role}`);
     }
   };
 
@@ -55,6 +56,7 @@ const MerchantForm = () => {
     <form onSubmit={handleSubmit(handleForm)} className="flex flex-col gap-4">
       <SecondaryButton
         type="button"
+        fullWidth
         onClick={() => {
           googleSignIn("merchant");
         }}

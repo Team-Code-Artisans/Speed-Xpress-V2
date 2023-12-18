@@ -1,10 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { Tabs, Tab, Link, Card, CardBody } from "@nextui-org/react";
+import { Tabs, Tab, Card, CardBody } from "@nextui-org/react";
 import RegularForm from "./RegularForm";
 import MerchantForm from "./MerchantForm";
 import RiderForm from "./RiderForm";
+import Link from "next/link";
 
 const Register = () => {
   const [selected, setSelected] = useState("Regular");
@@ -36,7 +37,7 @@ const Register = () => {
           </Tabs>
           <p className="text-center text-small py-2">
             Already have an account?{" "}
-            <Link size="sm" href="/login">
+            <Link href="/login" className="text-primary font-medium">
               Login
             </Link>
           </p>

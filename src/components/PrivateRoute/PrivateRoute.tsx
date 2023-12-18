@@ -4,13 +4,13 @@ import { redirect } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
 import Loading from "@/ui/Loading";
 import { PrivateRouteType } from "@/types/PrivateRouteType";
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const PrivateRoute = ({ children, allowedRole }: PrivateRouteType) => {
   const { user, role, loading } = useAuth();
   const [isInitialized, setIsInitialized] = useState(false);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (loading) {
       return;
     }

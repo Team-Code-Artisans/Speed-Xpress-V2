@@ -24,15 +24,15 @@ export const regularNavbarData = [
   },
   {
     name: "Track Parcel",
-    link: "/track-parcel",
+    link: "/dashboard/regular/track-parcel",
   },
   {
     name: "Parcels",
-    link: "/parcels",
+    link: "/dashboard/regular/parcels",
   },
   {
     name: "Invoices",
-    link: "/invoices",
+    link: "/dashboard/regular/invoices",
   },
 ];
 
@@ -43,19 +43,19 @@ export const merchantNavbarData = [
   },
   {
     name: "Track Parcel",
-    link: "/track-parcel",
+    link: "/dashboard/merchant/track-parcel",
   },
   {
     name: "Parcels",
-    link: "/parcels",
+    link: "/dashboard/merchant/parcels",
   },
   {
     name: "Shops",
-    link: "/shops",
+    link: "/dashboard/merchant/shops",
   },
   {
     name: "Invoices",
-    link: "/invoices",
+    link: "/dashboard/merchant/invoices",
   },
 ];
 
@@ -66,15 +66,15 @@ export const riderNavbarData = [
   },
   {
     name: "Deliveries",
-    link: "/deliveries",
+    link: "/dashboard/rider/deliveries",
   },
   {
     name: "Completed",
-    link: "/completed-deliveries",
+    link: "/dashboard/rider/completed-deliveries",
   },
   {
     name: "Earnings",
-    link: "/earnings",
+    link: "/dashboard/rider/earnings",
   },
 ];
 
@@ -85,19 +85,19 @@ export const adminNavbarData = [
   },
   {
     name: "Track Parcel",
-    link: "/track-parcel",
+    link: "/dashboard/admin/track-parcel",
   },
   {
     name: "Parcels",
-    link: "/parcels",
+    link: "/dashboard/admin/parcels",
   },
   {
     name: "Users",
-    link: "/users",
+    link: "/dashboard/admin/users",
   },
   {
     name: "Invoices",
-    link: "/invoices",
+    link: "/dashboard/admin/invoices",
   },
 ];
 
@@ -123,26 +123,26 @@ export const dropdownData = [
 export const adminDropdownData = [
   {
     name: "Merchants",
-    link: "/merchants",
+    link: "/admin/merchants",
   },
   {
     name: "Riders",
-    link: "/riders",
+    link: "/admin/riders",
   },
   {
     name: "Profile",
-    link: "/profile",
+    link: "/admin/profile",
   },
   {
     name: "FAQ",
-    link: "/faq",
+    link: "/admin/faq",
   },
   {
     name: "Password",
-    link: "/password",
+    link: "/admin/password",
   },
   {
     name: "Settings",
-    link: "/settings",
+    link: "/admin/settings",
   },
 ];
