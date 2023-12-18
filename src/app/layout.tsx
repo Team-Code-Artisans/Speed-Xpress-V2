@@ -20,9 +20,9 @@ export default function RootLayout({ children }: ChildrenProps) {
         <AllProvider>
           <NextThemeProvider>
             <div className="text-dark dark:text-light bg-light dark:bg-dark">
-              {/* <div className="fixed right-0 z-50 p-4">
+              <div className="fixed right-0 z-50 p-4">
                 <ThemeSwitcher />
-              </div> */}
+              </div>
               {children}
             </div>
           </NextThemeProvider>

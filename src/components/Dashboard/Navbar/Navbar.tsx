@@ -109,12 +109,20 @@ const DashboardNavbar = () => {
             <DropdownSection aria-label="link" showDivider>
               {role === "admin"
                 ? adminDropdownData.map((item) => (
-                    <DropdownItem as={Link} href={item.link} key={item.name}>
+                    <DropdownItem
+                      as={Link}
+                      href={`/dashboard/admin/${item.link}`}
+                      key={item.name}
+                    >
                       {item.name}
                     </DropdownItem>
                   ))
                 : dropdownData.map((item) => (
-                    <DropdownItem as={Link} href={item.link} key={item.name}>
+                    <DropdownItem
+                      as={Link}
+                      href={`/dashboard/${role}${item.link}`}
+                      key={item.name}
+                    >
                       {item.name}
                     </DropdownItem>
                   ))}
