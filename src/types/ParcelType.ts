@@ -35,7 +35,7 @@ type MerchantInfo = {
   address: string;
 };
 
-type Parcel = {
+export type Parcel = {
   parcelId: string;
   senderInfo: SenderInfo;
   recipientInfo: RecipientInfo;
@@ -49,4 +49,22 @@ type Parcel = {
     status: PaymentStatus;
     amount: number;
   };
+};
+
+export type ParcelFormType = {
+  division: string;
+  setDivision: React.Dispatch<React.SetStateAction<string>>;
+  deliveryOption: string;
+  setDeliveryOption: React.Dispatch<React.SetStateAction<string>>;
+  weight: string;
+  setWeight: React.Dispatch<React.SetStateAction<string>>;
+};
+
+export type ParcelSummaryType = {
+  shippingFee: number;
+  weightCharge: number;
+  discount: number;
+  subTotal: number;
+  tax: number;
+  estimatedTotal: number;
 };

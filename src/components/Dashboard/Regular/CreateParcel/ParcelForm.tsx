@@ -1,35 +1,28 @@
-"use client";
-
 import { weightData } from "@/data/deliveryData";
 import { useAuth } from "@/hooks/useAuth";
+import { ParcelFormType } from "@/types/ParcelType";
 import CustomInput from "@/ui/CustomInput";
 import CustomRadio from "@/ui/CustomRadio";
 import PrimaryButton from "@/ui/PrimaryButton";
 import SecondaryButton from "@/ui/SecondaryButton";
 import SelectDistrict from "@/ui/SelectDistrict";
 import SelectDivision from "@/ui/SelectDivision";
-import {
-  Input,
-  RadioGroup,
-  Select,
-  SelectItem,
-  Textarea,
-} from "@nextui-org/react";
+import { RadioGroup, Select, SelectItem, Textarea } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-
-// icons
-import { FaEye, FaEyeSlash, FaGoogle } from "react-icons/fa";
-import { MdNumbers } from "react-icons/md";
 import { toast } from "react-toastify";
 
-const ParcelForm = () => {
-  const { googleSignIn, registerUser, loading } = useAuth();
+const ParcelForm = ({
+  division,
+  setDivision,
+  deliveryOption,
+  setDeliveryOption,
+  setWeight,
+}: ParcelFormType) => {
+  const { user } = useAuth();
 
-  const [division, setDivision] = useState<string>("Dhaka");
   const [district, setDistrict] = useState<string>("Dhaka");
-  const [deliveryOption, setDeliveryOption] = useState<string>("standard");
   const [paymentMethod, setPaymentMethod] = useState<string>("online");
 
   const router = useRouter();
@@ -142,6 +135,7 @@ const ParcelForm = () => {
           variant="bordered"
           radius="sm"
           name="weight"
+          onChange={(e) => setWeight(e.target.value)}
         >
           {weightData.map((item) => (
             <SelectItem key={item.value} value={item.value}>
@@ -205,20 +199,10 @@ const ParcelForm = () => {
       />
 
       <div className="flex gap-4 justify-end">
-        <SecondaryButton
-          type="button"
-          fullWidth={true}
-          isDisabled={loading}
-          isLoading={loading}
-        >
+        <SecondaryButton type="button" fullWidth={true}>
           Cancel
         </SecondaryButton>
-        <PrimaryButton
-          type="submit"
-          fullWidth={true}
-          isDisabled={loading}
-          isLoading={loading}
-        >
+        <PrimaryButton type="submit" fullWidth={true}>
           Submit
         </PrimaryButton>
       </div>
