@@ -13,10 +13,12 @@ const CreateParcel = () => {
             CREATE<span className="text-primary"> PARCEL</span>
           </h1>
           <Divider />
+          {/* parcel form */}
           <ParcelForm />
         </div>
 
         <div className="space-y-6 bg-gray-200 dark:bg-gray-900 w-full sm:max-w-xl p-6 lg:p-10 lg:col-span-2 lg:sticky top-20 lg:mt-[60px] rounded-lg">
+          {/* parcel summary */}
           <ParcelSummary />
         </div>
       </div>

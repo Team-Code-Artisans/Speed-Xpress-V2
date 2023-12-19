@@ -26,11 +26,11 @@ export function ThemeSwitcher() {
   return (
     <>
       {theme === "dark" ? (
-        <button onClick={() => setTheme("light")}>
+        <button title="Dark" onClick={() => setTheme("light")}>
           <FaMoon size={"1.2rem"} />
         </button>
       ) : (
-        <button onClick={() => setTheme("dark")}>
+        <button title="Light" onClick={() => setTheme("dark")}>
           <BsSunFill size={"1.2rem"} />
         </button>
       )}

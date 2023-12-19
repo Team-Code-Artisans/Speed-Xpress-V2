@@ -2,6 +2,7 @@
 
 import { weightData } from "@/data/deliveryData";
 import { useAuth } from "@/hooks/useAuth";
+import CustomInput from "@/ui/CustomInput";
 import CustomRadio from "@/ui/CustomRadio";
 import PrimaryButton from "@/ui/PrimaryButton";
 import SecondaryButton from "@/ui/SecondaryButton";
@@ -28,13 +29,28 @@ const ParcelForm = () => {
 
   const [division, setDivision] = useState<string>("Dhaka");
   const [district, setDistrict] = useState<string>("Dhaka");
+  const [deliveryOption, setDeliveryOption] = useState<string>("standard");
+  const [paymentMethod, setPaymentMethod] = useState<string>("online");
 
   const router = useRouter();
 
-  const { register, reset, handleSubmit } = useForm<any>();
+  const {
+    register,
+    reset,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<any>();
 
   const handleForm = async (data: any) => {
-    console.log(data);
+    const parcelData = {
+      ...data,
+      division,
+      district,
+      deliveryOption,
+      paymentMethod,
+    };
+    console.log("parcelData:", parcelData);
+
     // const parcelResponse = await registerUser(parcelData);
     // if (parcelResponse) {
     //   reset();
@@ -47,29 +63,43 @@ const ParcelForm = () => {
     <form onSubmit={handleSubmit(handleForm)} className="space-y-4">
       {/* recipient details */}
       <h1 className="text-xl font-medium">Recipient Details</h1>
-      <Input
-        {...register("name")}
-        variant="bordered"
-        radius="sm"
-        type="text"
-        isRequired
+      <CustomInput
         label="Name"
+        name="name"
+        register={register}
+        error={errors}
+        validationRules={{
+          required: "*name is required",
+          pattern: { value: /^[A-Za-z ]+$/i, message: "*name is invalid" },
+          minLength: { value: 2, message: "*name is invalid" },
+        }}
       />
-      <Input
-        {...register("email")}
-        variant="bordered"
-        radius="sm"
-        isRequired
-        type="email"
+      <CustomInput
         label="Email"
+        name="email"
+        type="email"
+        register={register}
+        error={errors}
+        validationRules={{
+          required: "*email is required",
+          pattern: {
+            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+            message: "invalid email address",
+          },
+        }}
       />
-      <Input
-        {...register("number")}
-        variant="bordered"
-        radius="sm"
-        isRequired
-        type="text"
+      <CustomInput
         label="Phone Number"
+        name="number"
+        register={register}
+        error={errors}
+        validationRules={{
+          required: "*phone number is required",
+          pattern: {
+            value: /^[0-9]{11}$/,
+            message: "invalid phone number",
+          },
+        }}
       />
       <div className="flex gap-4">
         <SelectDivision
@@ -83,13 +113,14 @@ const ParcelForm = () => {
           variant="bordered"
         />
       </div>
-      <Input
-        {...register("address")}
-        variant="bordered"
-        radius="sm"
-        isRequired
-        type="text"
+      <CustomInput
         label="Address"
+        name="address"
+        register={register}
+        error={errors}
+        validationRules={{
+          required: "*address is required",
+        }}
       />
 
       {/* parcel details */}
@@ -97,10 +128,20 @@ const ParcelForm = () => {
 
       <div className="grid sm:grid-cols-2 gap-4">
         <Select
-          isRequired
-          label="Select total weight"
+          label={
+            <p>
+              Select total weight <span className="text-danger">*</span>
+            </p>
+          }
+          {...register("weight", {
+            required: "*weight is required",
+          })}
+          defaultSelectedKeys={"1"}
+          isInvalid={errors?.weight ? true : false}
+          errorMessage={errors?.weight && `${errors?.weight?.message}`}
           variant="bordered"
           radius="sm"
+          name="weight"
         >
           {weightData.map((item) => (
             <SelectItem key={item.value} value={item.value}>
@@ -108,16 +149,28 @@ const ParcelForm = () => {
             </SelectItem>
           ))}
         </Select>
-        <Input
-          radius="sm"
-          isRequired
-          variant="bordered"
-          type="number"
+        <CustomInput
           label="Quantity"
+          name="quantity"
+          type="number"
+          register={register}
+          error={errors}
+          validationRules={{
+            required: "*quantity is required",
+            pattern: {
+              value: /^[1-9]\d*$/,
+              message: "invalid quantity",
+            },
+          }}
         />
       </div>
 
-      <RadioGroup label="Delivery Option" defaultValue="standard">
+      <RadioGroup
+        label="Delivery Option"
+        defaultValue="standard"
+        value={deliveryOption}
+        onValueChange={setDeliveryOption}
+      >
         <div className="grid sm:grid-cols-2 gap-4">
           <CustomRadio description="Regular delivery option" value="standard">
             Standard
@@ -128,7 +181,12 @@ const ParcelForm = () => {
         </div>
       </RadioGroup>
 
-      <RadioGroup label="Payment Method" defaultValue="online">
+      <RadioGroup
+        label="Payment Method"
+        defaultValue="online"
+        value={paymentMethod}
+        onValueChange={setPaymentMethod}
+      >
         <div className="grid sm:grid-cols-2 gap-4">
           <CustomRadio description="Stripe payment option" value="online">
             Online Payment
