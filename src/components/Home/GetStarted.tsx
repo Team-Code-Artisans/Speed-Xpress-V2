@@ -16,6 +16,7 @@ const GetStarted = () => {
           src={"/assets/images/delivery.png"}
           width={600}
           height={600}
+          alt="get started"
         />
       </div>
     </div>
