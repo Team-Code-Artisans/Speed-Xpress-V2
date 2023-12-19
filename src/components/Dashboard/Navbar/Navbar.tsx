@@ -77,7 +77,7 @@ const DashboardNavbar = () => {
             <Link
               key={index}
               href={item.link}
-              className="text-dark dark:text-light before:bg-primary text-lg before:absolute before:-bottom-1 before:h-0.5 before:w-full before:origin-left before:scale-x-0 before:transition hover:before:scale-100 relative whitespace-nowrap select-none"
+              className="text-dark dark:text-light before:bg-primary text-lg font-medium before:absolute before:-bottom-1 before:h-0.5 before:w-full before:origin-left before:scale-x-0 before:transition hover:before:scale-100 relative whitespace-nowrap select-none"
             >
               {item.name}
             </Link>
