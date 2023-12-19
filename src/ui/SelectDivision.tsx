@@ -2,9 +2,10 @@ import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
 import { divisionData } from "@/data/divisionData";
 import { DivisionType } from "@/types/FormTypes";
 
-const SelectDivision = ({ division, setDivision }: DivisionType) => {
+const SelectDivision = ({ division, setDivision, variant }: DivisionType) => {
   return (
     <Autocomplete
+      variant={variant}
       isRequired
       label="Select Division"
       defaultItems={divisionData}

@@ -2,9 +2,10 @@ import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
 import { districtData } from "@/data/districtData";
 import { DistrictType } from "@/types/FormTypes";
 
-const SelectDistrict = ({ district, setDistrict }: DistrictType) => {
+const SelectDistrict = ({ district, setDistrict, variant }: DistrictType) => {
   return (
     <Autocomplete
+      variant={variant}
       isRequired
       label="Select District"
       defaultItems={districtData}
