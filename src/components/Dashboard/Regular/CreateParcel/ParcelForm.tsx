@@ -92,13 +92,13 @@ const ParcelForm = () => {
         label="Address"
       />
 
-      {/* order details */}
-      <h1 className="text-xl font-medium">Order Details</h1>
+      {/* parcel details */}
+      <h1 className="text-xl font-medium">Parcel Details</h1>
 
       <div className="grid sm:grid-cols-2 gap-4">
         <Select
           isRequired
-          label="Select parcel weight"
+          label="Select total weight"
           variant="bordered"
           radius="sm"
         >
@@ -114,18 +114,10 @@ const ParcelForm = () => {
           variant="bordered"
           type="number"
           label="Quantity"
-          placeholder="0.00"
-          startContent={
-            <div className="pointer-events-none">
-              <span className="text-default-400 text-small">
-                <MdNumbers />
-              </span>
-            </div>
-          }
         />
       </div>
 
-      <RadioGroup label="Delivery Option">
+      <RadioGroup label="Delivery Option" defaultValue="standard">
         <div className="grid sm:grid-cols-2 gap-4">
           <CustomRadio description="Regular delivery option" value="standard">
             Standard
@@ -136,13 +128,13 @@ const ParcelForm = () => {
         </div>
       </RadioGroup>
 
-      <RadioGroup label="Payment Method">
+      <RadioGroup label="Payment Method" defaultValue="online">
         <div className="grid sm:grid-cols-2 gap-4">
-          <CustomRadio description="Cash on delivery option" value="cash">
-            Cash On Delivery
-          </CustomRadio>
           <CustomRadio description="Stripe payment option" value="online">
             Online Payment
+          </CustomRadio>
+          <CustomRadio description="Cash on delivery option" value="cash">
+            Cash On Delivery
           </CustomRadio>
         </div>
       </RadioGroup>

@@ -1,30 +1,56 @@
+import { Divider } from "@nextui-org/react";
 import React from "react";
 
 const ParcelSummary = () => {
   return (
-    <div className="space-y-6 bg-gray-200 dark:bg-gray-900 w-full sm:max-w-xl p-6 lg:p-10 lg:col-span-2 lg:place-self-start">
+    <div className="space-y-8">
       <div>
-        <h1 className="text-2xl font-semibold leading-6">Order Summary</h1>
+        <h1 className="font-bold text-2xl">
+          PARCEL<span className="text-primary"> SUMMARY</span>
+        </h1>
       </div>
-      <div className="flex mt-7 flex-col items-end w-full space-y-6">
+      <div className="flex flex-col items-end w-full space-y-6">
         <div className="flex justify-between w-full items-center">
-          <p className="text-lg leading-4 text-gray-600">Total items</p>
-          <p className="text-lg font-semibold leading-4 text-gray-600">20</p>
+          <p className="text-lg leading-4 dark:text-gray-400 text-gray-600">
+            Shipping Fee
+          </p>
+          <p className="text-lg font-semibold leading-4 dark:text-gray-400 text-gray-600">
+            20
+          </p>
         </div>
         <div className="flex justify-between w-full items-center">
-          <p className="text-lg leading-4 text-gray-600">Total Charges</p>
-          <p className="text-lg font-semibold leading-4 text-gray-600">$2790</p>
+          <p className="text-lg leading-4 dark:text-gray-400 text-gray-600">
+            Weight Charge
+          </p>
+          <p className="text-lg font-semibold leading-4 dark:text-gray-400 text-gray-600">
+            $2790
+          </p>
         </div>
         <div className="flex justify-between w-full items-center">
-          <p className="text-lg leading-4 text-gray-600">Shipping charges</p>
-          <p className="text-lg font-semibold leading-4 text-gray-600">$90</p>
+          <p className="text-lg leading-4 dark:text-gray-400 text-gray-600">
+            Discount
+          </p>
+          <p className="text-lg font-semibold leading-4 text-danger"> - $00</p>
+        </div>
+        <Divider />
+        <div className="flex justify-between w-full items-center">
+          <p className="text-lg leading-4 dark:text-gray-400 text-gray-600">
+            Sub Total
+          </p>
+          <p className="text-lg font-semibold leading-4 dark:text-gray-400 text-gray-600">
+            $3520
+          </p>
         </div>
         <div className="flex justify-between w-full items-center">
-          <p className="text-lg leading-4 text-gray-600">Sub total</p>
-          <p className="text-lg font-semibold leading-4 text-gray-600">$3520</p>
+          <p className="text-lg leading-4 dark:text-gray-400 text-gray-600">
+            Including 5% Tax
+          </p>
+          <p className="text-lg font-semibold leading-4 dark:text-gray-400 text-gray-600">
+            + $00
+          </p>
         </div>
       </div>
-      <div className="flex justify-between w-full items-center mt-32">
+      <div className="flex justify-between w-full items-center pt-32">
         <p className="text-xl font-semibold leading-4">Estimated Total</p>
         <p className="text-lg font-semibold leading-4">$2900</p>
       </div>
