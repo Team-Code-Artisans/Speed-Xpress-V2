@@ -1,17 +1,26 @@
 "use client";
 
+import { weightData } from "@/data/deliveryData";
 import { useAuth } from "@/hooks/useAuth";
+import CustomRadio from "@/ui/CustomRadio";
 import PrimaryButton from "@/ui/PrimaryButton";
 import SecondaryButton from "@/ui/SecondaryButton";
 import SelectDistrict from "@/ui/SelectDistrict";
 import SelectDivision from "@/ui/SelectDivision";
-import { Input } from "@nextui-org/react";
+import {
+  Input,
+  RadioGroup,
+  Select,
+  SelectItem,
+  Textarea,
+} from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 // icons
 import { FaEye, FaEyeSlash, FaGoogle } from "react-icons/fa";
+import { MdNumbers } from "react-icons/md";
 import { toast } from "react-toastify";
 
 const ParcelForm = () => {
@@ -35,26 +44,28 @@ const ParcelForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(handleForm)} className="flex flex-col gap-4">
+    <form onSubmit={handleSubmit(handleForm)} className="space-y-4">
+      {/* recipient details */}
+      <h1 className="text-xl font-medium">Recipient Details</h1>
       <Input
-        variant="bordered"
         {...register("name")}
+        variant="bordered"
         radius="sm"
         type="text"
         isRequired
         label="Name"
       />
       <Input
-        variant="bordered"
         {...register("email")}
+        variant="bordered"
         radius="sm"
         isRequired
         type="email"
         label="Email"
       />
       <Input
-        variant="bordered"
         {...register("number")}
+        variant="bordered"
         radius="sm"
         isRequired
         type="text"
@@ -73,13 +84,76 @@ const ParcelForm = () => {
         />
       </div>
       <Input
-        variant="bordered"
         {...register("address")}
+        variant="bordered"
         radius="sm"
         isRequired
         type="text"
         label="Address"
       />
+
+      {/* order details */}
+      <h1 className="text-xl font-medium">Order Details</h1>
+
+      <div className="grid sm:grid-cols-2 gap-4">
+        <Select
+          isRequired
+          label="Select parcel weight"
+          variant="bordered"
+          radius="sm"
+        >
+          {weightData.map((item) => (
+            <SelectItem key={item.value} value={item.value}>
+              {item.label}
+            </SelectItem>
+          ))}
+        </Select>
+        <Input
+          radius="sm"
+          isRequired
+          variant="bordered"
+          type="number"
+          label="Quantity"
+          placeholder="0.00"
+          startContent={
+            <div className="pointer-events-none">
+              <span className="text-default-400 text-small">
+                <MdNumbers />
+              </span>
+            </div>
+          }
+        />
+      </div>
+
+      <RadioGroup label="Delivery Option">
+        <div className="grid sm:grid-cols-2 gap-4">
+          <CustomRadio description="Regular delivery option" value="standard">
+            Standard
+          </CustomRadio>
+          <CustomRadio description="Next day delivery option" value="express">
+            Express
+          </CustomRadio>
+        </div>
+      </RadioGroup>
+
+      <RadioGroup label="Payment Method">
+        <div className="grid sm:grid-cols-2 gap-4">
+          <CustomRadio description="Cash on delivery option" value="cash">
+            Cash On Delivery
+          </CustomRadio>
+          <CustomRadio description="Stripe payment option" value="online">
+            Online Payment
+          </CustomRadio>
+        </div>
+      </RadioGroup>
+
+      <Textarea
+        radius="sm"
+        variant="bordered"
+        label="Description"
+        placeholder="Enter parcel description"
+      />
+
       <div className="flex gap-4 justify-end">
         <SecondaryButton
           type="button"
