@@ -1,6 +1,9 @@
+"use client";
+
 import { useAuth } from "@/hooks/useAuth";
 import Loading from "@/ui/Loading";
 import { redirect } from "next/navigation";
+import { toast } from "react-toastify";
 
 const DashboardHomePage = () => {
   const { role, loading } = useAuth();
@@ -15,6 +18,9 @@ const DashboardHomePage = () => {
 
   if (role) {
     redirect(`/dashboard/${role}`);
+  } else {
+    toast.error("Something went wrong!");
+    redirect("/login");
   }
 };
 
