@@ -46,7 +46,7 @@ type MerchantInfo = {
 export type ParcelType = {
   _id?: string;
   parcelId?: string;
-  senderInfo: SenderInfo;
+  senderInfo?: SenderInfo;
   recipientInfo: RecipientInfo;
   parcelWeight: string;
   parcelQuantity: string;

@@ -13,10 +13,12 @@ import PrimaryButton from "@/ui/PrimaryButton";
 import SecondaryButton from "@/ui/SecondaryButton";
 import SelectDistrict from "@/ui/SelectDistrict";
 import SelectDivision from "@/ui/SelectDivision";
+import { createParcel } from "@/utils/api/parcel";
 import { RadioGroup, Select, SelectItem, Textarea } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 const ParcelForm = ({
   division,
@@ -26,7 +28,7 @@ const ParcelForm = ({
   setWeight,
   estimatedTotal,
 }: ParcelFormProps) => {
-  const { userInfo } = useAuth();
+  const { userInfo, role } = useAuth();
 
   const [district, setDistrict] = useState<string>("Dhaka");
   const [paymentMethod, setPaymentMethod] = useState<string>("online");
@@ -80,14 +82,12 @@ const ParcelForm = ({
       description,
     };
 
-    console.log("parcelData:", parcelData);
-
-    // const parcelResponse = await registerUser(parcelData);
-    // if (parcelResponse) {
-    //   reset();
-    //   router.push(`/dashboard/${role}`);
-    //   toast.success("Register successfully");
-    // }
+    const parcelResponse = await createParcel(parcelData);
+    if (parcelResponse) {
+      reset();
+      router.push(`/dashboard/${role}/parcels`);
+      toast.success("Parcel created successfully");
+    }
   };
 
   return (

@@ -1,7 +1,6 @@
-import { AxiosError } from "axios";
+import { UserDataType, UserType } from "@/types/UserType";
 import api from "../axios";
 import { requestHandler } from "../requestHandler";
-import { UserDataType, UserType } from "@/types/UserType";
 
 export const getAllUsers = requestHandler<void, UserDataType[]>(() =>
   api.get(`/users/all-users`)
@@ -11,11 +10,11 @@ export const getSingleUser = requestHandler<string, UserDataType>((email) =>
   api.get(`/users?email=${email}`)
 );
 
-export const saveUser = requestHandler<{}, UserType>((data) =>
+export const saveUser = requestHandler<UserType, UserType>((data) =>
   api.post("/users/create-user", data)
 );
 
-export const updateUser = requestHandler<{}, UserType>((data) =>
+export const updateUser = requestHandler<UserType, UserType>((data) =>
   api.put("/users/update-user", data)
 );
 
