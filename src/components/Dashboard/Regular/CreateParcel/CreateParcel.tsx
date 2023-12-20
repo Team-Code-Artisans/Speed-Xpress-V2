@@ -1,15 +1,15 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import ParcelForm from "./ParcelForm";
-import { Divider } from "@nextui-org/react";
-import ParcelSummary from "./ParcelSummary";
 import { calculateParcel } from "@/utils/calculateParcel";
+import { Divider } from "@nextui-org/react";
+import { useEffect, useState } from "react";
+import ParcelForm from "./ParcelForm";
+import ParcelSummary from "./ParcelSummary";
 
 const CreateParcel = () => {
   // Parcel form states
   const [division, setDivision] = useState<string>("Dhaka");
-  const [deliveryOption, setDeliveryOption] = useState<string>("standard");
+  const [shippingMethod, setShippingMethod] = useState<string>("standard");
   const [weight, setWeight] = useState<string>("1");
 
   // Shipping calculation states
@@ -29,7 +29,7 @@ const CreateParcel = () => {
       discount: calculatedDiscount,
       tax: calculatedTax,
       estimatedTotal: calculatedEstimatedTotal,
-    } = calculateParcel(division, deliveryOption, weight);
+    } = calculateParcel(division, shippingMethod, weight);
 
     // Update state variables
     setShippingFee(calculatedShippingFee);
@@ -38,7 +38,7 @@ const CreateParcel = () => {
     setDiscount(calculatedDiscount);
     setTax(calculatedTax);
     setEstimatedTotal(calculatedEstimatedTotal);
-  }, [division, deliveryOption, weight]);
+  }, [division, shippingMethod, weight]);
 
   return (
     <div className="lg:py-20 py-10 px-4 max-w-screen-xl mx-auto">
@@ -50,12 +50,13 @@ const CreateParcel = () => {
           <Divider />
           {/* parcel form */}
           <ParcelForm
-            deliveryOption={deliveryOption}
+            shippingMethod={shippingMethod}
             division={division}
-            setDeliveryOption={setDeliveryOption}
+            setShippingMethod={setShippingMethod}
             setDivision={setDivision}
             setWeight={setWeight}
             weight={weight}
+            estimatedTotal={estimatedTotal}
           />
         </div>
 

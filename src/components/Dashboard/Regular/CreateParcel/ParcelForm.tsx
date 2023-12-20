@@ -1,6 +1,12 @@
 import { weightData } from "@/data/deliveryData";
 import { useAuth } from "@/hooks/useAuth";
-import { ParcelDataType, ParcelFormProps } from "@/types/ParcelType";
+import {
+  ParcelDataType,
+  ParcelFormProps,
+  ParcelType,
+  PaymentStatus,
+  Status,
+} from "@/types/ParcelType";
 import CustomInput from "@/ui/CustomInput";
 import CustomRadio from "@/ui/CustomRadio";
 import PrimaryButton from "@/ui/PrimaryButton";
@@ -11,16 +17,16 @@ import { RadioGroup, Select, SelectItem, Textarea } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
 
 const ParcelForm = ({
   division,
   setDivision,
-  deliveryOption,
-  setDeliveryOption,
+  shippingMethod,
+  setShippingMethod,
   setWeight,
+  estimatedTotal,
 }: ParcelFormProps) => {
-  const { user } = useAuth();
+  const { userInfo } = useAuth();
 
   const [district, setDistrict] = useState<string>("Dhaka");
   const [paymentMethod, setPaymentMethod] = useState<string>("online");
@@ -35,13 +41,45 @@ const ParcelForm = ({
   } = useForm<any>();
 
   const handleForm = async (data: ParcelDataType) => {
-    const parcelData = {
-      ...data,
-      division,
-      district,
-      deliveryOption,
-      paymentMethod,
+    const { address, email, name, number, quantity, weight, description } =
+      data;
+    const parcelStatus = Status.Pending;
+    const paymentStatus = PaymentStatus.Pending;
+
+    const parcelData: ParcelType = {
+      senderInfo: {
+        name: userInfo?.name!,
+        email: userInfo?.email!,
+        number: userInfo?.number!,
+        address: {
+          division: userInfo?.division!,
+          district: userInfo?.district!,
+          address: userInfo?.address!,
+        },
+      },
+      recipientInfo: {
+        name,
+        email,
+        number,
+        address: {
+          division,
+          district,
+          address,
+        },
+      },
+      parcelStatus,
+      parcelWeight: weight,
+      parcelQuantity: quantity,
+      shippingMethod,
+      deliveryDateTime: new Date().toLocaleString(), // const [date, time] = deliveryDateTime.split(', ')
+      paymentInfo: {
+        method: paymentMethod,
+        status: paymentStatus,
+        amount: estimatedTotal,
+      },
+      description,
     };
+
     console.log("parcelData:", parcelData);
 
     // const parcelResponse = await registerUser(parcelData);
@@ -162,8 +200,8 @@ const ParcelForm = ({
       <RadioGroup
         label="Delivery Option"
         defaultValue="standard"
-        value={deliveryOption}
-        onValueChange={setDeliveryOption}
+        value={shippingMethod}
+        onValueChange={setShippingMethod}
       >
         <div className="grid sm:grid-cols-2 gap-4">
           <CustomRadio description="Regular delivery option" value="standard">
@@ -192,6 +230,7 @@ const ParcelForm = ({
       </RadioGroup>
 
       <Textarea
+        {...register("description")}
         radius="sm"
         variant="bordered"
         label="Description"

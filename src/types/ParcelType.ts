@@ -1,4 +1,4 @@
-enum Status {
+export enum Status {
   Pending = "pending",
   Accepted = "accepted",
   InTransit = "in-transit",
@@ -8,22 +8,30 @@ enum Status {
   Returned = "returned",
 }
 
-enum PaymentStatus {
+export enum PaymentStatus {
   Pending = "pending",
   Paid = "paid",
   Canceled = "cancelled",
 }
 
+type Address = {
+  division: string;
+  district: string;
+  address: string;
+};
+
 type SenderInfo = {
   name: string;
+  email: string;
   number: string;
-  address: string;
+  address: Address;
 };
 
 type RecipientInfo = {
   name: string;
+  email: string;
   number: string;
-  address: string;
+  address: Address;
 };
 
 type MerchantInfo = {
@@ -32,32 +40,36 @@ type MerchantInfo = {
   shopName: string;
   contactNumber: string;
   email: string;
-  address: string;
+  address: Address;
 };
 
 export type ParcelType = {
-  parcelId: string;
+  _id?: string;
+  parcelId?: string;
   senderInfo: SenderInfo;
   recipientInfo: RecipientInfo;
-  parcelWeight: number;
-  status: Status;
-  deliveryDateTime: Date;
+  parcelWeight: string;
+  parcelQuantity: string;
   shippingMethod: string;
-  deliveryLocation: string;
+  parcelStatus: Status;
+  deliveryDateTime: string;
   merchantInfo?: MerchantInfo;
   paymentInfo: {
+    method: string;
     status: PaymentStatus;
     amount: number;
   };
+  description?: string;
 };
 
 export type ParcelFormProps = {
   division: string;
   setDivision: React.Dispatch<React.SetStateAction<string>>;
-  deliveryOption: string;
-  setDeliveryOption: React.Dispatch<React.SetStateAction<string>>;
+  shippingMethod: string;
+  setShippingMethod: React.Dispatch<React.SetStateAction<string>>;
   weight: string;
   setWeight: React.Dispatch<React.SetStateAction<string>>;
+  estimatedTotal: number;
 };
 
 export type ParcelSummaryType = {
@@ -76,4 +88,5 @@ export type ParcelDataType = {
   number: string;
   quantity: string;
   weight: string;
+  description: string;
 };

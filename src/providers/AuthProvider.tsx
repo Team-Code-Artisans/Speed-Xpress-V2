@@ -140,7 +140,6 @@ const AuthProvider = ({ children }: ChildrenProps) => {
         setLoading(true);
 
         const userResponse = await getSingleUser(currentUser.email);
-        console.log("userResponse:", userResponse);
 
         if (userResponse.code === "success") {
           const userData = userResponse.data?.data;
