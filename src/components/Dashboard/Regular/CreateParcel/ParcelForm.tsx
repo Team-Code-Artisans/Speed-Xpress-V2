@@ -1,6 +1,6 @@
 import { weightData } from "@/data/deliveryData";
 import { useAuth } from "@/hooks/useAuth";
-import { ParcelFormType } from "@/types/ParcelType";
+import { ParcelDataType, ParcelFormProps } from "@/types/ParcelType";
 import CustomInput from "@/ui/CustomInput";
 import CustomRadio from "@/ui/CustomRadio";
 import PrimaryButton from "@/ui/PrimaryButton";
@@ -19,7 +19,7 @@ const ParcelForm = ({
   deliveryOption,
   setDeliveryOption,
   setWeight,
-}: ParcelFormType) => {
+}: ParcelFormProps) => {
   const { user } = useAuth();
 
   const [district, setDistrict] = useState<string>("Dhaka");
@@ -34,7 +34,7 @@ const ParcelForm = ({
     formState: { errors },
   } = useForm<any>();
 
-  const handleForm = async (data: any) => {
+  const handleForm = async (data: ParcelDataType) => {
     const parcelData = {
       ...data,
       division,

@@ -35,7 +35,7 @@ type MerchantInfo = {
   address: string;
 };
 
-export type Parcel = {
+export type ParcelType = {
   parcelId: string;
   senderInfo: SenderInfo;
   recipientInfo: RecipientInfo;
@@ -51,7 +51,7 @@ export type Parcel = {
   };
 };
 
-export type ParcelFormType = {
+export type ParcelFormProps = {
   division: string;
   setDivision: React.Dispatch<React.SetStateAction<string>>;
   deliveryOption: string;
@@ -67,4 +67,13 @@ export type ParcelSummaryType = {
   subTotal: number;
   tax: number;
   estimatedTotal: number;
+};
+
+export type ParcelDataType = {
+  address: string;
+  email: string;
+  name: string;
+  number: string;
+  quantity: string;
+  weight: string;
 };

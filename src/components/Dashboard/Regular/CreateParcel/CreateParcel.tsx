@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import ParcelForm from "./ParcelForm";
 import { Divider } from "@nextui-org/react";
 import ParcelSummary from "./ParcelSummary";
+import { calculateParcel } from "@/utils/calculateParcel";
 
 const CreateParcel = () => {
   // Parcel form states
@@ -19,59 +20,24 @@ const CreateParcel = () => {
   const [tax, setTax] = useState<number>(0);
   const [estimatedTotal, setEstimatedTotal] = useState<number>(0);
 
-  const parcelCalculation = () => {
-    // Define constants
-    const baseShippingFeeDhaka = 60;
-    const baseShippingFeeOther = 80;
-    const expressDeliveryFee = 40;
-    const weightChargeRate = 10;
-    const discountRate = 0.05;
-    const taxRate = 0.05;
-
-    // Calculate shipping fee based on division and delivery option
-    let calculatedShippingFee = 0;
-    if (division === "Dhaka") {
-      calculatedShippingFee =
-        deliveryOption === "standard"
-          ? baseShippingFeeDhaka
-          : baseShippingFeeDhaka + expressDeliveryFee;
-    } else {
-      calculatedShippingFee =
-        deliveryOption === "standard"
-          ? baseShippingFeeOther
-          : baseShippingFeeOther + expressDeliveryFee;
-    }
-
-    // Calculate weight charge
-    const calculatedWeightCharge = (parseInt(weight) *
-      weightChargeRate) as number;
-
-    // Calculate subTotal
-    const calculatedSubTotal = (calculatedShippingFee +
-      calculatedWeightCharge) as number;
-
-    // Calculate discount
-    const calculatedDiscount = (calculatedSubTotal * discountRate) as number;
-
-    // Calculate tax
-    const calculatedTax = (calculatedSubTotal * taxRate) as number;
-
-    // Calculate estimated total
-    const calculatedEstimatedTotal = (calculatedSubTotal -
-      calculatedDiscount +
-      calculatedTax) as number;
+  useEffect(() => {
+    // Use the utility function to calculate parcel
+    const {
+      shippingFee: calculatedShippingFee,
+      weightCharge: calculatedWeightCharge,
+      subTotal: calculatedSubTotal,
+      discount: calculatedDiscount,
+      tax: calculatedTax,
+      estimatedTotal: calculatedEstimatedTotal,
+    } = calculateParcel(division, deliveryOption, weight);
 
     // Update state variables
     setShippingFee(calculatedShippingFee);
-    setWeightCharge(parseFloat(calculatedWeightCharge.toFixed(2)));
-    setSubTotal(parseFloat(calculatedSubTotal.toFixed(2)));
-    setDiscount(parseFloat(calculatedDiscount.toFixed(2)));
-    setTax(parseFloat(calculatedTax.toFixed(2)));
-    setEstimatedTotal(parseFloat(calculatedEstimatedTotal.toFixed(2)));
-  };
-
-  useEffect(() => {
-    parcelCalculation();
+    setWeightCharge(calculatedWeightCharge);
+    setSubTotal(calculatedSubTotal);
+    setDiscount(calculatedDiscount);
+    setTax(calculatedTax);
+    setEstimatedTotal(calculatedEstimatedTotal);
   }, [division, deliveryOption, weight]);
 
   return (
