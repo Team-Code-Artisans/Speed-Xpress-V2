@@ -19,7 +19,7 @@ export default function FAQ() {
       <div className="grid lg:grid-cols-2 w-full mx-auto px-2 gap-10">
         <div className="max-md:order-last place-self-center">
           <Image
-            src={"/assets/images/FAQ.png"}
+            src={"/assets/images/faq.png"}
             width={600}
             height={600}
             alt="image"

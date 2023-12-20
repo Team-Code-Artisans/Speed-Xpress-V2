@@ -30,7 +30,7 @@ const DashboardNavbar = () => {
   const { user, role, logOut } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  let navbarData = [];
+  let navbarData: any[] = [];
 
   switch (role) {
     case "regular":
@@ -46,7 +46,7 @@ const DashboardNavbar = () => {
       navbarData = adminNavbarData;
       break;
     default:
-      navbarData = regularNavbarData;
+      navbarData = [];
       break;
   }
 

@@ -1,9 +1,6 @@
-"use client";
-
 import { useAuth } from "@/hooks/useAuth";
 import Loading from "@/ui/Loading";
 import { redirect } from "next/navigation";
-import { useEffect } from "react";
 
 const DashboardHomePage = () => {
   const { role, loading } = useAuth();
@@ -16,11 +13,9 @@ const DashboardHomePage = () => {
     );
   }
 
-  useEffect(() => {
-    if (role) {
-      redirect(`/dashboard/${role}`);
-    }
-  }, [role, loading]);
+  if (role) {
+    redirect(`/dashboard/${role}`);
+  }
 };
 
 export default DashboardHomePage;

@@ -1,8 +1,7 @@
-import PrivateRoute from "@/components/PrivateRoute/PrivateRoute";
-import { PrivateRouteType } from "@/types/PrivateRouteType";
+import { ChildrenProps } from "@/types/ChildrenProps";
 
-const DashboardLayout = ({ children, allowedRole }: PrivateRouteType) => {
-  return <PrivateRoute allowedRole={allowedRole}>{children}</PrivateRoute>;
+const DashboardLayout = ({ children }: ChildrenProps) => {
+  return <div>{children}</div>;
 };
 
 export default DashboardLayout;
