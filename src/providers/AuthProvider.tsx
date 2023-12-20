@@ -1,24 +1,24 @@
 "use client";
 
-import { useState, createContext, useEffect } from "react";
+import app from "@/config/firebaseConfig";
+import { AuthContextType } from "@/types/AuthContextType";
+import { ChildrenProps } from "@/types/ChildrenProps";
+import { UserType } from "@/types/UserType";
+import { getSingleUser, saveUser } from "@/utils/api/user";
 import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  updateProfile,
-  signInWithEmailAndPassword,
-  onAuthStateChanged,
   GoogleAuthProvider,
+  User,
+  createUserWithEmailAndPassword,
+  getAuth,
+  onAuthStateChanged,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
-  sendPasswordResetEmail,
-  User,
+  updateProfile,
 } from "firebase/auth";
-import app from "@/config/firebaseConfig";
-import { ChildrenProps } from "@/types/ChildrenProps";
-import { AuthContextType } from "@/types/AuthContextType";
-import { getSingleUser, saveUser } from "@/utils/api/user";
 import { useRouter } from "next/navigation";
-import { UserType } from "@/types/UserType";
+import { createContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 const auth = getAuth(app);
@@ -30,6 +30,7 @@ export const AuthContext = createContext<AuthContextType>(
 const AuthProvider = ({ children }: ChildrenProps) => {
   const [user, setUser] = useState<User | null>(null);
   const [role, setRole] = useState<string | null>(null);
+  const [userInfo, setUserInfo] = useState<UserType | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const router = useRouter();
 
@@ -132,45 +133,33 @@ const AuthProvider = ({ children }: ChildrenProps) => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-          setUser(currentUser);
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      setUser(currentUser);
 
-          if (currentUser?.email) {
-            setLoading(true);
+      if (currentUser?.email) {
+        setLoading(true);
 
-            try {
-              const userResponse = await getSingleUser(currentUser.email);
+        const userResponse = await getSingleUser(currentUser.email);
 
-              if (userResponse.code === "success") {
-                const userRole = userResponse.data?.data?.role;
-                setRole(userRole !== undefined ? userRole : null);
-              } else {
-                console.error(userResponse.error.message);
-              }
-            } catch (error) {
-              console.error("Error fetching user data:", error);
-            } finally {
-              setLoading(false);
-            }
-          } else {
-            setLoading(false);
-          }
-        });
-
-        return () => unsubscribe();
-      } catch (error) {
-        console.error(error);
-        setLoading(false);
+        if (userResponse.code === "success") {
+          const userData = userResponse.data?.data;
+          setUserInfo(userData);
+          setRole(userData.role);
+        } else {
+          setLoading(false);
+          console.error(userResponse.error.message);
+        }
       }
-    };
 
-    fetchData();
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
   }, []);
 
   const value: AuthContextType = {
     user,
+    userInfo,
     role,
     registerUser,
     googleSignIn,

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import PrimaryButton from "../../ui/PrimaryButton";
 
 const GetStarted = () => {
@@ -11,11 +12,11 @@ const GetStarted = () => {
       </div>
 
       <div className="flex justify-center">
-        <img
+        <Image
           className="object-cover w-full h-60 md:h-96 rounded-xl lg:w-4/5"
           src={"/assets/images/delivery.png"}
-          width={600}
-          height={600}
+          width={2000}
+          height={2000}
           alt="get started"
         />
       </div>

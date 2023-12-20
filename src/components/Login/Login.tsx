@@ -20,7 +20,7 @@ const Login = () => {
         <CardBody className="overflow-hidden">
           <LoginForm />
           <p className="text-center text-small py-2">
-            Don't have an account?{" "}
+            <span>Don{"'"}t have an account? </span>
             <Link href="/register" className="text-primary font-medium">
               register
             </Link>
