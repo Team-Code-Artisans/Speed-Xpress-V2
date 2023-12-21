@@ -90,3 +90,9 @@ export type ParcelDataType = {
   weight: string;
   description: string;
 };
+
+export type ParcelContextType = {
+  allParcel: ParcelType[];
+  singleParcel: ParcelType;
+  parcelByEmail: ParcelType[];
+};

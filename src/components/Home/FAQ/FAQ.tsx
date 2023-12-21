@@ -1,8 +1,5 @@
-"use client";
-import { Tab, Tabs } from "@nextui-org/react";
 import Image from "next/image";
-import CustomerAccordion from "./FAQ/CustomerAccordion";
-import RiderAccordion from "./FAQ/RiderAccordion";
+import Accordion from "./Accordion";
 
 export default function FAQ() {
   return (
@@ -27,14 +24,7 @@ export default function FAQ() {
           />
         </div>
         <div className="flex flex-col mx-auto lg:h-[30rem]">
-          <Tabs aria-label="Options" color="primary">
-            <Tab key="customer" title="I'm a customer">
-              <CustomerAccordion />
-            </Tab>
-            <Tab key="rider" title="I'm a rider">
-              <RiderAccordion />
-            </Tab>
-          </Tabs>
+          <Accordion />
         </div>
       </div>
     </div>

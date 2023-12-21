@@ -1,7 +1,8 @@
 import { ChildrenProps } from "@/types/ChildrenProps";
-import AuthProvider from "./AuthProvider";
 import Notification from "@/ui/Notification";
 import AllStateProvider from "./AllStateProvider";
+import AuthProvider from "./AuthProvider";
+import ParcelProvider from "./ParcelProvider";
 import QueryProvider from "./QueryProvider";
 
 const AllProvider = ({ children }: ChildrenProps) => {
@@ -9,8 +10,10 @@ const AllProvider = ({ children }: ChildrenProps) => {
     <QueryProvider>
       <AuthProvider>
         <AllStateProvider>
-          <Notification />
-          {children}
+          <ParcelProvider>
+            <Notification />
+            {children}
+          </ParcelProvider>
         </AllStateProvider>
       </AuthProvider>
     </QueryProvider>
