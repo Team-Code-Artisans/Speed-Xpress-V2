@@ -3,27 +3,32 @@
 import { ChildrenProps } from "@/types/ChildrenProps";
 import { ParcelContextType } from "@/types/ParcelType";
 import { getAllParcel } from "@/utils/api/parcel";
+import { useQuery } from "@tanstack/react-query";
 import { createContext } from "react";
-import { useQuery } from "react-query";
 
-export const parcelContext = createContext<ParcelContextType>(
+export const ParcelContext = createContext<ParcelContextType>(
   {} as ParcelContextType
 );
 
 const ParcelProvider = ({ children }: ChildrenProps) => {
-  const { data: allParcel = [] } = useQuery({
+  const {
+    data: allParcel = [],
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ["allParcel"],
-    queryFn: () => getAllParcel(),
+    queryFn: async () => {
+      const parcelResponse = await getAllParcel();
+      return parcelResponse.code === "success" && parcelResponse?.data?.data;
+    },
   });
 
-  console.log("allParcel:", allParcel);
-
   const value: ParcelContextType = {
-    allParcel,
+    allParcel: allParcel,
   };
 
   return (
-    <parcelContext.Provider value={value}>{children}</parcelContext.Provider>
+    <ParcelContext.Provider value={value}>{children}</ParcelContext.Provider>
   );
 };
 

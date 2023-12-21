@@ -1,10 +1,10 @@
 "use client";
 
-import { parcelContext } from "@/providers/ParcelProvider";
+import { ParcelContext } from "@/providers/ParcelProvider";
 import { useContext } from "react";
 
 export const useParcel = () => {
-  const context = useContext(parcelContext);
+  const context = useContext(ParcelContext);
 
   if (!context) {
     throw new Error("useParcel must be used within an ParcelProvider");
