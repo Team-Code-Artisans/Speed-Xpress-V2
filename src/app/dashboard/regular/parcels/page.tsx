@@ -1,6 +1,9 @@
-import React from "react";
+import { getAllParcel } from "@/utils/api/parcel";
 
-const ParcelsPage = () => {
+const ParcelsPage = async () => {
+  const parcelResponse = await getAllParcel();
+  console.log("parcelResponse:", parcelResponse);
+
   return <div>ParcelsPage</div>;
 };
 
