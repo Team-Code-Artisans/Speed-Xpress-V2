@@ -18,14 +18,16 @@ import {
   TableColumn,
   TableHeader,
   TableRow,
-  User,
 } from "@nextui-org/react";
-import { ChangeEvent, Key, useCallback, useMemo, useState } from "react";
+import { ChangeEvent, useCallback, useMemo, useState } from "react";
 
+import { useParcel } from "@/hooks/useParcel";
 import { CiSearch as SearchIcon } from "react-icons/ci";
 import { FaChevronDown as ChevronDownIcon } from "react-icons/fa";
 import { HiDotsVertical as VerticalDotsIcon } from "react-icons/hi";
-import { columns, statusOptions, users } from "./data";
+// import { columns, statusOptions, users } from "./data";
+import { columns, statusOptions } from "@/data/parcelData";
+import { ParcelType } from "@/types/ParcelType";
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
   active: "success",
@@ -33,11 +35,20 @@ const statusColorMap: Record<string, ChipProps["color"]> = {
   vacation: "warning",
 };
 
-const INITIAL_VISIBLE_COLUMNS = ["name", "role", "status", "actions"];
-
-type User = (typeof users)[0];
+const INITIAL_VISIBLE_COLUMNS = [
+  "id",
+  "name",
+  "shipping",
+  "weight",
+  "status",
+  "quantity",
+  "payment",
+  "actions",
+];
 
 export default function Parcels() {
+  const { parcels } = useParcel();
+
   const [filterValue, setFilterValue] = useState("");
   const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set([]));
   const [visibleColumns, setVisibleColumns] = useState<Selection>(
@@ -46,7 +57,7 @@ export default function Parcels() {
   const [statusFilter, setStatusFilter] = useState<Selection>("all");
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
-    column: "age",
+    column: "weight",
     direction: "ascending",
   });
 
@@ -63,24 +74,26 @@ export default function Parcels() {
   }, [visibleColumns]);
 
   const filteredItems = useMemo(() => {
-    let filteredUsers = [...users];
+    let filteredParcels = [...parcels];
 
     if (hasSearchFilter) {
-      filteredUsers = filteredUsers.filter((user) =>
-        user.name.toLowerCase().includes(filterValue.toLowerCase())
+      filteredParcels = filteredParcels.filter((parcel) =>
+        parcel.recipientInfo.name
+          .toLowerCase()
+          .includes(filterValue.toLowerCase())
       );
     }
     if (
       statusFilter !== "all" &&
       Array.from(statusFilter).length !== statusOptions.length
     ) {
-      filteredUsers = filteredUsers.filter((user) =>
-        Array.from(statusFilter).includes(user.status)
+      filteredParcels = filteredParcels.filter((parcel) =>
+        Array.from(statusFilter).includes(parcel.parcelStatus)
       );
     }
 
-    return filteredUsers;
-  }, [users, filterValue, statusFilter]);
+    return filteredParcels;
+  }, [parcels, filterValue, statusFilter]);
 
   const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
@@ -92,69 +105,97 @@ export default function Parcels() {
   }, [page, filteredItems, rowsPerPage]);
 
   const sortedItems = useMemo(() => {
-    return [...items].sort((a: User, b: User) => {
-      const first = a[sortDescriptor.column as keyof User] as number;
-      const second = b[sortDescriptor.column as keyof User] as number;
+    return [...items].sort((a: ParcelType, b: ParcelType) => {
+      const first = a[
+        sortDescriptor.column as keyof ParcelType
+      ] as unknown as number;
+      const second = b[
+        sortDescriptor.column as keyof ParcelType
+      ] as unknown as number;
       const cmp = first < second ? -1 : first > second ? 1 : 0;
 
       return sortDescriptor.direction === "descending" ? -cmp : cmp;
     });
   }, [sortDescriptor, items]);
 
-  const renderCell = useCallback((user: User, columnKey: Key) => {
-    const cellValue = user[columnKey as keyof User];
+  const renderCell = useCallback(
+    (parcel: ParcelType, columnKey: any): React.ReactNode => {
+      const cellValue = parcel[columnKey as keyof ParcelType];
 
-    switch (columnKey) {
-      case "name":
-        return (
-          <div className="flex flex-col">
-            <p className="text-bold text-small capitalize">{cellValue}</p>
-            <p className="text-bold text-tiny capitalize text-default-400">
-              {user.email}
+      switch (columnKey) {
+        case "id":
+          return (
+            <p className="text-bold text-small capitalize">{parcel.parcelId}</p>
+          );
+        case "name":
+          return (
+            <div className="flex flex-col">
+              <p className="text-bold text-small capitalize">
+                {parcel.recipientInfo.name}
+              </p>
+              <p className="text-bold text-tiny capitalize text-default-400">
+                {parcel.recipientInfo.email}
+              </p>
+            </div>
+          );
+        case "shipping":
+          return (
+            <p className="text-bold text-small capitalize">
+              {parcel.shippingMethod}
             </p>
-          </div>
-        );
-      case "role":
-        return (
-          <div className="flex flex-col">
-            <p className="text-bold text-small capitalize">{cellValue}</p>
-            <p className="text-bold text-tiny capitalize text-default-400">
-              {user.team}
+          );
+        case "weight":
+          return (
+            <p className="text-bold text-small capitalize">
+              {parcel.parcelWeight}
             </p>
-          </div>
-        );
-      case "status":
-        return (
-          <Chip
-            className="capitalize"
-            color={statusColorMap[user.status]}
-            size="sm"
-            variant="flat"
-          >
-            {cellValue}
-          </Chip>
-        );
-      case "actions":
-        return (
-          <div className="relative flex justify-end items-center gap-2">
-            <Dropdown>
-              <DropdownTrigger>
-                <Button isIconOnly size="md" variant="light">
-                  <VerticalDotsIcon className="text-default-600" />
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu>
-                <DropdownItem>View</DropdownItem>
-                <DropdownItem>Edit</DropdownItem>
-                <DropdownItem>Delete</DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-          </div>
-        );
-      default:
-        return cellValue;
-    }
-  }, []);
+          );
+        case "quantity":
+          return (
+            <p className="text-bold text-small capitalize">
+              {parcel.parcelQuantity}
+            </p>
+          );
+        case "payment":
+          return (
+            <p className="text-bold text-small capitalize">
+              {parcel.paymentInfo.method}
+            </p>
+          );
+        case "status":
+          return (
+            <Chip
+              className="capitalize"
+              color={statusColorMap[parcel.parcelStatus]}
+              size="sm"
+              variant="flat"
+            >
+              {parcel.parcelStatus}
+            </Chip>
+          );
+        case "actions":
+          return (
+            <div className="relative flex justify-end items-center gap-2">
+              <Dropdown>
+                <DropdownTrigger>
+                  <Button isIconOnly size="md" variant="light">
+                    <VerticalDotsIcon className="text-default-600" />
+                  </Button>
+                </DropdownTrigger>
+                <DropdownMenu>
+                  <DropdownItem>View</DropdownItem>
+                  <DropdownItem>Edit</DropdownItem>
+                  <DropdownItem>Delete</DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+            </div>
+          );
+        default:
+          return <>{cellValue}</>;
+      }
+    },
+    []
+  );
 
   const onNextPage = useCallback(() => {
     if (page < pages) {
@@ -256,7 +297,7 @@ export default function Parcels() {
         </div>
         <div className="flex justify-between items-center">
           <span className="text-default-400 text-small">
-            Total {users.length} users
+            Total {parcels.length} users
           </span>
           <label className="flex items-center text-default-400 text-small">
             Rows per page:
@@ -278,7 +319,7 @@ export default function Parcels() {
     visibleColumns,
     onSearchChange,
     onRowsPerPageChange,
-    users.length,
+    parcels.length,
     hasSearchFilter,
   ]);
 
@@ -349,9 +390,9 @@ export default function Parcels() {
           </TableColumn>
         )}
       </TableHeader>
-      <TableBody emptyContent={"No users found"} items={sortedItems}>
+      <TableBody emptyContent={"No parcels found"} items={sortedItems}>
         {(item) => (
-          <TableRow key={item.id}>
+          <TableRow key={item.parcelId}>
             {(columnKey) => (
               <TableCell>{renderCell(item, columnKey)}</TableCell>
             )}

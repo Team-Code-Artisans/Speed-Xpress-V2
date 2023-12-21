@@ -16,14 +16,17 @@ const ParcelProvider = ({ children }: ChildrenProps) => {
 
   // get parcels by email
   const { data: parcels = [], isLoading: parcelsLoading } = useQuery({
-    queryKey: ["ParcelsByEmail"],
+    queryKey: ["ParcelsByEmail", user],
     queryFn: async () => {
       if (user?.email) {
         const parcelResponse = await getParcelByEmail(user.email);
         return parcelResponse.code === "success" && parcelResponse.data;
+      } else {
+        return [];
       }
     },
   });
+  console.log("parcels:", parcels);
 
   const value: any = {
     parcels,
