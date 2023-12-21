@@ -1,8 +1,9 @@
 "use client";
 
+import { useAuth } from "@/hooks/useAuth";
 import { ChildrenProps } from "@/types/ChildrenProps";
 import { ParcelContextType } from "@/types/ParcelType";
-import { getAllParcel } from "@/utils/api/parcel";
+import { getParcelByEmail } from "@/utils/api/parcel";
 import { useQuery } from "@tanstack/react-query";
 import { createContext } from "react";
 
@@ -11,20 +12,25 @@ export const ParcelContext = createContext<ParcelContextType>(
 );
 
 const ParcelProvider = ({ children }: ChildrenProps) => {
-  const {
-    data: allParcel = [],
-    isLoading,
-    isError,
-  } = useQuery({
-    queryKey: ["allParcel"],
+  const { user } = useAuth();
+
+  // get parcels by email
+  const { data: parcels = [], isLoading: parcelsLoading } = useQuery({
+    queryKey: ["ParcelsByEmail", user],
     queryFn: async () => {
-      const parcelResponse = await getAllParcel();
-      return parcelResponse?.code === "success" && parcelResponse?.data;
+      if (user?.email) {
+        const parcelResponse = await getParcelByEmail(user.email);
+        return parcelResponse.code === "success" && parcelResponse.data;
+      } else {
+        return [];
+      }
     },
   });
+  console.log("parcels:", parcels);
 
   const value: any = {
-    allParcel: allParcel,
+    parcels,
+    parcelsLoading,
   };
 
   return (

@@ -63,9 +63,9 @@ export type ParcelType = {
 };
 
 export type ParcelContextType = {
-  allParcel: ParcelType[];
+  parcels: ParcelType[];
+  parcelsLoading: boolean;
   // singleParcel: ParcelType;
-  // parcelByEmail: ParcelType[];
 };
 
 export type ParcelFormProps = {

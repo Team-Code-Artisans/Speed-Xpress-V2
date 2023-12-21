@@ -7,10 +7,9 @@ import TrackingModal from "./TrackingModal";
 export default function Hero() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-  const videoRef = useRef(null);
+  const videoRef = useRef<any>(null);
   useEffect(() => {
     const video = videoRef.current;
-    // @ts-ignore
     video.play();
   }, []);
 
