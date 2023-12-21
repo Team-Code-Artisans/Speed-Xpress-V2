@@ -1,6 +1,7 @@
 "use client";
 
-import Link from "next/link";
+import { mainNavbarData } from "@/data/navbarData";
+import { useAuth } from "@/hooks/useAuth";
 import {
   Navbar,
   NavbarContent,
@@ -8,12 +9,11 @@ import {
   NavbarMenu,
   NavbarMenuToggle,
 } from "@nextui-org/react";
-import SecondaryButton from "../../ui/SecondaryButton";
-import PrimaryButton from "../../ui/PrimaryButton";
-import { useState } from "react";
-import { mainNavbarData } from "@/data/navbarData";
-import { useAuth } from "@/hooks/useAuth";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import PrimaryButton from "../../ui/PrimaryButton";
+import SecondaryButton from "../../ui/SecondaryButton";
 
 const MainNavbar = () => {
   const { user, role, logOut, loading } = useAuth();
@@ -51,7 +51,7 @@ const MainNavbar = () => {
           <Link
             key={index}
             href={item.link}
-            className="text-dark dark:text-light hover:text-primary before:bg-primary text-lg font-semibold before:absolute before:-bottom-1 before:h-0.5 before:w-full before:origin-left before:scale-x-0 before:transition hover:before:scale-100 relative select-none"
+            className="text-dark dark:text-light hover:text-primary before:bg-primary text-lg font-medium before:absolute before:-bottom-1 before:h-0.5 before:w-full before:origin-left before:scale-x-0 before:transition hover:before:scale-100 relative select-none"
           >
             {item.name}
           </Link>

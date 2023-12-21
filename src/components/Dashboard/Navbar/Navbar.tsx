@@ -1,20 +1,5 @@
 "use client";
 
-import Link from "next/link";
-import {
-  Avatar,
-  Navbar,
-  NavbarContent,
-  NavbarItem,
-  Dropdown,
-  DropdownTrigger,
-  DropdownMenu,
-  DropdownSection,
-  DropdownItem,
-  NavbarMenuToggle,
-  NavbarMenu,
-} from "@nextui-org/react";
-import PrimaryButton from "@/ui/PrimaryButton";
 import {
   adminDropdownData,
   adminNavbarData,
@@ -24,13 +9,29 @@ import {
   riderNavbarData,
 } from "@/data/navbarData";
 import { useAuth } from "@/hooks/useAuth";
+import { NavbarDataType } from "@/types/NavbarDataType";
+import PrimaryButton from "@/ui/PrimaryButton";
+import {
+  Avatar,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownSection,
+  DropdownTrigger,
+  Navbar,
+  NavbarContent,
+  NavbarItem,
+  NavbarMenu,
+  NavbarMenuToggle,
+} from "@nextui-org/react";
+import Link from "next/link";
 import { useState } from "react";
 
 const DashboardNavbar = () => {
   const { user, role, logOut } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  let navbarData: any[] = [];
+  let navbarData: NavbarDataType[] = [];
 
   switch (role) {
     case "regular":
