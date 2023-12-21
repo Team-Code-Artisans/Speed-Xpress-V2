@@ -68,15 +68,6 @@ export type ParcelContextType = {
   // parcelByEmail: ParcelType[];
 };
 
-export type ParcelResponseType = {
-  code: string;
-  data: {
-    status: string;
-    message: string;
-    data: ParcelType | ParcelType[];
-  };
-};
-
 export type ParcelFormProps = {
   division: string;
   setDivision: React.Dispatch<React.SetStateAction<string>>;

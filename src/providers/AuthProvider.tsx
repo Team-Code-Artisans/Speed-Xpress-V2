@@ -141,8 +141,8 @@ const AuthProvider = ({ children }: ChildrenProps) => {
 
         const userResponse = await getSingleUser(currentUser.email);
 
-        if (userResponse.code === "success") {
-          const userData = userResponse.data?.data;
+        if (userResponse?.code === "success") {
+          const userData = userResponse.data;
           setUserInfo(userData);
           setRole(userData.role);
         } else {
