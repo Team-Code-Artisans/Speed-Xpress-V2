@@ -1,12 +1,12 @@
-import { UserDataType, UserType } from "@/types/UserType";
+import { UserType } from "@/types/UserType";
 import api from "../axios";
 import { requestHandler } from "../requestHandler";
 
-export const getAllUsers = requestHandler<void, UserDataType[]>(() =>
+export const getAllUsers = requestHandler<void, UserType[]>(() =>
   api.get(`/users/all-users`)
 );
 
-export const getSingleUser = requestHandler<string, UserDataType>((email) =>
+export const getSingleUser = requestHandler<string, UserType>((email) =>
   api.get(`/users?email=${email}`)
 );
 

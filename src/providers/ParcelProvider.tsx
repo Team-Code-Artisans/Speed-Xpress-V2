@@ -19,11 +19,11 @@ const ParcelProvider = ({ children }: ChildrenProps) => {
     queryKey: ["allParcel"],
     queryFn: async () => {
       const parcelResponse = await getAllParcel();
-      return parcelResponse.code === "success" && parcelResponse?.data?.data;
+      return parcelResponse?.code === "success" && parcelResponse?.data;
     },
   });
 
-  const value: ParcelContextType = {
+  const value: any = {
     allParcel: allParcel,
   };
 
