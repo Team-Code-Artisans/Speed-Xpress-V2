@@ -1,9 +1,16 @@
 "use client";
 
+import { columns, statusColorMap, statusOptions } from "@/data/parcelData";
+import { useParcel } from "@/hooks/useParcel";
+import {
+  useFilter,
+  usePagination,
+  useVisibleColumns,
+} from "@/hooks/useParcelTable";
+import { ParcelType } from "@/types/ParcelType";
 import {
   Button,
   Chip,
-  ChipProps,
   Dropdown,
   DropdownItem,
   DropdownMenu,
@@ -11,7 +18,7 @@ import {
   Input,
   Pagination,
   Selection,
-  SortDescriptor,
+  Snippet,
   Table,
   TableBody,
   TableCell,
@@ -21,54 +28,28 @@ import {
 } from "@nextui-org/react";
 import { ChangeEvent, useCallback, useMemo, useState } from "react";
 
-import { useParcel } from "@/hooks/useParcel";
+// icons
 import { CiSearch as SearchIcon } from "react-icons/ci";
 import { FaChevronDown as ChevronDownIcon } from "react-icons/fa";
 import { HiDotsVertical as VerticalDotsIcon } from "react-icons/hi";
-// import { columns, statusOptions, users } from "./data";
-import { columns, statusOptions } from "@/data/parcelData";
-import { ParcelType } from "@/types/ParcelType";
 
-const statusColorMap: Record<string, ChipProps["color"]> = {
-  active: "success",
-  paused: "danger",
-  vacation: "warning",
-};
-
-const INITIAL_VISIBLE_COLUMNS = [
-  "id",
-  "name",
-  "shipping",
-  "weight",
-  "status",
-  "quantity",
-  "payment",
-  "actions",
-];
-
-export default function Parcels() {
+const Parcels = () => {
+  // hooks
   const { parcels } = useParcel();
+  const { page, setPage, onNextPage, onPreviousPage } = usePagination();
+  const { filterValue, onSearchChange, onClear } = useFilter();
+  const { visibleColumns, setVisibleColumns } = useVisibleColumns();
 
-  const [filterValue, setFilterValue] = useState("");
-  const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set([]));
-  const [visibleColumns, setVisibleColumns] = useState<Selection>(
-    new Set(INITIAL_VISIBLE_COLUMNS)
-  );
+  // states
   const [statusFilter, setStatusFilter] = useState<Selection>("all");
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
-    column: "weight",
-    direction: "ascending",
-  });
-
-  const [page, setPage] = useState(1);
 
   const hasSearchFilter = Boolean(filterValue);
 
   const headerColumns = useMemo(() => {
     if (visibleColumns === "all") return columns;
 
-    return columns.filter((column: any) =>
+    return columns.filter((column) =>
       Array.from(visibleColumns).includes(column.uid)
     );
   }, [visibleColumns]);
@@ -77,12 +58,23 @@ export default function Parcels() {
     let filteredParcels = [...parcels];
 
     if (hasSearchFilter) {
-      filteredParcels = filteredParcels.filter((parcel) =>
-        parcel.recipientInfo.name
-          .toLowerCase()
-          .includes(filterValue.toLowerCase())
-      );
+      filteredParcels = filteredParcels.filter((parcel) => {
+        const isMatch =
+          (parcel.recipientInfo.name &&
+            parcel.recipientInfo.name
+              .toLowerCase()
+              .includes(filterValue.toLowerCase())) ||
+          (parcel.recipientInfo.email &&
+            parcel.recipientInfo.email
+              .toLowerCase()
+              .includes(filterValue.toLowerCase())) ||
+          (parcel.parcelId &&
+            parcel.parcelId.toLowerCase().includes(filterValue.toLowerCase()));
+
+        return isMatch;
+      });
     }
+
     if (
       statusFilter !== "all" &&
       Array.from(statusFilter).length !== statusOptions.length
@@ -104,63 +96,77 @@ export default function Parcels() {
     return filteredItems.slice(start, end);
   }, [page, filteredItems, rowsPerPage]);
 
-  const sortedItems = useMemo(() => {
-    return [...items].sort((a: ParcelType, b: ParcelType) => {
-      const first = a[
-        sortDescriptor.column as keyof ParcelType
-      ] as unknown as number;
-      const second = b[
-        sortDescriptor.column as keyof ParcelType
-      ] as unknown as number;
-      const cmp = first < second ? -1 : first > second ? 1 : 0;
-
-      return sortDescriptor.direction === "descending" ? -cmp : cmp;
-    });
-  }, [sortDescriptor, items]);
-
   const renderCell = useCallback(
     (parcel: ParcelType, columnKey: any): React.ReactNode => {
       const cellValue = parcel[columnKey as keyof ParcelType];
+      const [date, time] = parcel.deliveryDateTime.split(", ");
 
       switch (columnKey) {
         case "id":
           return (
-            <p className="text-bold text-small capitalize">{parcel.parcelId}</p>
+            <Snippet variant="flat" radius="sm">
+              {parcel.parcelId}
+            </Snippet>
+          );
+        case "date":
+          return (
+            <>
+              <p className="text-small whitespace-nowrap">{date}</p>
+              <p className="text-small whitespace-nowrap">{time}</p>
+            </>
           );
         case "name":
           return (
-            <div className="flex flex-col">
-              <p className="text-bold text-small capitalize">
+            <>
+              <p className="font-semibold text-small capitalize">
                 {parcel.recipientInfo.name}
               </p>
-              <p className="text-bold text-tiny capitalize text-default-400">
+              <p className="font-semibold text-tiny text-default-400">
                 {parcel.recipientInfo.email}
               </p>
-            </div>
+            </>
+          );
+        case "number":
+          return (
+            <p className="font-semibold text-small capitalize">
+              {parcel.recipientInfo.number}
+            </p>
           );
         case "shipping":
           return (
-            <p className="text-bold text-small capitalize">
+            <p className="font-semibold text-small capitalize">
               {parcel.shippingMethod}
             </p>
           );
-        case "weight":
+        case "info":
           return (
-            <p className="text-bold text-small capitalize">
-              {parcel.parcelWeight}
-            </p>
-          );
-        case "quantity":
-          return (
-            <p className="text-bold text-small capitalize">
-              {parcel.parcelQuantity}
-            </p>
+            <>
+              <p className="text-small capitalize">
+                Weight:{" "}
+                <span className="font-semibold">{parcel.parcelWeight}</span>
+              </p>
+              <p className="text-small capitalize">
+                Quantity:{" "}
+                <span className="font-semibold">{parcel.parcelQuantity}</span>
+              </p>
+            </>
           );
         case "payment":
           return (
-            <p className="text-bold text-small capitalize">
-              {parcel.paymentInfo.method}
-            </p>
+            <>
+              <p className="text-small capitalize whitespace-nowrap">
+                Status:{" "}
+                <span className="font-semibold">
+                  {parcel.paymentInfo.status}
+                </span>
+              </p>
+              <p className="text-small capitalize whitespace-nowrap">
+                Amount:{" "}
+                <span className="font-semibold">
+                  {parcel.paymentInfo.amount}
+                </span>
+              </p>
+            </>
           );
         case "status":
           return (
@@ -182,7 +188,7 @@ export default function Parcels() {
                     <VerticalDotsIcon className="text-default-600" />
                   </Button>
                 </DropdownTrigger>
-                <DropdownMenu>
+                <DropdownMenu aria-label="action-items">
                   <DropdownItem>View</DropdownItem>
                   <DropdownItem>Edit</DropdownItem>
                   <DropdownItem>Delete</DropdownItem>
@@ -197,18 +203,6 @@ export default function Parcels() {
     []
   );
 
-  const onNextPage = useCallback(() => {
-    if (page < pages) {
-      setPage(page + 1);
-    }
-  }, [page, pages]);
-
-  const onPreviousPage = useCallback(() => {
-    if (page > 1) {
-      setPage(page - 1);
-    }
-  }, [page]);
-
   const onRowsPerPageChange = useCallback(
     (e: ChangeEvent<HTMLSelectElement>) => {
       setRowsPerPage(Number(e.target.value));
@@ -217,34 +211,22 @@ export default function Parcels() {
     []
   );
 
-  const onSearchChange = useCallback((value?: string) => {
-    if (value) {
-      setFilterValue(value);
-      setPage(1);
-    } else {
-      setFilterValue("");
-    }
-  }, []);
-
-  const onClear = useCallback(() => {
-    setFilterValue("");
-    setPage(1);
-  }, []);
-
   const topContent = useMemo(() => {
     return (
       <div className="flex flex-col gap-4">
-        <div className="flex justify-between gap-3 items-end">
+        <div className="flex justify-between gap-4 items-end">
           <Input
+            variant="bordered"
+            radius="sm"
             isClearable
             className="w-full sm:max-w-[44%]"
-            placeholder="Search by name..."
+            placeholder="Search By ID, Name, Email"
             startContent={<SearchIcon />}
             value={filterValue}
             onClear={() => onClear()}
             onValueChange={onSearchChange}
           />
-          <div className="flex gap-3">
+          <div className="hidden sm:flex gap-4">
             <Dropdown>
               <DropdownTrigger className="hidden sm:flex">
                 <Button
@@ -262,7 +244,7 @@ export default function Parcels() {
                 selectionMode="multiple"
                 onSelectionChange={setStatusFilter}
               >
-                {statusOptions.map((status: any) => (
+                {statusOptions.map((status) => (
                   <DropdownItem key={status.uid} className="capitalize">
                     {status.name}
                   </DropdownItem>
@@ -270,7 +252,7 @@ export default function Parcels() {
               </DropdownMenu>
             </Dropdown>
             <Dropdown>
-              <DropdownTrigger className="hidden sm:flex">
+              <DropdownTrigger>
                 <Button
                   endContent={<ChevronDownIcon className="text-small" />}
                   variant="flat"
@@ -286,7 +268,7 @@ export default function Parcels() {
                 selectionMode="multiple"
                 onSelectionChange={setVisibleColumns}
               >
-                {columns.map((column: any) => (
+                {columns.map((column) => (
                   <DropdownItem key={column.uid} className="capitalize">
                     {column.name}
                   </DropdownItem>
@@ -297,7 +279,7 @@ export default function Parcels() {
         </div>
         <div className="flex justify-between items-center">
           <span className="text-default-400 text-small">
-            Total {parcels.length} users
+            Total {parcels.length} Parcels
           </span>
           <label className="flex items-center text-default-400 text-small">
             Rows per page:
@@ -326,11 +308,6 @@ export default function Parcels() {
   const bottomContent = useMemo(() => {
     return (
       <div className="py-2 px-2 flex justify-between items-center">
-        <span className="w-[30%] text-small text-default-400">
-          {selectedKeys === "all"
-            ? "All items selected"
-            : `${selectedKeys.size} of ${filteredItems.length} selected`}
-        </span>
         <Pagination
           isCompact
           showControls
@@ -360,37 +337,33 @@ export default function Parcels() {
         </div>
       </div>
     );
-  }, [selectedKeys, items.length, page, pages, hasSearchFilter]);
+  }, [items.length, page, pages, hasSearchFilter]);
 
   return (
     <Table
       aria-label="Example table with custom cells, pagination and sorting"
       isHeaderSticky
+      radius="sm"
       bottomContent={bottomContent}
       bottomContentPlacement="outside"
       classNames={{
-        wrapper: "max-h-[382px]",
+        wrapper: "max-h-[30rem]",
       }}
-      selectedKeys={selectedKeys}
-      sortDescriptor={sortDescriptor}
       topContent={topContent}
       topContentPlacement="outside"
-      onSelectionChange={setSelectedKeys}
-      onSortChange={setSortDescriptor}
-      className="p-40"
+      className="max-w-screen-xl mx-auto"
     >
       <TableHeader columns={headerColumns}>
         {(column: any) => (
           <TableColumn
             key={column.uid}
             align={column.uid === "actions" ? "center" : "start"}
-            allowsSorting={column.sortable}
           >
             {column.name}
           </TableColumn>
         )}
       </TableHeader>
-      <TableBody emptyContent={"No parcels found"} items={sortedItems}>
+      <TableBody emptyContent={"No parcels found"} items={filteredItems}>
         {(item) => (
           <TableRow key={item.parcelId}>
             {(columnKey) => (
@@ -401,4 +374,6 @@ export default function Parcels() {
       </TableBody>
     </Table>
   );
-}
+};
+
+export default Parcels;

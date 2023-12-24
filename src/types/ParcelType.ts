@@ -1,11 +1,10 @@
 export enum Status {
   Pending = "pending",
   Accepted = "accepted",
-  InTransit = "in-transit",
   Picked = "picked",
-  OutForDelivery = "out-for-delivery",
   Delivered = "delivered",
   Returned = "returned",
+  Canceled = "canceled",
 }
 
 export enum PaymentStatus {
