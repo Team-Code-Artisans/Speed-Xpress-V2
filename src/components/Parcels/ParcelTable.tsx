@@ -97,7 +97,7 @@ const ParcelTable = () => {
   }, [page, filteredItems, rowsPerPage]);
 
   const renderCell = useCallback(
-    (parcel: ParcelType, columnKey: any): React.ReactNode => {
+    (parcel: ParcelType, columnKey: string | number): React.ReactNode => {
       const cellValue = parcel[columnKey as keyof ParcelType];
       const [date, time] = parcel.deliveryDateTime.split(", ");
 
@@ -121,7 +121,7 @@ const ParcelTable = () => {
               <p className="font-semibold text-small capitalize">
                 {parcel.recipientInfo.name}
               </p>
-              <p className="font-semibold text-tiny text-default-400">
+              <p className="text-tiny text-default-500">
                 {parcel.recipientInfo.email}
               </p>
             </>
@@ -278,13 +278,13 @@ const ParcelTable = () => {
           </div>
         </div>
         <div className="flex justify-between items-center">
-          <span className="text-default-400 text-small">
+          <span className="text-default-500 text-small">
             Total {parcels.length} Parcels
           </span>
-          <label className="flex items-center text-default-400 text-small">
+          <label className="flex items-center text-default-500 text-small">
             Rows per page:
             <select
-              className="bg-transparent outline-none text-default-400 text-small"
+              className="bg-transparent outline-none text-default-500 text-small"
               onChange={onRowsPerPageChange}
             >
               <option value="5">5</option>
@@ -351,7 +351,6 @@ const ParcelTable = () => {
       }}
       topContent={topContent}
       topContentPlacement="outside"
-      className="max-w-screen-xl mx-auto"
     >
       <TableHeader columns={headerColumns}>
         {(column: any) => (
