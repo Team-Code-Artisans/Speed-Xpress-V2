@@ -1,17 +1,46 @@
+import { ChipProps } from "@nextui-org/react";
+
 const columns = [
-  { name: "ID", uid: "id", sortable: true },
-  { name: "NAME", uid: "name", sortable: true },
-  { name: "SHIPPING METHOD", uid: "shipping", sortable: true },
-  { name: "WEIGHT", uid: "weight", sortable: true },
-  { name: "QUANTITY", uid: "quantity", sortable: true },
-  { name: "PAYMENT", uid: "payment", sortable: true },
+  { name: "PARCEL ID", uid: "id" },
+  { name: "DATE", uid: "date" },
+  { name: "NAME", uid: "name" },
+  { name: "NUMBER", uid: "number" },
+  { name: "SHIPPING", uid: "shipping" },
+  { name: "PARCEL INFO", uid: "info" },
+  { name: "PAYMENT", uid: "payment" },
+  { name: "STATUS", uid: "status" },
   { name: "ACTIONS", uid: "actions" },
 ];
 
 const statusOptions = [
-  { name: "Active", uid: "active" },
-  { name: "Paused", uid: "paused" },
-  { name: "Vacation", uid: "vacation" },
+  { name: "Pending", uid: "pending" },
+  { name: "Accepted", uid: "accepted" },
+  { name: "Picked", uid: "picked" },
+  { name: "Delivered", uid: "delivered" },
+  { name: "Returned", uid: "returned" },
+  { name: "Canceled", uid: "canceled" },
 ];
 
-export { columns, statusOptions };
+const statusColorMap: Record<string, ChipProps["color"]> = {
+  pending: "default",
+  accepted: "primary",
+  picked: "secondary",
+  delivered: "success",
+  returned: "warning",
+  canceled: "danger",
+};
+
+const INITIAL_VISIBLE_COLUMNS = [
+  "id",
+  "date",
+  "name",
+  "number",
+  "shipping",
+  "status",
+  "info",
+  "payment",
+  "amount",
+  "actions",
+];
+
+export { INITIAL_VISIBLE_COLUMNS, columns, statusColorMap, statusOptions };

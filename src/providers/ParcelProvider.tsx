@@ -20,15 +20,15 @@ const ParcelProvider = ({ children }: ChildrenProps) => {
     queryFn: async () => {
       if (user?.email) {
         const parcelResponse = await getParcelByEmail(user.email);
-        return parcelResponse.code === "success" && parcelResponse.data;
-      } else {
-        return [];
+        if (parcelResponse.code === "success") {
+          return parcelResponse.data || [];
+        }
       }
+      return [];
     },
   });
-  console.log("parcels:", parcels);
 
-  const value: any = {
+  const value: ParcelContextType = {
     parcels,
     parcelsLoading,
   };
