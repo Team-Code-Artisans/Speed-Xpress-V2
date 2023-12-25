@@ -2,23 +2,13 @@
 
 import DashboardNavbar from "@/components/Dashboard/Navbar/Navbar";
 import { useAuth } from "@/hooks/useAuth";
+import usePrivateRoute from "@/hooks/usePrivateRoute";
 import { ChildrenProps } from "@/types/ChildrenProps";
 import Loading from "@/ui/Loading";
-import { redirect } from "next/navigation";
-import { useLayoutEffect } from "react";
 
 const RiderDashboardLayout = ({ children }: ChildrenProps) => {
-  const { user, role, loading } = useAuth();
-
-  useLayoutEffect(() => {
-    if (loading) {
-      return;
-    }
-
-    if (!user || role !== "regular") {
-      redirect("/login");
-    }
-  }, [user, role, loading]);
+  const { loading } = useAuth();
+  const isAuthorized = usePrivateRoute((role) => role === "rider");
 
   if (loading) {
     return (
@@ -28,7 +18,7 @@ const RiderDashboardLayout = ({ children }: ChildrenProps) => {
     );
   }
 
-  if (!user || role !== "regular") {
+  if (!isAuthorized) {
     return null;
   }
 
