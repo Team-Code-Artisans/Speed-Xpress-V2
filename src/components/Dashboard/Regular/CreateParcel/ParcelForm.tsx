@@ -14,6 +14,7 @@ import SecondaryButton from "@/ui/SecondaryButton";
 import SelectDistrict from "@/ui/SelectDistrict";
 import SelectDivision from "@/ui/SelectDivision";
 import { createParcel } from "@/utils/api/parcel";
+import { createPayment } from "@/utils/api/payment";
 import { RadioGroup, Select, SelectItem, Textarea } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -83,10 +84,29 @@ const ParcelForm = ({
     };
 
     const parcelResponse = await createParcel(parcelData);
-    if (parcelResponse) {
+
+    if (parcelResponse.code === "success") {
+      const paymentData = {
+        userId: userInfo?._id || "",
+        parcelId: parcelResponse?.data._id || "",
+        amount: estimatedTotal,
+        status: paymentStatus,
+        paymentDateTime: new Date().toLocaleString(),
+      };
+
+      if (paymentMethod === "online") {
+        // If the payment method is online, create a payment intent on the backend
+        const response = await createPayment(paymentData);
+        console.log("response:", response);
+        // console.log("clientSecret:", clientSecret);
+
+        // Redirect to the Stripe Checkout page
+        // router.push(`https://checkout.stripe.com/pay/${clientSecret}`);
+      } else {
+        router.push(`/dashboard/${role}/parcels`);
+        toast.success("Parcel created successfully");
+      }
       reset();
-      router.push(`/dashboard/${role}/parcels`);
-      toast.success("Parcel created successfully");
     }
   };
 

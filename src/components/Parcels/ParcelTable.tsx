@@ -85,7 +85,7 @@ const ParcelTable = () => {
     }
 
     return filteredParcels;
-  }, [parcels, filterValue, statusFilter]);
+  }, [parcels, hasSearchFilter, statusFilter, filterValue]);
 
   const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
@@ -208,7 +208,7 @@ const ParcelTable = () => {
       setRowsPerPage(Number(e.target.value));
       setPage(1);
     },
-    []
+    [setPage]
   );
 
   const topContent = useMemo(() => {
@@ -297,12 +297,13 @@ const ParcelTable = () => {
     );
   }, [
     filterValue,
+    onSearchChange,
     statusFilter,
     visibleColumns,
-    onSearchChange,
-    onRowsPerPageChange,
+    setVisibleColumns,
     parcels.length,
-    hasSearchFilter,
+    onRowsPerPageChange,
+    onClear,
   ]);
 
   const bottomContent = useMemo(() => {
@@ -337,7 +338,7 @@ const ParcelTable = () => {
         </div>
       </div>
     );
-  }, [items.length, page, pages, hasSearchFilter]);
+  }, [page, pages, setPage, onPreviousPage, onNextPage]);
 
   return (
     <Table
@@ -362,7 +363,7 @@ const ParcelTable = () => {
           </TableColumn>
         )}
       </TableHeader>
-      <TableBody emptyContent={"No parcels found"} items={filteredItems}>
+      <TableBody emptyContent={"No parcels found"} items={items}>
         {(item) => (
           <TableRow key={item.parcelId}>
             {(columnKey) => (
