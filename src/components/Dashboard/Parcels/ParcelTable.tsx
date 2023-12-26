@@ -118,7 +118,7 @@ const ParcelTable = () => {
         case "name":
           return (
             <>
-              <p className="font-semibold text-small capitalize">
+              <p className="font-medium text-small capitalize">
                 {parcel.recipientInfo.name}
               </p>
               <p className="text-tiny text-default-500">
@@ -128,26 +128,34 @@ const ParcelTable = () => {
           );
         case "number":
           return (
-            <p className="font-semibold text-small capitalize">
+            <p className="font-medium text-small capitalize">
               {parcel.recipientInfo.number}
             </p>
           );
         case "shipping":
           return (
-            <p className="font-semibold text-small capitalize">
-              {parcel.shippingMethod}
-            </p>
+            <Chip
+              color={
+                parcel.shippingMethod === "express" ? "primary" : "default"
+              }
+              size="sm"
+              variant="flat"
+            >
+              <span className="font-medium capitalize text-small">
+                {parcel.shippingMethod}
+              </span>
+            </Chip>
           );
         case "info":
           return (
             <>
               <p className="text-small capitalize">
                 Weight:{" "}
-                <span className="font-semibold">{parcel.parcelWeight}</span>
+                <span className="font-medium">{parcel.parcelWeight}</span>
               </p>
               <p className="text-small capitalize">
                 Quantity:{" "}
-                <span className="font-semibold">{parcel.parcelQuantity}</span>
+                <span className="font-medium">{parcel.parcelQuantity}</span>
               </p>
             </>
           );
@@ -156,27 +164,24 @@ const ParcelTable = () => {
             <>
               <p className="text-small capitalize whitespace-nowrap">
                 Status:{" "}
-                <span className="font-semibold">
-                  {parcel.paymentInfo.status}
-                </span>
+                <span className="font-medium">{parcel.paymentInfo.status}</span>
               </p>
               <p className="text-small capitalize whitespace-nowrap">
                 Amount:{" "}
-                <span className="font-semibold">
-                  {parcel.paymentInfo.amount}
-                </span>
+                <span className="font-medium">{parcel.paymentInfo.amount}</span>
               </p>
             </>
           );
         case "status":
           return (
             <Chip
-              className="capitalize"
               color={statusColorMap[parcel.parcelStatus]}
               size="sm"
               variant="flat"
             >
-              {parcel.parcelStatus}
+              <span className="font-medium capitalize text-small">
+                {parcel.parcelStatus}
+              </span>
             </Chip>
           );
         case "actions":
@@ -354,7 +359,7 @@ const ParcelTable = () => {
       topContentPlacement="outside"
     >
       <TableHeader columns={headerColumns}>
-        {(column: any) => (
+        {(column: { name: string; uid: string }) => (
           <TableColumn
             key={column.uid}
             align={column.uid === "actions" ? "center" : "start"}
