@@ -1,4 +1,5 @@
 import Image from "next/image";
+import ProfileInfo from "./ProfileInfo";
 import UpdateProfileButton from "./UpdateProfileButton";
 
 const Profile = () => {
@@ -13,38 +14,7 @@ const Profile = () => {
             </h1>
             <UpdateProfileButton />
           </div>
-          <div className="grid grid-cols-2 gap-8">
-            <div>
-              <label htmlFor="name" className="text-sm">
-                Name
-              </label>
-              <h1 className="text-lg sm:text-xl whitespace-nowrap">Name</h1>
-            </div>
-            <div>
-              <label htmlFor="name" className="text-sm">
-                Name
-              </label>
-              <h1 className="text-lg sm:text-xl whitespace-nowrap">Name</h1>
-            </div>
-            <div>
-              <label htmlFor="name" className="text-sm">
-                Name
-              </label>
-              <h1 className="text-lg sm:text-xl whitespace-nowrap">Name</h1>
-            </div>
-            <div>
-              <label htmlFor="name" className="text-sm">
-                Name
-              </label>
-              <h1 className="text-lg sm:text-xl whitespace-nowrap">Name</h1>
-            </div>
-            <div>
-              <label htmlFor="name" className="text-sm">
-                Name
-              </label>
-              <h1 className="text-lg sm:text-xl whitespace-nowrap">Name</h1>
-            </div>
-          </div>
+          <ProfileInfo />
         </div>
         <div className="flex items-center justify-center">
           <Image
