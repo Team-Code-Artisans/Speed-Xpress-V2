@@ -1,27 +1,12 @@
+import { CustomInputProps } from "@/types/InputType";
 import { Input } from "@nextui-org/react";
-import {
-  FieldValues,
-  UseFormRegister,
-  DeepMap,
-  FieldError,
-} from "react-hook-form";
-
-type CustomInputProps = {
-  label: React.ReactNode;
-  name: string;
-  register: UseFormRegister<FieldValues>;
-  error?: DeepMap<FieldValues, FieldError>;
-  variant?: "bordered" | "flat" | "faded";
-  radius?: "none" | "sm" | "md" | "lg" | "full";
-  type?: string;
-  validationRules?: Record<string, any>;
-};
 
 const CustomInput = ({
   label,
   name,
   register,
   error,
+  defaultValue,
   variant = "bordered",
   radius = "sm",
   type = "text",
@@ -37,6 +22,7 @@ const CustomInput = ({
           {isRequired && <span className="text-danger">*</span>}
         </p>
       }
+      defaultValue={defaultValue}
       variant={variant}
       radius={radius}
       type={type}

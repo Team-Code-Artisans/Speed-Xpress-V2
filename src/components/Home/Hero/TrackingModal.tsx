@@ -1,19 +1,16 @@
-"use client"
+"use client";
 
-import { ModalDisclosureType } from "@/types/ModalDisclosureType"
+import { ModalDisclosureType } from "@/types/ModalDisclosureType";
 import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
   Button,
-} from "@nextui-org/react"
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+} from "@nextui-org/react";
 
-export default function TrackingModal({
-  onOpenChange,
-  isOpen,
-}: ModalDisclosureType) {
+const TrackingModal = ({ onOpenChange, isOpen }: ModalDisclosureType) => {
   return (
     <>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
@@ -48,5 +45,7 @@ export default function TrackingModal({
         </ModalContent>
       </Modal>
     </>
-  )
-}
+  );
+};
+
+export default TrackingModal;

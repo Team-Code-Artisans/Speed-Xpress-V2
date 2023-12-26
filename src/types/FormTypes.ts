@@ -18,3 +18,15 @@ export type DistrictType = {
   district: string;
   setDistrict: React.Dispatch<React.SetStateAction<string>>;
 };
+
+export type ProfileFormType = {
+  name: string;
+  number: string;
+  address: string;
+  division?: string;
+  district?: string;
+};
+
+export type ProfileFormProps = {
+  onClose: () => void;
+};
