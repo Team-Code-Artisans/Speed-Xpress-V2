@@ -5,30 +5,44 @@ import PrimaryButton from "@/ui/PrimaryButton";
 import SecondaryButton from "@/ui/SecondaryButton";
 import SelectDistrict from "@/ui/SelectDistrict";
 import SelectDivision from "@/ui/SelectDivision";
+import { updateUser } from "@/utils/api/user";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 const ProfileForm = ({ onClose }: ProfileFormProps) => {
-  const { userInfo } = useAuth();
+  const { userInfo, setUserInfo } = useAuth();
 
   const [division, setDivision] = useState<string>(`${userInfo?.division}`);
   const [district, setDistrict] = useState<string>(`${userInfo?.district}`);
 
   const {
     register,
-    reset,
     handleSubmit,
     formState: { errors },
   } = useForm<any>();
 
-  const handleForm = (data: ProfileFormType) => {
+  const handleForm = async (data: ProfileFormType) => {
     const profileData = {
       ...data,
       division,
       district,
     };
 
-    console.log(profileData);
+    if (userInfo?._id) {
+      const params = {
+        id: `${userInfo?._id}`,
+        data: profileData,
+      };
+
+      const profileResponse = await updateUser(params);
+
+      if (profileResponse.code === "success") {
+        setUserInfo(profileResponse.data);
+        onClose();
+      } else {
+        console.error(profileResponse?.error.message);
+      }
+    }
   };
 
   return (
@@ -36,6 +50,7 @@ const ProfileForm = ({ onClose }: ProfileFormProps) => {
       <CustomInput
         label="Name"
         name="name"
+        defaultValue={`${userInfo?.name}`}
         register={register}
         error={errors}
         validationRules={{
@@ -48,6 +63,7 @@ const ProfileForm = ({ onClose }: ProfileFormProps) => {
       <CustomInput
         label="Phone Number"
         name="number"
+        defaultValue={`${userInfo?.number}`}
         register={register}
         error={errors}
         validationRules={{
@@ -61,6 +77,7 @@ const ProfileForm = ({ onClose }: ProfileFormProps) => {
       <CustomInput
         label="Address"
         name="address"
+        defaultValue={`${userInfo?.address}`}
         register={register}
         error={errors}
         validationRules={{
@@ -83,7 +100,7 @@ const ProfileForm = ({ onClose }: ProfileFormProps) => {
         <SecondaryButton type="button" size="md" onClick={onClose}>
           Close
         </SecondaryButton>
-        <PrimaryButton type="submit" size="md" onClick={onClose}>
+        <PrimaryButton type="submit" size="md">
           Sign in
         </PrimaryButton>
       </div>

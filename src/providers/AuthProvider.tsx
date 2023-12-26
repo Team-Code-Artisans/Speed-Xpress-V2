@@ -143,8 +143,8 @@ const AuthProvider = ({ children }: ChildrenProps) => {
 
         if (userResponse?.code === "success") {
           const userData = userResponse.data;
+          userData.role && setRole(userData.role);
           setUserInfo(userData);
-          setRole(userData.role);
         } else {
           setLoading(false);
           console.error(userResponse.error.message);
@@ -160,6 +160,7 @@ const AuthProvider = ({ children }: ChildrenProps) => {
   const value: AuthContextType = {
     user,
     userInfo,
+    setUserInfo,
     role,
     registerUser,
     googleSignIn,

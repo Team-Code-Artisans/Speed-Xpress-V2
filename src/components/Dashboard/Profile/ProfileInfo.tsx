@@ -6,7 +6,7 @@ const ProfileInfo = () => {
   const { userInfo } = useAuth();
 
   return (
-    <div className="grid grid-cols-2 gap-8">
+    <div className="grid sm:grid-cols-2 sm:gap-8 gap-4">
       <div>
         <label htmlFor="name" className="text-sm">
           Name
