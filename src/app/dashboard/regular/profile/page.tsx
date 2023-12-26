@@ -1,7 +1,11 @@
-import React from "react";
+import Profile from "@/components/Dashboard/Profile/Profile";
 
 const ProfilePage = () => {
-  return <div>ProfilePage</div>;
+  return (
+    <div>
+      <Profile />
+    </div>
+  );
 };
 
 export default ProfilePage;

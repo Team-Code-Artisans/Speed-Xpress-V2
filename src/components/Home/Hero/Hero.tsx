@@ -1,18 +1,9 @@
 "use client";
 
-import { useDisclosure } from "@nextui-org/react";
-import { useEffect, useRef } from "react";
-import TrackingModal from "./TrackingModal";
+import HeroVideo from "./HeroVideo";
+import ModalButton from "./ModalButton";
 
-export default function Hero() {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
-  const videoRef = useRef<any>(null);
-  useEffect(() => {
-    const video = videoRef.current;
-    video.play();
-  }, []);
-
+const Hero = () => {
   return (
     <section>
       <div className="max-w-screen-xl mx-auto px-4 py-20 gap-12 md:px-8">
@@ -37,29 +28,15 @@ export default function Hero() {
               type="text"
               placeholder="Parcel ID Here"
             />
-            <button
-              onClick={onOpen}
-              className="px-4 max-sm:text-sm py-[19px] sm:py-[17px] border-solid rounded-r-md bg-primary text-light cursor-pointer transition duration-300 ease-in-out hover:bg-gradient-to-r from-primary to-secondary focus:outline-none whitespace-nowrap"
-              type="button"
-            >
-              Track Parcel
-            </button>
-
-            {/* Tracking Modal */}
-            <TrackingModal isOpen={isOpen} onOpenChange={onOpenChange} />
+            <ModalButton />
           </div>
         </div>
         <div className="mt-14">
-          <video
-            autoPlay
-            loop
-            muted
-            ref={videoRef}
-            src="/assets/videos/logistics.mp4"
-            className="w-full object-cover sm:h-[40rem] shadow-lg rounded-lg"
-          />
+          <HeroVideo />
         </div>
       </div>
     </section>
   );
-}
+};
+
+export default Hero;
