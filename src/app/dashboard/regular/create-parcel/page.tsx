@@ -1,4 +1,4 @@
-import CreateParcel from "@/components/Dashboard/Regular/CreateParcel/CreateParcel";
+import CreateParcel from "@/components/Dashboard/CreateParcel/CreateParcel";
 
 const CreateParcelPage = () => {
   return (

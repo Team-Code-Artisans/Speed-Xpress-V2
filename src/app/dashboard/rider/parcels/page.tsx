@@ -1,4 +1,4 @@
-import ParcelTable from "@/components/Parcels/ParcelTable";
+import ParcelTable from "@/components/Dashboard/Parcels/ParcelTable";
 
 const ParcelsPage = () => {
   return (
