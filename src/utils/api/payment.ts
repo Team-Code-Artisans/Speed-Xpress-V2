@@ -1,4 +1,4 @@
-import { PaymentType, PaymentResponseType } from "@/types/PaymentType";
+import { PaymentResponseType, PaymentType } from "@/types/PaymentType";
 import api from "../axios";
 import { requestHandler } from "../requestHandler";
 

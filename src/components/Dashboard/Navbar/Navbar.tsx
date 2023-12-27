@@ -102,7 +102,11 @@ const DashboardNavbar = () => {
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions">
             <DropdownSection aria-label="email" showDivider>
-              <DropdownItem key="profile" className="h-14 gap-2">
+              <DropdownItem
+                key="profile"
+                className="h-14 gap-2"
+                textValue="sing in"
+              >
                 Signed in as
                 <p className="font-semibold">{user?.email}</p>
               </DropdownItem>
@@ -111,6 +115,7 @@ const DashboardNavbar = () => {
               {role === "admin"
                 ? adminDropdownData.map((item) => (
                     <DropdownItem
+                      textValue="links"
                       as={Link}
                       href={`/dashboard/admin/${item.link}`}
                       key={item.name}
@@ -120,6 +125,7 @@ const DashboardNavbar = () => {
                   ))
                 : dropdownData.map((item) => (
                     <DropdownItem
+                      textValue="links"
                       as={Link}
                       href={`/dashboard/${role}${item.link}`}
                       key={item.name}
@@ -130,6 +136,7 @@ const DashboardNavbar = () => {
             </DropdownSection>
             <DropdownSection aria-label="logout">
               <DropdownItem
+                textValue="sign out"
                 onClick={() => logOut()}
                 className="text-danger"
                 color="danger"
