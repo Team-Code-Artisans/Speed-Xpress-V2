@@ -4,7 +4,9 @@ import app from "@/config/firebaseConfig";
 import { AuthContextType } from "@/types/AuthContextType";
 import { ChildrenProps } from "@/types/ChildrenProps";
 import { UserType } from "@/types/UserType";
+import { postJwt } from "@/utils/api/jwt";
 import { getSingleUser, saveUser } from "@/utils/api/user";
+import { removeAccessToken, setAccessToken } from "@/utils/authToken";
 import {
   GoogleAuthProvider,
   User,
@@ -139,8 +141,17 @@ const AuthProvider = ({ children }: ChildrenProps) => {
       if (currentUser?.email) {
         setLoading(true);
 
-        const userResponse = await getSingleUser(currentUser.email);
+        const jwtResponse = await postJwt(currentUser.email);
+        console.log("jwtResponse:", jwtResponse);
+        if (jwtResponse.code === "success") {
+          const token = jwtResponse.data;
+          setAccessToken(token);
+        } else {
+          setLoading(false);
+          console.error(jwtResponse.error.message);
+        }
 
+        const userResponse = await getSingleUser(currentUser.email);
         if (userResponse?.code === "success") {
           const userData = userResponse.data;
           userData.role && setRole(userData.role);
@@ -149,6 +160,8 @@ const AuthProvider = ({ children }: ChildrenProps) => {
           setLoading(false);
           console.error(userResponse.error.message);
         }
+      } else {
+        removeAccessToken();
       }
 
       setLoading(false);
