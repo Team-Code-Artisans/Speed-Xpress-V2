@@ -6,6 +6,7 @@ import { ChildrenProps } from "@/types/ChildrenProps";
 import { UserType } from "@/types/UserType";
 import { postJwt } from "@/utils/api/jwt";
 import { getSingleUser, saveUser } from "@/utils/api/user";
+import { removeAccessToken, setAccessToken } from "@/utils/authToken";
 import {
   GoogleAuthProvider,
   User,
@@ -141,8 +142,13 @@ const AuthProvider = ({ children }: ChildrenProps) => {
         setLoading(true);
 
         const jwtResponse = await postJwt(currentUser.email);
+        console.log("jwtResponse:", jwtResponse);
         if (jwtResponse.code === "success") {
-          localStorage.setItem("access token", jwtResponse.data);
+          const token = jwtResponse.data;
+          setAccessToken(token);
+        } else {
+          setLoading(false);
+          console.error(jwtResponse.error.message);
         }
 
         const userResponse = await getSingleUser(currentUser.email);
@@ -155,7 +161,7 @@ const AuthProvider = ({ children }: ChildrenProps) => {
           console.error(userResponse.error.message);
         }
       } else {
-        localStorage.removeItem("access token");
+        removeAccessToken();
       }
 
       setLoading(false);

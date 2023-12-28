@@ -1,16 +1,16 @@
 import axios from "axios";
+import { getAccessToken } from "./authToken";
 
 const api = axios.create({
   baseURL: `${process.env.NEXT_PUBLIC_BaseUrl}`,
 });
 
-axios.interceptors.request.use(
+api.interceptors.request.use(
   function (config) {
-    config.headers["content-type"] = "application/json";
-    const accessToken = localStorage.getItem("access token");
+    const accessToken = getAccessToken();
 
     if (accessToken) {
-      config.headers.authorization = accessToken;
+      config.headers.Authorization = `Bearer ${accessToken}`;
     }
 
     return config;
@@ -20,7 +20,7 @@ axios.interceptors.request.use(
   }
 );
 
-axios.interceptors.response.use(
+api.interceptors.response.use(
   function (response) {
     return response;
   },
