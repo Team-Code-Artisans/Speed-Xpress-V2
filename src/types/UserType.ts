@@ -14,3 +14,8 @@ export type UpdateUserType = {
   id: string | null;
   data: UserType | null;
 };
+
+export type JWTUserType = {
+  email: string;
+  role: string;
+};

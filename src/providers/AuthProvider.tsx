@@ -141,8 +141,10 @@ const AuthProvider = ({ children }: ChildrenProps) => {
       if (currentUser?.email) {
         setLoading(true);
 
-        const jwtResponse = await postJwt(currentUser.email);
-        console.log("jwtResponse:", jwtResponse);
+        const jwtResponse = await postJwt({
+          email: currentUser.email,
+          role: `${role}`,
+        });
         if (jwtResponse.code === "success") {
           const token = jwtResponse.data;
           setAccessToken(token);

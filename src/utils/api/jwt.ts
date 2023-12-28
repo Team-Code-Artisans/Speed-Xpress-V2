@@ -1,6 +1,7 @@
+import { JWTUserType } from "@/types/UserType";
 import api from "../axios";
 import { requestHandler } from "../requestHandler";
 
-export const postJwt = requestHandler<string, string>((data) =>
+export const postJwt = requestHandler<JWTUserType, string>((data) =>
   api.post("/jwt", data)
 );
