@@ -8,18 +8,18 @@ import StripeProvider from "./StripeProvider";
 
 const AllProvider = ({ children }: ChildrenProps) => {
   return (
-    <QueryProvider>
-      <AuthProvider>
-        <AllStateProvider>
-          <ParcelProvider>
-            <StripeProvider>
+    <StripeProvider>
+      <QueryProvider>
+        <AuthProvider>
+          <AllStateProvider>
+            <ParcelProvider>
               {children}
               <Notification />
-            </StripeProvider>
-          </ParcelProvider>
-        </AllStateProvider>
-      </AuthProvider>
-    </QueryProvider>
+            </ParcelProvider>
+          </AllStateProvider>
+        </AuthProvider>
+      </QueryProvider>
+    </StripeProvider>
   );
 };
 

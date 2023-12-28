@@ -7,10 +7,11 @@ const api = axios.create({
 
 api.interceptors.request.use(
   function (config) {
+    const publishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
     const accessToken = getAccessToken();
 
-    if (accessToken) {
-      config.headers.Authorization = `Bearer ${accessToken}`;
+    if (accessToken && publishableKey) {
+      config.headers.Authorization = `Bearer ${publishableKey};Bearer ${accessToken}`;
     }
 
     return config;
