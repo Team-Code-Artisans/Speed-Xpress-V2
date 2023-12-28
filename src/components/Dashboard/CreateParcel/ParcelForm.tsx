@@ -87,21 +87,23 @@ const ParcelForm = ({
 
     if (parcelResponse.code === "success") {
       const paymentData = {
-        userId: userInfo?._id || "",
-        parcelId: parcelResponse?.data._id || "",
+        userEmail: userInfo?.email || "",
+        userRole: userInfo?.role || "",
+        parcelId: parcelResponse?.data.parcelId || "",
         amount: estimatedTotal,
         status: paymentStatus,
         paymentDateTime: new Date().toLocaleString(),
       };
 
       if (paymentMethod === "online") {
-        // If the payment method is online, create a payment intent on the backend
-        const response = await createPayment(paymentData);
-        console.log("response:", response);
-        // console.log("clientSecret:", clientSecret);
-
-        // Redirect to the Stripe Checkout page
-        // router.push(`https://checkout.stripe.com/pay/${clientSecret}`);
+        const paymentResponse = await createPayment(paymentData);
+        console.log("paymentResponse:", paymentResponse);
+        if (paymentResponse.code === "success") {
+          const clientSecret = paymentResponse.data.clientSecret;
+          router.push(`${clientSecret}`);
+        } else {
+          console.error(paymentResponse.error.message);
+        }
       } else {
         router.push(`/dashboard/${role}/parcels`);
         toast.success("Parcel created successfully");
