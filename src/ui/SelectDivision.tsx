@@ -1,25 +1,50 @@
-import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
+import { districtData } from "@/data/districtData";
 import { divisionData } from "@/data/divisionData";
-import { DivisionType } from "@/types/FormTypes";
+import { DivisionPropsType } from "@/types/FormTypes";
+import { Select, SelectItem } from "@nextui-org/react";
 
-const SelectDivision = ({ division, setDivision, variant }: DivisionType) => {
+const SelectDivision = ({
+  division,
+  setDivision,
+  setDistrict,
+  variant,
+}: DivisionPropsType) => {
+  const handleChange = (e: { target: { value: string } }) => {
+    // Select the division name
+    const selectedDivisionName = e.target.value;
+    setDivision(selectedDivisionName);
+
+    // Find the division object
+    const findDivision = divisionData.find(
+      (divisionItem) => divisionItem.name === selectedDivisionName
+    );
+
+    // Filter district by division id
+    const filteredDistricts = districtData.filter(
+      (item) => item.division_id === findDivision?.id
+    );
+
+    // Set the district
+    setDistrict(filteredDistricts[0].name);
+  };
+
   return (
-    <Autocomplete
-      variant={variant}
+    <Select
       isRequired
-      label="Select Division"
-      defaultItems={divisionData}
-      placeholder="Search division"
-      defaultSelectedKey="Dhaka"
-      className="max-w-xs"
-      selectedKey={division}
-      // @ts-ignore
-      onSelectionChange={setDivision}
+      disallowEmptySelection
+      label="Division"
+      variant={variant}
+      placeholder="Select a Division"
+      selectedKeys={[division]}
+      className="w-full"
+      onChange={handleChange}
     >
-      {(item) => (
-        <AutocompleteItem key={item.name}>{item.name}</AutocompleteItem>
-      )}
-    </Autocomplete>
+      {divisionData.map((division) => (
+        <SelectItem key={division.name} value={division.name}>
+          {division.name}
+        </SelectItem>
+      ))}
+    </Select>
   );
 };
 

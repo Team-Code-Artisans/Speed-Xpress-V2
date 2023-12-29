@@ -136,9 +136,11 @@ const RegularForm = () => {
         <SelectDivision
           division={division}
           setDivision={setDivision}
+          setDistrict={setDistrict}
           variant="bordered"
         />
         <SelectDistrict
+          division={division}
           district={district}
           setDistrict={setDistrict}
           variant="bordered"
