@@ -21,6 +21,12 @@ export type DistrictPropsType = {
   setDistrict: React.Dispatch<React.SetStateAction<string>>;
 };
 
+export type VehiclePropsType = {
+  variant?: "flat" | "faded" | "bordered";
+  vehicle: string;
+  setVehicle: React.Dispatch<React.SetStateAction<string>>;
+};
+
 export type ProfileFormType = {
   name: string;
   number: string;

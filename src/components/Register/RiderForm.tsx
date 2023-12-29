@@ -7,6 +7,7 @@ import PrimaryButton from "@/ui/PrimaryButton";
 import SecondaryButton from "@/ui/SecondaryButton";
 import SelectDistrict from "@/ui/SelectDistrict";
 import SelectDivision from "@/ui/SelectDivision";
+import SelectVehicles from "@/ui/SelectVehicles";
 import { saveUser } from "@/utils/api/user";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -23,6 +24,7 @@ const RiderForm = () => {
 
   const [division, setDivision] = useState<string>("Dhaka");
   const [district, setDistrict] = useState<string>("Dhaka");
+  const [vehicle, setVehicle] = useState<string>("Bike");
 
   const router = useRouter();
 
@@ -42,6 +44,7 @@ const RiderForm = () => {
       number,
       division,
       district,
+      vehicle,
       address,
       role,
       photoURL: "",
@@ -129,6 +132,11 @@ const RiderForm = () => {
             message: "invalid phone number",
           },
         }}
+      />
+      <SelectVehicles
+        vehicle={vehicle}
+        setVehicle={setVehicle}
+        variant="bordered"
       />
       <div className="flex gap-4">
         <SelectDivision
