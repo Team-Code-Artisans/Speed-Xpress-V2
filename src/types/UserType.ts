@@ -1,18 +1,20 @@
 export type UserType = {
-  _id?: string | null;
-  name: string | null;
-  email?: string | null;
-  photoURL?: string | null;
-  number?: string | null;
-  division?: string | null;
-  district?: string | null;
-  address?: string | null;
-  role?: string | null;
+  _id?: string;
+  name: string;
+  email: string;
+  photoURL: string;
+  number: string;
+  division: string;
+  district: string;
+  address: string;
+  role: string;
+  shop_name?: string;
+  vehicle?: string;
 };
 
 export type UpdateUserType = {
-  id: string | null;
-  data: UserType | null;
+  id: string;
+  data: UserType;
 };
 
 export type JWTUserType = {

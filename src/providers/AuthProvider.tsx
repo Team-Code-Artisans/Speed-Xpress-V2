@@ -91,9 +91,9 @@ const AuthProvider = ({ children }: ChildrenProps) => {
       const userCredential = await signInWithPopup(auth, provider);
 
       const userData: UserType = {
-        name: userCredential.user.displayName,
-        email: userCredential.user.email,
-        photoURL: userCredential.user.photoURL,
+        name: userCredential.user.displayName || "",
+        email: userCredential.user.email || "",
+        photoURL: userCredential.user.photoURL || "",
         number: "",
         division: "",
         district: "",
@@ -141,6 +141,20 @@ const AuthProvider = ({ children }: ChildrenProps) => {
       if (currentUser?.email) {
         setLoading(true);
 
+        // JWT response
+        const jwtResponse = await postJwt({
+          email: currentUser.email,
+          role: `${role}`,
+        });
+
+        if (jwtResponse.code === "success") {
+          const token = jwtResponse.data;
+          setAccessToken(token);
+        } else {
+          setLoading(false);
+          console.error(jwtResponse.error.message);
+        }
+
         // User response
         const userResponse = await getSingleUser(currentUser.email);
 
@@ -150,20 +164,6 @@ const AuthProvider = ({ children }: ChildrenProps) => {
 
           if (userData && userData.role) {
             setRole(userData.role);
-          }
-
-          // JWT response
-          const jwtResponse = await postJwt({
-            email: currentUser.email,
-            role: `${userData.role}`,
-          });
-
-          if (jwtResponse.code === "success") {
-            const token = jwtResponse.data;
-            setAccessToken(token);
-          } else {
-            setLoading(false);
-            console.error(jwtResponse.error.message);
           }
         } else {
           setLoading(false);
