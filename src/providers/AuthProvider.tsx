@@ -141,23 +141,30 @@ const AuthProvider = ({ children }: ChildrenProps) => {
       if (currentUser?.email) {
         setLoading(true);
 
-        const jwtResponse = await postJwt({
-          email: currentUser.email,
-          role: `${role}`,
-        });
-        if (jwtResponse.code === "success") {
-          const token = jwtResponse.data;
-          setAccessToken(token);
-        } else {
-          setLoading(false);
-          console.error(jwtResponse.error.message);
-        }
-
+        // User response
         const userResponse = await getSingleUser(currentUser.email);
+
         if (userResponse?.code === "success") {
           const userData = userResponse.data;
-          userData.role && setRole(userData.role);
           setUserInfo(userData);
+
+          if (userData && userData.role) {
+            setRole(userData.role);
+          }
+
+          // JWT response
+          const jwtResponse = await postJwt({
+            email: currentUser.email,
+            role: `${userData.role}`,
+          });
+
+          if (jwtResponse.code === "success") {
+            const token = jwtResponse.data;
+            setAccessToken(token);
+          } else {
+            setLoading(false);
+            console.error(jwtResponse.error.message);
+          }
         } else {
           setLoading(false);
           console.error(userResponse.error.message);
@@ -170,7 +177,7 @@ const AuthProvider = ({ children }: ChildrenProps) => {
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [role]);
 
   const value: AuthContextType = {
     user,
