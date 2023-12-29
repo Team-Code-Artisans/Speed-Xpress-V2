@@ -1,12 +1,16 @@
 "use client";
 
+import { useAuth } from "@/hooks/useAuth";
 import { calculateParcel } from "@/utils/calculateParcel";
-import { Divider } from "@nextui-org/react";
+import { Card, CardBody, Divider } from "@nextui-org/react";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import ParcelForm from "./ParcelForm";
 import ParcelSummary from "./ParcelSummary";
 
 const CreateParcel = () => {
+  const { userInfo } = useAuth();
+
   // Parcel form states
   const [division, setDivision] = useState<string>("Dhaka");
   const [shippingMethod, setShippingMethod] = useState<string>("standard");
@@ -44,6 +48,21 @@ const CreateParcel = () => {
     <div className="lg:py-20 py-10 px-4 max-w-screen-xl mx-auto">
       <div className="grid lg:grid-cols-5 place-items-center lg:place-items-start gap-6 relative">
         <div className="lg:col-span-3 space-y-6">
+          {!userInfo?.address && (
+            <Card radius="sm">
+              <CardBody className="bg-danger-100">
+                <h1>
+                  Please update your profile to create parcel{" "}
+                  <Link
+                    href={`/dashboard/${userInfo?.role}/profile`}
+                    className="text-primary font-medium"
+                  >
+                    Profile
+                  </Link>
+                </h1>
+              </CardBody>
+            </Card>
+          )}
           <h1 className="font-bold text-4xl h-10">
             CREATE<span className="text-primary"> PARCEL</span>
           </h1>
@@ -59,7 +78,6 @@ const CreateParcel = () => {
             estimatedTotal={estimatedTotal}
           />
         </div>
-
         <div className="space-y-6 bg-gray-200 dark:bg-gray-900 w-full sm:max-w-xl p-6 lg:p-10 lg:col-span-2 lg:sticky top-20 lg:mt-[60px] rounded-lg">
           {/* parcel summary */}
           <ParcelSummary

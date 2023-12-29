@@ -34,11 +34,11 @@ const MerchantForm = () => {
   } = useForm<any>();
 
   const handleForm = async (data: RegisterFormType) => {
-    const { name, email, password, number, address, shop_name } = data;
+    const { name, email, password, number, address, shopName } = data;
     const role = "merchant";
     const merchantData = {
       name,
-      shop_name,
+      shopName,
       email,
       number,
       division,
@@ -82,7 +82,7 @@ const MerchantForm = () => {
       />
       <CustomInput
         label="Shop Name"
-        name="shop_name"
+        name="shopName"
         register={register}
         error={errors}
         validationRules={{

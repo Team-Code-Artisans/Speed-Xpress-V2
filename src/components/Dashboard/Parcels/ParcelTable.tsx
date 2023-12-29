@@ -25,6 +25,7 @@ import {
   TableColumn,
   TableHeader,
   TableRow,
+  useDisclosure,
 } from "@nextui-org/react";
 import { ChangeEvent, useCallback, useMemo, useState } from "react";
 
@@ -32,6 +33,7 @@ import { ChangeEvent, useCallback, useMemo, useState } from "react";
 import { CiSearch as SearchIcon } from "react-icons/ci";
 import { FaChevronDown as ChevronDownIcon } from "react-icons/fa";
 import { HiDotsVertical as VerticalDotsIcon } from "react-icons/hi";
+import ParcelUpdateModal from "./ParcelUpdateModal";
 
 const ParcelTable = () => {
   // hooks
@@ -39,10 +41,12 @@ const ParcelTable = () => {
   const { page, setPage, onNextPage, onPreviousPage } = usePagination();
   const { filterValue, onSearchChange, onClear } = useFilter();
   const { visibleColumns, setVisibleColumns } = useVisibleColumns();
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   // states
   const [statusFilter, setStatusFilter] = useState<Selection>("all");
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [updateId, setUpdateId] = useState<string | null>(null);
 
   const hasSearchFilter = Boolean(filterValue);
 
@@ -60,16 +64,16 @@ const ParcelTable = () => {
     if (hasSearchFilter) {
       filteredParcels = filteredParcels.filter((parcel) => {
         const isMatch =
-          (parcel.recipientInfo.name &&
-            parcel.recipientInfo.name
+          (parcel?.recipientInfo?.name &&
+            parcel?.recipientInfo?.name
               .toLowerCase()
               .includes(filterValue.toLowerCase())) ||
-          (parcel.recipientInfo.email &&
-            parcel.recipientInfo.email
+          (parcel?.recipientInfo?.email &&
+            parcel?.recipientInfo?.email
               .toLowerCase()
               .includes(filterValue.toLowerCase())) ||
-          (parcel.parcelId &&
-            parcel.parcelId.toLowerCase().includes(filterValue.toLowerCase()));
+          (parcel?.parcelId &&
+            parcel?.parcelId.toLowerCase().includes(filterValue.toLowerCase()));
 
         return isMatch;
       });
@@ -80,7 +84,7 @@ const ParcelTable = () => {
       Array.from(statusFilter).length !== statusOptions.length
     ) {
       filteredParcels = filteredParcels.filter((parcel) =>
-        Array.from(statusFilter).includes(parcel.parcelStatus)
+        Array.from(statusFilter).includes(parcel?.parcelStatus)
       );
     }
 
@@ -99,13 +103,18 @@ const ParcelTable = () => {
   const renderCell = useCallback(
     (parcel: ParcelType, columnKey: string | number): React.ReactNode => {
       const cellValue = parcel[columnKey as keyof ParcelType];
-      const [date, time] = parcel.deliveryDateTime.split(", ");
+      const [date, time] = parcel?.deliveryDateTime.split(", ");
+
+      const handleEdit = (id: string) => {
+        onOpen();
+        setUpdateId(id);
+      };
 
       switch (columnKey) {
         case "id":
           return (
             <Snippet variant="flat" radius="sm">
-              {parcel.parcelId}
+              {parcel?.parcelId}
             </Snippet>
           );
         case "date":
@@ -119,30 +128,30 @@ const ParcelTable = () => {
           return (
             <>
               <p className="font-medium text-small capitalize">
-                {parcel.recipientInfo.name}
+                {parcel?.recipientInfo?.name}
               </p>
               <p className="text-tiny text-default-500">
-                {parcel.recipientInfo.email}
+                {parcel?.recipientInfo?.email}
               </p>
             </>
           );
         case "number":
           return (
             <p className="font-medium text-small capitalize">
-              {parcel.recipientInfo.number}
+              {parcel?.recipientInfo?.number}
             </p>
           );
         case "shipping":
           return (
             <Chip
               color={
-                parcel.shippingMethod === "express" ? "primary" : "default"
+                parcel?.shippingMethod === "express" ? "primary" : "default"
               }
               size="sm"
               variant="flat"
             >
               <span className="font-medium capitalize text-small">
-                {parcel.shippingMethod}
+                {parcel?.shippingMethod}
               </span>
             </Chip>
           );
@@ -151,11 +160,11 @@ const ParcelTable = () => {
             <>
               <p className="text-small capitalize">
                 Weight:{" "}
-                <span className="font-medium">{parcel.parcelWeight}</span>
+                <span className="font-medium">{parcel?.parcelWeight}</span>
               </p>
               <p className="text-small capitalize">
                 Quantity:{" "}
-                <span className="font-medium">{parcel.parcelQuantity}</span>
+                <span className="font-medium">{parcel?.parcelQuantity}</span>
               </p>
             </>
           );
@@ -164,23 +173,27 @@ const ParcelTable = () => {
             <>
               <p className="text-small capitalize whitespace-nowrap">
                 Status:{" "}
-                <span className="font-medium">{parcel.paymentInfo.status}</span>
+                <span className="font-medium">
+                  {parcel?.paymentInfo.status}
+                </span>
               </p>
               <p className="text-small capitalize whitespace-nowrap">
                 Amount:{" "}
-                <span className="font-medium">{parcel.paymentInfo.amount}</span>
+                <span className="font-medium">
+                  {parcel?.paymentInfo.amount}
+                </span>
               </p>
             </>
           );
         case "status":
           return (
             <Chip
-              color={statusColorMap[parcel.parcelStatus]}
+              color={statusColorMap[parcel?.parcelStatus]}
               size="sm"
               variant="flat"
             >
               <span className="font-medium capitalize text-small">
-                {parcel.parcelStatus}
+                {parcel?.parcelStatus}
               </span>
             </Chip>
           );
@@ -194,9 +207,16 @@ const ParcelTable = () => {
                   </Button>
                 </DropdownTrigger>
                 <DropdownMenu aria-label="action-items">
-                  <DropdownItem>View</DropdownItem>
-                  <DropdownItem>Edit</DropdownItem>
-                  <DropdownItem>Delete</DropdownItem>
+                  <DropdownItem textValue="view">View</DropdownItem>
+                  <DropdownItem
+                    className="text-left"
+                    textValue="edit"
+                    as="button"
+                    onClick={() => handleEdit(`${parcel?.parcelId}`)}
+                  >
+                    Edit
+                  </DropdownItem>
+                  <DropdownItem textValue="delete">Delete</DropdownItem>
                 </DropdownMenu>
               </Dropdown>
             </div>
@@ -205,7 +225,7 @@ const ParcelTable = () => {
           return <>{cellValue}</>;
       }
     },
-    []
+    [onOpen]
   );
 
   const onRowsPerPageChange = useCallback(
@@ -346,38 +366,46 @@ const ParcelTable = () => {
   }, [page, pages, setPage, onPreviousPage, onNextPage]);
 
   return (
-    <Table
-      aria-label="Example table with custom cells, pagination and sorting"
-      isHeaderSticky
-      radius="sm"
-      bottomContent={bottomContent}
-      bottomContentPlacement="outside"
-      classNames={{
-        wrapper: "max-h-[30rem]",
-      }}
-      topContent={topContent}
-      topContentPlacement="outside"
-    >
-      <TableHeader columns={headerColumns}>
-        {(column: { name: string; uid: string }) => (
-          <TableColumn
-            key={column.uid}
-            align={column.uid === "actions" ? "center" : "start"}
-          >
-            {column.name}
-          </TableColumn>
-        )}
-      </TableHeader>
-      <TableBody emptyContent={"No parcels found"} items={items}>
-        {(item) => (
-          <TableRow key={item.parcelId}>
-            {(columnKey) => (
-              <TableCell>{renderCell(item, columnKey)}</TableCell>
-            )}
-          </TableRow>
-        )}
-      </TableBody>
-    </Table>
+    <>
+      <Table
+        aria-label="Example table with custom cells, pagination and sorting"
+        isHeaderSticky
+        radius="sm"
+        bottomContent={bottomContent}
+        bottomContentPlacement="outside"
+        classNames={{
+          wrapper: "max-h-[30rem]",
+        }}
+        topContent={topContent}
+        topContentPlacement="outside"
+      >
+        <TableHeader columns={headerColumns}>
+          {(column: { name: string; uid: string }) => (
+            <TableColumn
+              key={column.uid}
+              align={column.uid === "actions" ? "center" : "start"}
+            >
+              {column.name}
+            </TableColumn>
+          )}
+        </TableHeader>
+        <TableBody emptyContent={"No parcels found"} items={items}>
+          {(item) => (
+            <TableRow key={item.parcelId}>
+              {(columnKey) => (
+                <TableCell>{renderCell(item, columnKey)}</TableCell>
+              )}
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+
+      <ParcelUpdateModal
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        id={updateId}
+      />
+    </>
   );
 };
 

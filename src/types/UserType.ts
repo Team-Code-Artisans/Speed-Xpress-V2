@@ -8,7 +8,7 @@ export type UserType = {
   district?: string | null;
   address?: string | null;
   role?: string | null;
-  shop_name?: string | null;
+  shopName?: string | null;
   vehicle?: string | null;
 };
 
