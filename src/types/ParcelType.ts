@@ -35,9 +35,9 @@ type RecipientInfo = {
 
 type MerchantInfo = {
   merchantId: string;
-  merchantName: string;
+  ownerName: string;
   shopName: string;
-  contactNumber: string;
+  number: string;
   email: string;
   address: Address;
 };
@@ -61,10 +61,21 @@ export type ParcelType = {
   description?: string;
 };
 
-export type ParcelContextType = {
-  parcels: ParcelType[];
-  parcelsLoading: boolean;
-  // singleParcel: ParcelType;
+export type UpdateParcelType = {
+  id: string;
+  data: {
+    recipientInfo: {
+      name: string;
+      email: string;
+      number: string;
+      address: {
+        division: string;
+        district: string;
+        address: string;
+      };
+    };
+    description: string;
+  };
 };
 
 export type ParcelFormProps = {

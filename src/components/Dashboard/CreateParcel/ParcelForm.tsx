@@ -50,15 +50,15 @@ const ParcelForm = ({
     const paymentStatus = PaymentStatus.Pending;
 
     // All of the parcel data
-    const parcelData: ParcelType = {
+    let parcelData: ParcelType = {
       senderInfo: {
-        name: userInfo?.name!,
-        email: userInfo?.email!,
-        number: userInfo?.number!,
+        name: userInfo?.name || "",
+        email: userInfo?.email || "",
+        number: userInfo?.number || "",
         address: {
-          division: userInfo?.division!,
-          district: userInfo?.district!,
-          address: userInfo?.address!,
+          division: userInfo?.division || "",
+          district: userInfo?.district || "",
+          address: userInfo?.address || "",
         },
       },
       recipientInfo: {
@@ -72,9 +72,9 @@ const ParcelForm = ({
         },
       },
       parcelStatus,
+      shippingMethod,
       parcelWeight: weight,
       parcelQuantity: quantity,
-      shippingMethod,
       deliveryDateTime: new Date().toLocaleString(), // const [date, time] = deliveryDateTime.split(', ')
       paymentInfo: {
         method: paymentMethod,
@@ -83,6 +83,24 @@ const ParcelForm = ({
       },
       description,
     };
+
+    if (role === "merchant") {
+      parcelData = {
+        ...parcelData,
+        merchantInfo: {
+          merchantId: userInfo?._id || "",
+          ownerName: userInfo?.name || "",
+          shopName: userInfo?.shopName || "",
+          email: userInfo?.email || "",
+          number: userInfo?.number || "",
+          address: {
+            division: userInfo?.division || "",
+            district: userInfo?.district || "",
+            address: userInfo?.address || "",
+          },
+        },
+      };
+    }
 
     const parcelResponse = await createParcel(parcelData);
 
@@ -229,16 +247,16 @@ const ParcelForm = ({
       </div>
 
       <RadioGroup
-        label="Delivery Option"
+        label="Shipping Method"
         defaultValue="standard"
         value={shippingMethod}
         onValueChange={setShippingMethod}
       >
         <div className="grid sm:grid-cols-2 gap-4">
-          <CustomRadio description="Regular delivery option" value="standard">
+          <CustomRadio description="Regular shipping option" value="standard">
             Standard
           </CustomRadio>
-          <CustomRadio description="Next day delivery option" value="express">
+          <CustomRadio description="Next day shipping option" value="express">
             Express
           </CustomRadio>
         </div>

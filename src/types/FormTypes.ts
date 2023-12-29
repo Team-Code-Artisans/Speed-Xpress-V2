@@ -4,7 +4,7 @@ export type RegisterFormType = {
   password: string;
   number: string;
   address: string;
-  shop_name?: string;
+  shopName?: string;
   vehicle?: string;
 };
 
@@ -38,4 +38,17 @@ export type ProfileFormType = {
 
 export type ProfileFormProps = {
   onClose: () => void;
+};
+
+export type ParcelFormType = {
+  name: string;
+  email: string;
+  number: string;
+  address: string;
+  description: string;
+};
+
+export type ParcelFormProps = {
+  onClose: () => void;
+  id: string | null;
 };
