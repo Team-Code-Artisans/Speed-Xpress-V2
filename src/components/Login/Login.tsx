@@ -1,12 +1,12 @@
 "use client";
 
 import { Card, CardBody } from "@nextui-org/react";
-import LoginForm from "./LoginForm";
 import Link from "next/link";
+import LoginForm from "./LoginForm";
 
 const Login = () => {
   return (
-    <div className="w-full sm:w-[25rem]">
+    <div className="w-full sm:w-[30rem]">
       <Card
         radius="sm"
         className="divide-y divide-gray-200 dark:divide-gray-800"

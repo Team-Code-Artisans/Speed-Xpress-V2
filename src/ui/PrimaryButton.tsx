@@ -1,6 +1,5 @@
 import { ButtonProps } from "@/types/ButtonProps";
-import { cn } from "@/utils/className";
-import { Button } from "@nextui-org/react";
+import { Button, cn } from "@nextui-org/react";
 import Link from "next/link";
 import Loading from "./Loading";
 

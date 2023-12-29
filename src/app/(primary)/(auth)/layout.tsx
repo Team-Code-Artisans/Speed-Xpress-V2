@@ -1,10 +1,40 @@
+"use client";
+
 import { ChildrenProps } from "@/types/ChildrenProps";
+import { cn } from "@nextui-org/react";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 const AuthLayout = ({ children }: ChildrenProps) => {
+  const pathname = usePathname();
+
   return (
-    <div className="grid sm:grid-cols-2 max-w-screen-xl mx-auto px-4 py-20">
-      <div className="hidden sm:block"></div>
-      <div className="sm:justify-self-end">{children}</div>
+    <div
+      className={cn(
+        "grid lg:grid-cols-2 max-w-screen-xl mx-auto px-4 lg:py-20 py-10",
+        pathname === "/login" && "lg:place-items-center"
+      )}
+    >
+      <div className="hidden lg:block justify-self-start">
+        {pathname === "/login" ? (
+          <Image
+            src={"/assets/images/login.png"}
+            width={600}
+            height={600}
+            alt="login"
+            className="w-[30rem]"
+          />
+        ) : (
+          <Image
+            src={"/assets/images/register.png"}
+            width={1000}
+            height={1000}
+            alt="login"
+            className="w-[35rem]"
+          />
+        )}
+      </div>
+      <div className="lg:justify-self-end justify-self-center">{children}</div>
     </div>
   );
 };
