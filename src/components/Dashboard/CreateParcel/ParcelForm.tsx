@@ -49,6 +49,7 @@ const ParcelForm = ({
     const parcelStatus = Status.Pending;
     const paymentStatus = PaymentStatus.Pending;
 
+    // All of the parcel data
     const parcelData: ParcelType = {
       senderInfo: {
         name: userInfo?.name!,
@@ -85,22 +86,27 @@ const ParcelForm = ({
 
     const parcelResponse = await createParcel(parcelData);
 
+    // Payment functionality
     if (parcelResponse.code === "success") {
+      // Payment invoice data
       const paymentData = {
         userEmail: userInfo?.email || "",
+        userName: userInfo?.name || "",
         userRole: userInfo?.role || "",
         parcelId: parcelResponse?.data.parcelId || "",
+        paymentMethod,
         amount: estimatedTotal,
         status: paymentStatus,
         paymentDateTime: new Date().toLocaleString(),
       };
 
+      // Payment API response
       if (paymentMethod === "online") {
         const paymentResponse = await createPayment(paymentData);
-        console.log("paymentResponse:", paymentResponse);
+
         if (paymentResponse.code === "success") {
-          const clientSecret = paymentResponse.data.clientSecret;
-          router.push(`${clientSecret}`);
+          const url = paymentResponse.data.url;
+          router.push(`${url}`);
         } else {
           console.error(paymentResponse.error.message);
         }
@@ -125,6 +131,7 @@ const ParcelForm = ({
           required: "*name is required",
           pattern: { value: /^[A-Za-z ]+$/i, message: "*name is invalid" },
           minLength: { value: 2, message: "*name is invalid" },
+          maxLength: { value: 20, message: "*name is invalid" },
         }}
       />
       <CustomInput
@@ -137,7 +144,7 @@ const ParcelForm = ({
           required: "*email is required",
           pattern: {
             value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-            message: "invalid email address",
+            message: "*invalid email address",
           },
         }}
       />
