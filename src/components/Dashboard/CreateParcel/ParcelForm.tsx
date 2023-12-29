@@ -269,10 +269,18 @@ const ParcelForm = ({
       />
 
       <div className="flex gap-4 justify-end">
-        <SecondaryButton type="button" fullWidth={true}>
+        <SecondaryButton
+          href={`/dashboard/${role}/parcels`}
+          type="button"
+          fullWidth={true}
+        >
           Cancel
         </SecondaryButton>
-        <PrimaryButton type="submit" fullWidth={true}>
+        <PrimaryButton
+          type="submit"
+          fullWidth={true}
+          isDisabled={!userInfo?.address ? true : false}
+        >
           Submit
         </PrimaryButton>
       </div>

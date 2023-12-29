@@ -19,9 +19,7 @@ const ProfileInfo = () => {
         <label htmlFor="email" className="text-sm">
           Email
         </label>
-        <h1 className="text-lg sm:text-xl whitespace-nowrap">
-          {userInfo?.email}
-        </h1>
+        <h1 className="text-lg sm:text-xl">{userInfo?.email}</h1>
       </div>
       <div>
         <label htmlFor="number" className="text-sm">
