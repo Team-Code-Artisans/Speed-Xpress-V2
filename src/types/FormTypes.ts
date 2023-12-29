@@ -5,6 +5,7 @@ export type RegisterFormType = {
   number: string;
   address: string;
   shop_name?: string;
+  vehicle?: string;
 };
 
 export type DivisionPropsType = {
