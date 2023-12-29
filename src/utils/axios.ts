@@ -2,16 +2,15 @@ import axios from "axios";
 import { getAccessToken } from "./authToken";
 
 const api = axios.create({
-  baseURL: `${process.env.NEXT_PUBLIC_BaseUrl}`,
+  baseURL: `${process.env.NEXT_PUBLIC_SERVER_URL}`,
 });
 
 api.interceptors.request.use(
   function (config) {
-    const publishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
     const accessToken = getAccessToken();
 
-    if (accessToken && publishableKey) {
-      config.headers.Authorization = `Bearer ${publishableKey};Bearer ${accessToken}`;
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`;
     }
 
     return config;

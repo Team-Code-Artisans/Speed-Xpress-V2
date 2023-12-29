@@ -1,5 +1,6 @@
 export type PaymentType = {
   userEmail: string;
+  userName: string;
   userRole: string;
   parcelId: string;
   amount: number;
@@ -8,5 +9,5 @@ export type PaymentType = {
 };
 
 export type PaymentResponseType = {
-  clientSecret: string;
+  url: string;
 };

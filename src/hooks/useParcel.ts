@@ -1,14 +1,25 @@
 "use client";
 
-import { ParcelContext } from "@/providers/ParcelProvider";
-import { useContext } from "react";
+import { getParcelByEmail } from "@/utils/api/parcel";
+import { useQuery } from "@tanstack/react-query";
+import { useAuth } from "./useAuth";
 
 export const useParcel = () => {
-  const context = useContext(ParcelContext);
+  const { user } = useAuth();
 
-  if (!context) {
-    throw new Error("useParcel must be used within an ParcelProvider");
-  }
+  // get parcels by email
+  const { data: parcels = [], isLoading } = useQuery({
+    queryKey: ["ParcelsByEmail", user],
+    queryFn: async () => {
+      if (user?.email) {
+        const parcelResponse = await getParcelByEmail(user.email);
+        if (parcelResponse.code === "success") {
+          return parcelResponse.data || [];
+        }
+      }
+      return [];
+    },
+  });
 
-  return context;
+  return { parcels, isLoading };
 };

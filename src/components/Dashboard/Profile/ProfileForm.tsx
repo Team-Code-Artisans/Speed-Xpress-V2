@@ -98,10 +98,10 @@ const ProfileForm = ({ onClose }: ProfileFormProps) => {
       </div>
       <div className="flex gap-4 justify-end">
         <SecondaryButton type="button" size="md" onClick={onClose}>
-          Close
+          Cancel
         </SecondaryButton>
         <PrimaryButton type="submit" size="md">
-          Sign in
+          Update
         </PrimaryButton>
       </div>
     </form>
