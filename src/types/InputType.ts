@@ -15,4 +15,5 @@ export type CustomInputProps = {
   type?: string;
   validationRules?: Record<string, any>;
   defaultValue?: string;
+  endContent?: React.ReactNode;
 };

@@ -2,12 +2,12 @@
 
 import { useAuth } from "@/hooks/useAuth";
 import { RegisterFormType } from "@/types/FormTypes";
+import CustomInput from "@/ui/CustomInput";
 import PrimaryButton from "@/ui/PrimaryButton";
 import SecondaryButton from "@/ui/SecondaryButton";
 import SelectDistrict from "@/ui/SelectDistrict";
 import SelectDivision from "@/ui/SelectDivision";
 import { saveUser } from "@/utils/api/user";
-import { Input } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -26,7 +26,12 @@ const MerchantForm = () => {
 
   const router = useRouter();
 
-  const { register, reset, handleSubmit } = useForm<RegisterFormType>();
+  const {
+    register,
+    reset,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<any>();
 
   const handleForm = async (data: RegisterFormType) => {
     const { name, email, password, number, address, shop_name } = data;
@@ -63,32 +68,49 @@ const MerchantForm = () => {
       >
         <FaGoogle /> Sign in with Google
       </SecondaryButton>
-      <Input
-        {...register("name")}
-        radius="sm"
-        type="text"
-        isRequired
+      <CustomInput
         label="Owner Name"
+        name="name"
+        register={register}
+        error={errors}
+        validationRules={{
+          required: "*name is required",
+          pattern: { value: /^[A-Za-z ]+$/i, message: "*name is invalid" },
+          minLength: { value: 2, message: "*name is invalid" },
+          maxLength: { value: 20, message: "*name is invalid" },
+        }}
       />
-      <Input
-        {...register("shop_name")}
-        radius="sm"
-        type="text"
-        isRequired
+      <CustomInput
         label="Shop Name"
+        name="shop_name"
+        register={register}
+        error={errors}
+        validationRules={{
+          required: "*shop name is required",
+          pattern: { value: /^[A-Za-z ]+$/i, message: "*shop name is invalid" },
+          minLength: { value: 2, message: "*shop name is invalid" },
+          maxLength: { value: 20, message: "*shop name is invalid" },
+        }}
       />
-      <Input
-        {...register("email")}
-        radius="sm"
-        isRequired
-        type="email"
+      <CustomInput
         label="Business Email"
+        name="email"
+        type="email"
+        register={register}
+        error={errors}
+        validationRules={{
+          required: "*email is required",
+          pattern: {
+            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+            message: "*invalid email address",
+          },
+        }}
       />
-      <Input
-        {...register("password")}
-        radius="sm"
-        isRequired
+      <CustomInput
         label="Password"
+        name="password"
+        register={register}
+        error={errors}
         endContent={
           <button
             className="focus:outline-none"
@@ -103,24 +125,44 @@ const MerchantForm = () => {
           </button>
         }
         type={isVisible ? "text" : "password"}
+        validationRules={{
+          required: "*password is required",
+          minLength: { value: 6, message: "*password must be 6 characters" },
+        }}
       />
-      <Input
-        {...register("number")}
-        radius="sm"
-        isRequired
-        type="text"
+      <CustomInput
         label="Phone Number"
+        name="number"
+        register={register}
+        error={errors}
+        validationRules={{
+          required: "*phone number is required",
+          pattern: {
+            value: /^[0-9]{11}$/,
+            message: "invalid phone number",
+          },
+        }}
       />
       <div className="flex gap-4">
-        <SelectDivision division={division} setDivision={setDivision} />
-        <SelectDistrict district={district} setDistrict={setDistrict} />
+        <SelectDivision
+          division={division}
+          setDivision={setDivision}
+          variant="bordered"
+        />
+        <SelectDistrict
+          district={district}
+          setDistrict={setDistrict}
+          variant="bordered"
+        />
       </div>
-      <Input
-        {...register("address")}
-        radius="sm"
-        isRequired
-        type="text"
+      <CustomInput
         label="Address"
+        name="address"
+        register={register}
+        error={errors}
+        validationRules={{
+          required: "*address is required",
+        }}
       />
       <PrimaryButton
         type="submit"

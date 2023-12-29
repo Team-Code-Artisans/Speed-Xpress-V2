@@ -25,13 +25,13 @@ const Register = () => {
             onSelectionChange={setSelected}
             className="py-2"
           >
-            <Tab key="Regular" title="Regular">
+            <Tab key="regular" title="Regular">
               <RegularForm />
             </Tab>
-            <Tab key="Merchant" title="Merchant">
+            <Tab key="merchant" title="Merchant">
               <MerchantForm />
             </Tab>
-            <Tab key="Rider" title="Rider">
+            <Tab key="rider" title="Rider">
               <RiderForm />
             </Tab>
           </Tabs>

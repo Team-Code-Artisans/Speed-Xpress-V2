@@ -10,6 +10,7 @@ const CustomInput = ({
   variant = "bordered",
   radius = "sm",
   type = "text",
+  endContent,
   validationRules = {},
 }: CustomInputProps) => {
   const isRequired = validationRules.required;
@@ -28,6 +29,7 @@ const CustomInput = ({
       type={type}
       isInvalid={error?.[name] ? true : false}
       errorMessage={error?.[name] && `${error[name]?.message}`}
+      endContent={endContent}
     />
   );
 };
