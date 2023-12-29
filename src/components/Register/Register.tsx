@@ -1,17 +1,17 @@
 "use client";
 
-import { useState } from "react";
-import { Tabs, Tab, Card, CardBody } from "@nextui-org/react";
-import RegularForm from "./RegularForm";
-import MerchantForm from "./MerchantForm";
-import RiderForm from "./RiderForm";
+import { Card, CardBody, Tab, Tabs } from "@nextui-org/react";
 import Link from "next/link";
+import { useState } from "react";
+import MerchantForm from "./MerchantForm";
+import RegularForm from "./RegularForm";
+import RiderForm from "./RiderForm";
 
 const Register = () => {
   const [selected, setSelected] = useState("Regular");
 
   return (
-    <div className="flex flex-col w-full sm:w-[30rem]">
+    <div className="w-full sm:w-[30rem]">
       <Card radius="sm">
         <CardBody className="overflow-hidden">
           <Tabs
@@ -25,13 +25,13 @@ const Register = () => {
             onSelectionChange={setSelected}
             className="py-2"
           >
-            <Tab key="Regular" title="Regular">
+            <Tab key="regular" title="Regular">
               <RegularForm />
             </Tab>
-            <Tab key="Merchant" title="Merchant">
+            <Tab key="merchant" title="Merchant">
               <MerchantForm />
             </Tab>
-            <Tab key="Rider" title="Rider">
+            <Tab key="rider" title="Rider">
               <RiderForm />
             </Tab>
           </Tabs>

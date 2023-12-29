@@ -1,10 +1,9 @@
 "use client";
 
 import { useAuth } from "@/hooks/useAuth";
-import { RegisterFormType } from "@/types/FormTypes";
+import CustomInput from "@/ui/CustomInput";
 import PrimaryButton from "@/ui/PrimaryButton";
 import SecondaryButton from "@/ui/SecondaryButton";
-import { Input } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -21,7 +20,12 @@ const LoginForm = () => {
 
   const router = useRouter();
 
-  const { register, reset, handleSubmit } = useForm<RegisterFormType>();
+  const {
+    register,
+    reset,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<any>();
 
   const handleForm = async (data: { email: string; password: string }) => {
     const { email, password } = data;
@@ -45,18 +49,25 @@ const LoginForm = () => {
       >
         <FaGoogle /> Sign in with Google
       </SecondaryButton>
-      <Input
-        {...register("email")}
-        radius="sm"
-        isRequired
-        type="email"
+      <CustomInput
         label="Email"
+        name="email"
+        type="email"
+        register={register}
+        error={errors}
+        validationRules={{
+          required: "*email is required",
+          pattern: {
+            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+            message: "*invalid email address",
+          },
+        }}
       />
-      <Input
-        {...register("password")}
-        radius="sm"
-        isRequired
+      <CustomInput
         label="Password"
+        name="password"
+        register={register}
+        error={errors}
         endContent={
           <button
             className="focus:outline-none"
@@ -71,6 +82,10 @@ const LoginForm = () => {
           </button>
         }
         type={isVisible ? "text" : "password"}
+        validationRules={{
+          required: "*password is required",
+          minLength: { value: 6, message: "*password must be 6 characters" },
+        }}
       />
       <PrimaryButton type="submit" fullWidth={true}>
         Login Now

@@ -7,16 +7,24 @@ export type RegisterFormType = {
   shop_name?: string;
 };
 
-export type DivisionType = {
+export type DivisionPropsType = {
   variant?: "flat" | "faded" | "bordered";
   division: string;
   setDivision: React.Dispatch<React.SetStateAction<string>>;
+  setDistrict: React.Dispatch<React.SetStateAction<string>>;
 };
 
-export type DistrictType = {
+export type DistrictPropsType = {
   variant?: "flat" | "faded" | "bordered";
   district: string;
+  division: string;
   setDistrict: React.Dispatch<React.SetStateAction<string>>;
+};
+
+export type VehiclePropsType = {
+  variant?: "flat" | "faded" | "bordered";
+  vehicle: string;
+  setVehicle: React.Dispatch<React.SetStateAction<string>>;
 };
 
 export type ProfileFormType = {

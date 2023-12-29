@@ -1,25 +1,41 @@
-import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
 import { districtData } from "@/data/districtData";
-import { DistrictType } from "@/types/FormTypes";
+import { divisionData } from "@/data/divisionData";
+import { DistrictPropsType } from "@/types/FormTypes";
+import { Select, SelectItem } from "@nextui-org/react";
 
-const SelectDistrict = ({ district, setDistrict, variant }: DistrictType) => {
+const SelectDistrict = ({
+  division,
+  district,
+  setDistrict,
+  variant,
+}: DistrictPropsType) => {
+  // Find the division object
+  const selectedDivision = divisionData.find(
+    (divisionItem) => divisionItem.name === division
+  );
+
+  // Filter districts based on the selected division
+  const filteredDistricts = districtData.filter(
+    (item) => item.division_id === selectedDivision?.id
+  );
+
   return (
-    <Autocomplete
-      variant={variant}
+    <Select
       isRequired
-      label="Select District"
-      defaultItems={districtData}
-      placeholder="Search district"
-      defaultSelectedKey="Dhaka"
-      className="max-w-xs"
-      selectedKey={district}
-      // @ts-ignore
-      onSelectionChange={setDistrict}
+      disallowEmptySelection
+      label="District"
+      variant={variant}
+      placeholder="Select a District"
+      selectedKeys={[district]}
+      className="w-full"
+      onChange={(e) => setDistrict(e.target.value)}
     >
-      {(item) => (
-        <AutocompleteItem key={item.name}>{item.name}</AutocompleteItem>
-      )}
-    </Autocomplete>
+      {filteredDistricts.map((district) => (
+        <SelectItem key={district.name} value={district.name}>
+          {district.name}
+        </SelectItem>
+      ))}
+    </Select>
   );
 };
 
