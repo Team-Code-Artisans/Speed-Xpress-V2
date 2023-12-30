@@ -6,7 +6,6 @@ import { ChildrenProps } from "@/types/ChildrenProps";
 import { UserType } from "@/types/UserType";
 import { postJwt } from "@/utils/api/jwt";
 import { getSingleUser, saveUser } from "@/utils/api/user";
-import { removeAccessToken, setAccessToken } from "@/utils/authToken";
 import {
   GoogleAuthProvider,
   User,
@@ -141,18 +140,14 @@ const AuthProvider = ({ children }: ChildrenProps) => {
       if (currentUser?.email) {
         setLoading(true);
 
-        // JWT response
-        const jwtResponse = await postJwt({
+        // JWT response (HttpOnly cookie on the server)
+        const JWTresponse = await postJwt({
           email: currentUser.email,
           role: `${role}`,
         });
 
-        if (jwtResponse.code === "success") {
-          const token = jwtResponse.data;
-          setAccessToken(token);
-        } else {
-          setLoading(false);
-          console.error(jwtResponse.error.message);
+        if (JWTresponse.code === "error") {
+          console.error(JWTresponse.error);
         }
 
         // User response
@@ -166,11 +161,8 @@ const AuthProvider = ({ children }: ChildrenProps) => {
             setRole(userData.role);
           }
         } else {
-          setLoading(false);
-          console.error(userResponse.error.message);
+          console.error(userResponse.error);
         }
-      } else {
-        removeAccessToken();
       }
 
       setLoading(false);
