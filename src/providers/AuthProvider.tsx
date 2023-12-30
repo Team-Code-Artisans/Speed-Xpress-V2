@@ -6,7 +6,6 @@ import { ChildrenProps } from "@/types/ChildrenProps";
 import { UserType } from "@/types/UserType";
 import { postJwt } from "@/utils/api/jwt";
 import { getSingleUser, saveUser } from "@/utils/api/user";
-import { removeAccessToken, setAccessToken } from "@/utils/authToken";
 import {
   GoogleAuthProvider,
   User,
@@ -141,36 +140,29 @@ const AuthProvider = ({ children }: ChildrenProps) => {
       if (currentUser?.email) {
         setLoading(true);
 
-        // JWT response
-        const jwtResponse = await postJwt({
+        // JWT response (HttpOnly cookie on the server)
+        const JWTresponse = await postJwt({
           email: currentUser.email,
           role: `${role}`,
         });
 
-        if (jwtResponse.code === "success") {
-          const token = jwtResponse.data;
-          setAccessToken(token);
-        } else {
-          setLoading(false);
-          console.error(jwtResponse.error.message);
-        }
+        if (JWTresponse.code === "success") {
+          // User response
+          const userResponse = await getSingleUser(currentUser?.email);
 
-        // User response
-        const userResponse = await getSingleUser(currentUser.email);
+          if (userResponse?.code === "success") {
+            const userData = userResponse.data;
+            setUserInfo(userData);
 
-        if (userResponse?.code === "success") {
-          const userData = userResponse.data;
-          setUserInfo(userData);
-
-          if (userData && userData.role) {
-            setRole(userData.role);
+            if (userData && userData.role) {
+              setRole(userData.role);
+            }
+          } else {
+            console.error(userResponse.error);
           }
         } else {
-          setLoading(false);
-          console.error(userResponse.error.message);
+          console.error(JWTresponse.error);
         }
-      } else {
-        removeAccessToken();
       }
 
       setLoading(false);

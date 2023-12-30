@@ -2,9 +2,21 @@ import { getSingleParcel } from "@/utils/api/parcel";
 
 const ParcelDetailsView = async ({ params }: { params: { id: string } }) => {
   const parcelResponse = await getSingleParcel(params.id);
-  console.log("parcelResponse:", parcelResponse);
 
-  return <div>ParcelDetailsView {params.id}</div>;
+  if (parcelResponse.code === "success") {
+    console.log(parcelResponse.data);
+  } else {
+    console.log(parcelResponse.error);
+  }
+
+  return (
+    <div>
+      ParcelDetailsView{" "}
+      {parcelResponse.code === "success"
+        ? parcelResponse.data.parcelId
+        : parcelResponse.error.message}
+    </div>
+  );
 };
 
 export default ParcelDetailsView;

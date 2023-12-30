@@ -1,18 +1,12 @@
 import axios from "axios";
-import { getAccessToken } from "./authToken";
 
 const api = axios.create({
   baseURL: `${process.env.NEXT_PUBLIC_SERVER_URL}`,
+  withCredentials: true,
 });
 
 api.interceptors.request.use(
   function (config) {
-    const accessToken = getAccessToken();
-
-    if (accessToken) {
-      config.headers.Authorization = `Bearer ${accessToken}`;
-    }
-
     return config;
   },
   function (error) {
