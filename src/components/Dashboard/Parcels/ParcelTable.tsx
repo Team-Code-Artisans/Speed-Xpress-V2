@@ -169,11 +169,13 @@ const ParcelTable = () => {
             <>
               <p className="text-small capitalize">
                 Weight:{" "}
-                <span className="font-medium">{parcel?.parcelWeight}</span>
+                <span className="font-medium">{parcel?.parcelWeight} KG</span>
               </p>
               <p className="text-small capitalize">
                 Quantity:{" "}
-                <span className="font-medium">{parcel?.parcelQuantity}</span>
+                <span className="font-medium">
+                  {parcel?.parcelQuantity} PCS
+                </span>
               </p>
             </>
           );
@@ -189,7 +191,7 @@ const ParcelTable = () => {
               <p className="text-small capitalize whitespace-nowrap">
                 Amount:{" "}
                 <span className="font-medium">
-                  {parcel?.paymentInfo.amount}
+                  ${parcel?.paymentInfo.amount}
                 </span>
               </p>
             </>

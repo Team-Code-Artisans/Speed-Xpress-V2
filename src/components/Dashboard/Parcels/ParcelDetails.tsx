@@ -289,7 +289,7 @@ const ParcelDetails = ({ parcelData }: { parcelData: ParcelType }) => {
               Amount:
             </label>
             <h1 className="text-lg sm:text-xl whitespace-nowrap capitalize">
-              {parcelData?.paymentInfo?.amount || ""}
+              ${parcelData?.paymentInfo?.amount || ""}
             </h1>
           </div>
         </div>

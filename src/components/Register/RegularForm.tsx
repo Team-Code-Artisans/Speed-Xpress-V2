@@ -37,6 +37,7 @@ const RegularForm = () => {
   const handleForm = async (data: RegisterFormType) => {
     const { name, email, password, number, address } = data;
     const role = "regular";
+
     const regularData = {
       name,
       email,
@@ -48,13 +49,15 @@ const RegularForm = () => {
       photoURL: "",
     };
 
-    const userCredential = await registerUser(email, password, name);
+    const userCredential = await registerUser(email, password, role);
 
     if (userCredential !== null) {
       reset();
-      await saveUser(regularData);
-      router.push(`/dashboard/${role}`);
-      toast.success("Register successfully");
+      const saveResponse = await saveUser(regularData);
+      if (saveResponse.code === "success") {
+        router.push(`/dashboard/${role}`);
+        toast.success("Register successfully");
+      }
     }
   };
 

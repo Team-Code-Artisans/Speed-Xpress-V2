@@ -1,20 +1,27 @@
 "use client";
 
-import { getParcelByEmail } from "@/utils/api/parcel";
+import { getAllParcel, getParcelByEmail } from "@/utils/api/parcel";
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "./useAuth";
 
 export const useParcel = () => {
-  const { user } = useAuth();
+  const { user, role } = useAuth();
 
-  // get parcels by email
+  // Get parcels by email
   const { data: parcels = [], isLoading } = useQuery({
-    queryKey: ["ParcelsByEmail", user],
+    queryKey: ["parcels"],
     queryFn: async () => {
-      if (user?.email) {
-        const parcelResponse = await getParcelByEmail(user.email);
-        if (parcelResponse.code === "success") {
-          return parcelResponse.data || [];
+      if (user?.email && role) {
+        if (role !== "admin") {
+          const parcelResponse = await getParcelByEmail(user.email);
+          if (parcelResponse.code === "success") {
+            return parcelResponse.data || [];
+          }
+        } else {
+          const parcelResponse = await getAllParcel();
+          if (parcelResponse.code === "success") {
+            return parcelResponse.data || [];
+          }
         }
       }
       return [];

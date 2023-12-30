@@ -5,7 +5,7 @@ import { AuthContextType } from "@/types/AuthContextType";
 import { ChildrenProps } from "@/types/ChildrenProps";
 import { UserType } from "@/types/UserType";
 import { postJwt } from "@/utils/api/jwt";
-import { getSingleUser, saveUser } from "@/utils/api/user";
+import { saveUser } from "@/utils/api/user";
 import {
   GoogleAuthProvider,
   User,
@@ -46,19 +46,31 @@ const AuthProvider = ({ children }: ChildrenProps) => {
         email,
         password
       );
-      setUser({
-        ...userCredential.user,
-        email,
-        displayName,
-      });
 
-      setLoading(false);
-      await updateProfile(userCredential.user, { displayName: displayName });
+      if (userCredential.user.email) {
+        await updateProfile(userCredential.user, {
+          displayName: displayName,
+        });
+
+        const jwtResponse = await postJwt({
+          email: userCredential.user.email,
+          role: `${displayName}`,
+        });
+
+        if (jwtResponse.code === "success") {
+          setUser({
+            ...userCredential.user,
+            email,
+            displayName,
+          });
+
+          setLoading(false);
+        }
+      }
+
       return userCredential.user;
     } catch (error: any) {
-      if (error.message.includes("password")) {
-        toast.error("Password must be 6 characters");
-      } else if (error.message.includes("email")) {
+      if (error.message.includes("email")) {
         toast.error("Email already exist");
       } else {
         toast.error("Something went wrong!");
@@ -75,10 +87,23 @@ const AuthProvider = ({ children }: ChildrenProps) => {
         email,
         password
       );
-      setLoading(false);
+
+      if (userCredential.user) {
+        const JwtResponse = await postJwt({
+          email: `${userCredential.user.email}`,
+          role: `${userCredential.user.displayName}`,
+        });
+
+        if (JwtResponse.code === "success") {
+          setRole(userCredential.user.displayName);
+          setLoading(false);
+        }
+      }
+
       return userCredential.user;
     } catch (error) {
       toast.error("Invalid email or password");
+      console.error(error);
       setLoading(false);
       return null;
     }
@@ -86,6 +111,7 @@ const AuthProvider = ({ children }: ChildrenProps) => {
 
   const googleSignIn = async (role: string) => {
     const provider = new GoogleAuthProvider();
+
     try {
       const userCredential = await signInWithPopup(auth, provider);
 
@@ -97,13 +123,24 @@ const AuthProvider = ({ children }: ChildrenProps) => {
         division: "",
         district: "",
         address: "",
-        role: role,
+        role,
       };
 
-      if (userCredential.user) {
-        router.push(`/dashboard/${role}`);
-        await saveUser(userData);
-        toast.success("Google sign in Successfully");
+      if (userCredential.user.email) {
+        const JwtResponse = await postJwt({
+          email: userCredential.user.email,
+          role,
+        });
+
+        if (JwtResponse.code === "success") {
+          setRole(role);
+
+          const saveResponse = await saveUser(userData);
+          if (saveResponse.code === "success") {
+            router.push(`/dashboard/${role}`);
+            toast.success("Google sign in Successfully");
+          }
+        }
       }
     } catch (error) {
       console.error(error);
@@ -112,23 +149,19 @@ const AuthProvider = ({ children }: ChildrenProps) => {
 
   const logOut = async () => {
     try {
-      setLoading(false);
       await signOut(auth);
-      toast.success("Sign out successfully");
       router.push("/login");
+      toast.success("Sign out successfully");
     } catch (error) {
-      setLoading(false);
-      toast.error("Sign out failed");
       console.error(error);
+      toast.error("Sign out failed");
     }
   };
 
   const resetPassword = async (email: string) => {
     try {
-      setLoading(false);
       await sendPasswordResetEmail(auth, email);
     } catch (error) {
-      setLoading(false);
       console.error(error);
     }
   };
@@ -137,40 +170,39 @@ const AuthProvider = ({ children }: ChildrenProps) => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
 
-      if (currentUser?.email) {
-        setLoading(true);
+      // if (currentUser?.email) {
+      //   setLoading(true);
 
-        // JWT response (HttpOnly cookie on the server)
-        const JWTresponse = await postJwt({
-          email: currentUser.email,
-          role: `${role}`,
-        });
+      //   // JWT response (HttpOnly cookie on the server)
+      //   const JWTresponse = await postJwt({
+      //     email: currentUser.email,
+      //     role: `${role}`,
+      //   });
 
-        if (JWTresponse.code === "success") {
-          // User response
-          const userResponse = await getSingleUser(currentUser?.email);
+      //   if (JWTresponse.code === "success") {
+      //     // User response
+      //     const userResponse = await getSingleUser(currentUser?.email);
 
-          if (userResponse?.code === "success") {
-            const userData = userResponse.data;
-            setUserInfo(userData);
+      //     if (userResponse?.code === "success") {
+      //       const userData = userResponse.data;
+      //       setUserInfo(userData);
 
-            if (userData && userData.role) {
-              setRole(userData.role);
-            }
-          } else {
-            console.error(userResponse.error);
-          }
-        } else {
-          console.error(JWTresponse.error);
-        }
-      }
+      //       if (userData && userData.role) {
+      //         setRole(userData.role);
+      //       }
+      //     } else {
+      //       console.error(userResponse.error);
+      //     }
+      //   } else {
+      //     console.error(JWTresponse.error);
+      //   }
+      // }
 
       setLoading(false);
     });
 
     return () => unsubscribe();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [role]);
 
   const value: AuthContextType = {
     user,
