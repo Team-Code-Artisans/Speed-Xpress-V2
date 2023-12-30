@@ -30,6 +30,9 @@ import {
 import { ChangeEvent, useCallback, useMemo, useState } from "react";
 
 // icons
+import { useAuth } from "@/hooks/useAuth";
+import Loading from "@/ui/Loading";
+import { useRouter } from "next/navigation";
 import { CiSearch as SearchIcon } from "react-icons/ci";
 import { FaChevronDown as ChevronDownIcon } from "react-icons/fa";
 import { HiDotsVertical as VerticalDotsIcon } from "react-icons/hi";
@@ -37,11 +40,13 @@ import ParcelUpdateModal from "./ParcelUpdateModal";
 
 const ParcelTable = () => {
   // hooks
-  const { parcels } = useParcel();
+  const { parcels, isLoading } = useParcel();
+  const { role } = useAuth();
   const { page, setPage, onNextPage, onPreviousPage } = usePagination();
   const { filterValue, onSearchChange, onClear } = useFilter();
   const { visibleColumns, setVisibleColumns } = useVisibleColumns();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const router = useRouter();
 
   // states
   const [statusFilter, setStatusFilter] = useState<Selection>("all");
@@ -108,6 +113,10 @@ const ParcelTable = () => {
       const handleEdit = (id: string) => {
         onOpen();
         setUpdateId(id);
+      };
+
+      const handleView = (id: string) => {
+        router.push(`/dashboard/${role}/parcels/${id}`);
       };
 
       switch (columnKey) {
@@ -207,7 +216,14 @@ const ParcelTable = () => {
                   </Button>
                 </DropdownTrigger>
                 <DropdownMenu aria-label="action-items">
-                  <DropdownItem textValue="view">View</DropdownItem>
+                  <DropdownItem
+                    className="text-left"
+                    textValue="view"
+                    as="button"
+                    onClick={() => handleView(`${parcel?.parcelId}`)}
+                  >
+                    View
+                  </DropdownItem>
                   <DropdownItem
                     className="text-left"
                     textValue="edit"
@@ -389,7 +405,10 @@ const ParcelTable = () => {
             </TableColumn>
           )}
         </TableHeader>
-        <TableBody emptyContent={"No parcels found"} items={items}>
+        <TableBody
+          emptyContent={isLoading ? <Loading size="lg" /> : "No parcels found"}
+          items={items}
+        >
           {(item) => (
             <TableRow key={item.parcelId}>
               {(columnKey) => (
