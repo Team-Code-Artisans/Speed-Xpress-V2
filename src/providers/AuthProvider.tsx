@@ -146,22 +146,22 @@ const AuthProvider = ({ children }: ChildrenProps) => {
           role: `${role}`,
         });
 
-        if (JWTresponse.code === "error") {
-          console.error(JWTresponse.error);
-        }
+        if (JWTresponse.code === "success") {
+          // User response
+          const userResponse = await getSingleUser(currentUser?.email);
 
-        // User response
-        const userResponse = await getSingleUser(currentUser.email);
+          if (userResponse?.code === "success") {
+            const userData = userResponse.data;
+            setUserInfo(userData);
 
-        if (userResponse?.code === "success") {
-          const userData = userResponse.data;
-          setUserInfo(userData);
-
-          if (userData && userData.role) {
-            setRole(userData.role);
+            if (userData && userData.role) {
+              setRole(userData.role);
+            }
+          } else {
+            console.error(userResponse.error);
           }
         } else {
-          console.error(userResponse.error);
+          console.error(JWTresponse.error);
         }
       }
 
