@@ -1,28 +1,30 @@
 "use client";
 
 import { useAuth } from "@/hooks/useAuth";
-import { RegisterFormType } from "@/types/FormTypes";
+import { RegisterFormType, RegisterUserDataType } from "@/types/FormTypes";
 import CustomInput from "@/ui/CustomInput";
 import PrimaryButton from "@/ui/PrimaryButton";
 import SecondaryButton from "@/ui/SecondaryButton";
 import SelectDistrict from "@/ui/SelectDistrict";
 import SelectDivision from "@/ui/SelectDivision";
+import SelectVehicles from "@/ui/SelectVehicles";
 import { saveUser } from "@/utils/api/user";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-
-// icons
 import { FaEye, FaEyeSlash, FaGoogle } from "react-icons/fa";
+import { toast } from "react-toastify";
 
-const MerchantForm = () => {
+const RegisterForm = ({ role }: { role: string }) => {
   const { googleSignIn, registerUser, loading } = useAuth();
 
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
 
+  // const [userData, setUserData] = useState<RegisterFormType>();
   const [division, setDivision] = useState<string>("Dhaka");
   const [district, setDistrict] = useState<string>("Dhaka");
+  const [vehicle, setVehicle] = useState<string>("Bike");
 
   const router = useRouter();
 
@@ -35,10 +37,9 @@ const MerchantForm = () => {
 
   const handleForm = async (data: RegisterFormType) => {
     const { name, email, password, number, address, shopName } = data;
-    const role = "merchant";
-    const merchantData = {
+
+    let userData: RegisterUserDataType = {
       name,
-      shopName,
       email,
       number,
       division,
@@ -48,12 +49,31 @@ const MerchantForm = () => {
       photoURL: "",
     };
 
-    const userCredential = await registerUser(email, password, name);
+    if (role === "merchant") {
+      userData = {
+        ...userData,
+        shopName,
+      };
+    }
+
+    if (role === "rider") {
+      userData = {
+        ...userData,
+        vehicle,
+      };
+    }
+
+    console.log("userData:", userData);
+
+    const userCredential = await registerUser(email, password, role);
 
     if (userCredential !== null) {
       reset();
-      await saveUser(merchantData);
-      router.push(`/dashboard/${role}`);
+      const saveResponse = await saveUser(userData);
+      if (saveResponse.code === "success") {
+        router.push(`/dashboard/${role}`);
+        toast.success("Register successfully");
+      }
     }
   };
 
@@ -63,13 +83,13 @@ const MerchantForm = () => {
         type="button"
         fullWidth
         onClick={() => {
-          googleSignIn("merchant");
+          googleSignIn(role);
         }}
       >
         <FaGoogle /> Sign in with Google
       </SecondaryButton>
       <CustomInput
-        label="Owner Name"
+        label={role !== "merchant" ? "Name" : "Owner Name"}
         name="name"
         register={register}
         error={errors}
@@ -80,20 +100,25 @@ const MerchantForm = () => {
           maxLength: { value: 20, message: "*name is invalid" },
         }}
       />
+      {role === "merchant" && (
+        <CustomInput
+          label="Shop Name"
+          name="shopName"
+          register={register}
+          error={errors}
+          validationRules={{
+            required: "*shop name is required",
+            pattern: {
+              value: /^[A-Za-z ]+$/i,
+              message: "*shop name is invalid",
+            },
+            minLength: { value: 2, message: "*shop name is invalid" },
+            maxLength: { value: 20, message: "*shop name is invalid" },
+          }}
+        />
+      )}
       <CustomInput
-        label="Shop Name"
-        name="shopName"
-        register={register}
-        error={errors}
-        validationRules={{
-          required: "*shop name is required",
-          pattern: { value: /^[A-Za-z ]+$/i, message: "*shop name is invalid" },
-          minLength: { value: 2, message: "*shop name is invalid" },
-          maxLength: { value: 20, message: "*shop name is invalid" },
-        }}
-      />
-      <CustomInput
-        label="Business Email"
+        label={role !== "merchant" ? "Email" : "Business Email"}
         name="email"
         type="email"
         register={register}
@@ -143,18 +168,19 @@ const MerchantForm = () => {
           },
         }}
       />
+      {role === "rider" && (
+        <SelectVehicles vehicle={vehicle} setVehicle={setVehicle} />
+      )}
       <div className="flex gap-4">
         <SelectDivision
           division={division}
           setDivision={setDivision}
           setDistrict={setDistrict}
-          variant="bordered"
         />
         <SelectDistrict
           division={division}
           district={district}
           setDistrict={setDistrict}
-          variant="bordered"
         />
       </div>
       <CustomInput
@@ -178,4 +204,4 @@ const MerchantForm = () => {
   );
 };
 
-export default MerchantForm;
+export default RegisterForm;

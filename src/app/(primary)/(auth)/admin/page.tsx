@@ -1,6 +1,6 @@
 import Register from "@/components/Register/Register";
 
-const RegisterPage = () => {
+const AdminPage = () => {
   return (
     <div>
       <Register />
@@ -8,4 +8,4 @@ const RegisterPage = () => {
   );
 };
 
-export default RegisterPage;
+export default AdminPage;

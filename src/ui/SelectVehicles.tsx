@@ -2,7 +2,11 @@ import { vehicleData } from "@/data/vehicleData";
 import { VehiclePropsType } from "@/types/FormTypes";
 import { Select, SelectItem } from "@nextui-org/react";
 
-const SelectVehicles = ({ vehicle, setVehicle, variant }: VehiclePropsType) => {
+const SelectVehicles = ({
+  vehicle,
+  setVehicle,
+  variant = "bordered",
+}: VehiclePropsType) => {
   return (
     <Select
       isRequired

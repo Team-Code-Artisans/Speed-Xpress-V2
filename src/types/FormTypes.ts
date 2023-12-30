@@ -5,8 +5,19 @@ export type RegisterFormType = {
   number: string;
   address: string;
   shopName?: string;
+};
+
+type UserDataType = {
+  photoURL: string;
+  role: string;
+  division: string;
+  district: string;
   vehicle?: string;
 };
+
+type RegisterFormWithoutPassword = Omit<RegisterFormType, "password">;
+
+export type RegisterUserDataType = RegisterFormWithoutPassword & UserDataType;
 
 export type DivisionPropsType = {
   variant?: "flat" | "faded" | "bordered";

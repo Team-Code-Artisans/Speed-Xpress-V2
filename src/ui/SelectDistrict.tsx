@@ -7,7 +7,7 @@ const SelectDistrict = ({
   division,
   district,
   setDistrict,
-  variant,
+  variant = "bordered",
 }: DistrictPropsType) => {
   // Find the division object
   const selectedDivision = divisionData.find(
