@@ -3,7 +3,7 @@ import { getSingleParcel } from "@/utils/api/parcel";
 import { Divider } from "@nextui-org/react";
 import Image from "next/image";
 
-const ParcelDetailsView = async ({ params }: { params: { id: string } }) => {
+const ParcelDetailsPage = async ({ params }: { params: { id: string } }) => {
   const parcelResponse = await getSingleParcel(params.id);
 
   return (
@@ -30,4 +30,4 @@ const ParcelDetailsView = async ({ params }: { params: { id: string } }) => {
   );
 };
 
-export default ParcelDetailsView;
+export default ParcelDetailsPage;

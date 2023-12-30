@@ -5,10 +5,10 @@ const ParcelDetails = ({ parcelData }: { parcelData: ParcelType }) => {
   const [date, time] = parcelData?.deliveryDateTime.split(", ");
 
   return (
-    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
+    <div className="grid md:grid-cols-2 gap-4 lg:gap-8">
       {/* Sender info */}
       {parcelData?.senderInfo && (
-        <div className="space-y-4">
+        <div className="space-y-4 p-6 sm:p-8 dark:bg-gray-900 bg-gray-200 rounded-lg">
           <h1 className="text-xl font-medium">SENDER INFO</h1>
           <Divider />
           <div>
@@ -66,7 +66,7 @@ const ParcelDetails = ({ parcelData }: { parcelData: ParcelType }) => {
 
       {/* Merchant info */}
       {parcelData?.merchantInfo && (
-        <div className="space-y-4">
+        <div className="space-y-4 p-6 sm:p-8 dark:bg-gray-900 bg-gray-200 rounded-lg">
           <h1 className="text-xl font-medium">MERCHANT INFO</h1>
           <Divider />
           <div>
@@ -131,7 +131,7 @@ const ParcelDetails = ({ parcelData }: { parcelData: ParcelType }) => {
       )}
 
       {/* Receipt info */}
-      <div className="space-y-4">
+      <div className="space-y-4 p-6 sm:p-8 dark:bg-gray-900 bg-gray-200 rounded-lg">
         <h1 className="text-xl font-medium">RECEIPT INFO</h1>
         <Divider />
         <div>
@@ -186,7 +186,7 @@ const ParcelDetails = ({ parcelData }: { parcelData: ParcelType }) => {
         </div>
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-4 p-6 sm:p-8 dark:bg-gray-900 bg-gray-200 rounded-lg">
         <h1 className="text-xl font-medium">PARCEL INFO</h1>
         <Divider />
         <div>
@@ -263,12 +263,16 @@ const ParcelDetails = ({ parcelData }: { parcelData: ParcelType }) => {
           <label htmlFor="description" className="text-sm">
             Description:
           </label>
-          <h1 className="text-lg">{parcelData?.description || ""}</h1>
+          <h1 className="text-lg line-clamp-3">
+            {parcelData?.description === ""
+              ? "..."
+              : parcelData?.description || "..."}
+          </h1>
         </div>
       </div>
 
       {/* Payment info */}
-      <div className="space-y-4">
+      <div className="space-y-4 p-6 sm:p-8 dark:bg-gray-900 bg-gray-200 rounded-lg">
         <h1 className="text-xl font-medium">PAYMENT INFO</h1>
         <Divider />
         <div className="grid grid-cols-2">
