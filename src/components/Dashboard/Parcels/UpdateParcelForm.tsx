@@ -74,7 +74,7 @@ const UpdateParcelForm = ({ onClose, id }: ParcelFormProps) => {
       refetch();
       onClose();
     } else {
-      console.error(parcelResponse?.error.message);
+      console.error(parcelResponse.error);
     }
   };
 

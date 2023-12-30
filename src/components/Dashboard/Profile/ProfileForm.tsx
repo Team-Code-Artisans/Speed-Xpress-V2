@@ -40,7 +40,7 @@ const ProfileForm = ({ onClose }: ProfileFormProps) => {
         setUserInfo(profileResponse.data);
         onClose();
       } else {
-        console.error(profileResponse?.error.message);
+        console.error(profileResponse.error);
       }
     }
   };

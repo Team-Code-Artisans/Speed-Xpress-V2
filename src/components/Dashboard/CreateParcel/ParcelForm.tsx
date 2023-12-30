@@ -126,7 +126,7 @@ const ParcelForm = ({
           const url = paymentResponse.data.url;
           router.push(`${url}`);
         } else {
-          console.error(paymentResponse.error.message);
+          console.error(paymentResponse.error);
         }
       } else {
         router.push(`/dashboard/${role}/parcels`);
