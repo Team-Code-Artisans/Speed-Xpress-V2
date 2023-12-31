@@ -2,16 +2,18 @@
 
 import { Card, CardBody, Tab, Tabs } from "@nextui-org/react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
-import MerchantForm from "./MerchantForm";
-import RegularForm from "./RegularForm";
-import RiderForm from "./RiderForm";
+import RegisterForm from "./RegisterForm";
 
 const Register = () => {
-  const [selected, setSelected] = useState("Regular");
+  const pathname = usePathname();
+  const [selected, setSelected] = useState<string>(
+    pathname === "/admin" ? "admin" : "regular"
+  );
 
   return (
-    <div className="w-full sm:w-[30rem]">
+    <div className="w-full sm:w-[30rem] mx-auto">
       <Card radius="sm">
         <CardBody className="overflow-hidden">
           <Tabs
@@ -25,14 +27,20 @@ const Register = () => {
             onSelectionChange={setSelected}
             className="py-2"
           >
+            {pathname === "/admin" && (
+              <Tab key="admin" title="Admin">
+                <RegisterForm role={selected} />
+              </Tab>
+            )}
+
             <Tab key="regular" title="Regular">
-              <RegularForm />
+              <RegisterForm role={selected} />
             </Tab>
             <Tab key="merchant" title="Merchant">
-              <MerchantForm />
+              <RegisterForm role={selected} />
             </Tab>
             <Tab key="rider" title="Rider">
-              <RiderForm />
+              <RegisterForm role={selected} />
             </Tab>
           </Tabs>
           <p className="text-center text-small py-2">

@@ -5,7 +5,7 @@ import { AuthContextType } from "@/types/AuthContextType";
 import { ChildrenProps } from "@/types/ChildrenProps";
 import { UserType } from "@/types/UserType";
 import { postJwt } from "@/utils/api/jwt";
-import { getSingleUser, saveUser } from "@/utils/api/user";
+import { saveUser } from "@/utils/api/user";
 import {
   GoogleAuthProvider,
   User,
@@ -31,7 +31,6 @@ export const AuthContext = createContext<AuthContextType>(
 const AuthProvider = ({ children }: ChildrenProps) => {
   const [user, setUser] = useState<User | null>(null);
   const [role, setRole] = useState<string | null>(null);
-  const [userInfo, setUserInfo] = useState<UserType | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const router = useRouter();
 
@@ -46,19 +45,33 @@ const AuthProvider = ({ children }: ChildrenProps) => {
         email,
         password
       );
-      setUser({
-        ...userCredential.user,
-        email,
-        displayName,
-      });
 
-      setLoading(false);
-      await updateProfile(userCredential.user, { displayName: displayName });
+      if (userCredential.user.email) {
+        await updateProfile(userCredential.user, {
+          displayName: displayName,
+        });
+
+        const jwtResponse = await postJwt({
+          email: userCredential.user.email,
+          role: `${displayName}`,
+        });
+
+        if (jwtResponse.code === "success") {
+          setUser({
+            ...userCredential.user,
+            email,
+            displayName,
+          });
+
+          setRole(displayName);
+
+          setLoading(false);
+        }
+      }
+
       return userCredential.user;
     } catch (error: any) {
-      if (error.message.includes("password")) {
-        toast.error("Password must be 6 characters");
-      } else if (error.message.includes("email")) {
+      if (error.message.includes("email")) {
         toast.error("Email already exist");
       } else {
         toast.error("Something went wrong!");
@@ -75,35 +88,61 @@ const AuthProvider = ({ children }: ChildrenProps) => {
         email,
         password
       );
-      setLoading(false);
+
+      if (userCredential.user) {
+        await postJwt({
+          email: `${userCredential.user.email}`,
+          role: `${userCredential.user.displayName}`,
+        });
+
+        setRole(userCredential.user.displayName);
+
+        setLoading(false);
+      }
+
       return userCredential.user;
     } catch (error) {
       toast.error("Invalid email or password");
+      console.error(error);
       setLoading(false);
       return null;
     }
   };
 
-  const googleSignIn = async (role: string) => {
+  const googleSignIn = async () => {
     const provider = new GoogleAuthProvider();
+
     try {
       const userCredential = await signInWithPopup(auth, provider);
 
       const userData: UserType = {
-        name: userCredential.user.displayName || "",
-        email: userCredential.user.email || "",
-        photoURL: userCredential.user.photoURL || "",
+        name: userCredential.user.displayName,
+        email: userCredential.user.email,
+        photoURL: userCredential.user.photoURL,
         number: "",
         division: "",
         district: "",
         address: "",
-        role: role,
+        role: "regular",
       };
 
-      if (userCredential.user) {
-        router.push(`/dashboard/${role}`);
-        await saveUser(userData);
-        toast.success("Google sign in Successfully");
+      if (userCredential.user.email) {
+        const JwtResponse = await postJwt({
+          email: userCredential.user.email,
+          role: "regular",
+        });
+
+        if (JwtResponse.code === "success") {
+          setRole("regular");
+
+          const userResponse = await saveUser(userData);
+          if (userResponse.code === "success") {
+            router.push(`/dashboard/regular`);
+            toast.success("Google sign in Successfully");
+          } else {
+            console.error(userResponse.error);
+          }
+        }
       }
     } catch (error) {
       console.error(error);
@@ -112,23 +151,21 @@ const AuthProvider = ({ children }: ChildrenProps) => {
 
   const logOut = async () => {
     try {
-      setLoading(false);
+      setUser(null);
+      setRole(null);
       await signOut(auth);
-      toast.success("Sign out successfully");
       router.push("/login");
+      toast.success("Sign out successfully");
     } catch (error) {
-      setLoading(false);
-      toast.error("Sign out failed");
       console.error(error);
+      toast.error("Sign out failed");
     }
   };
 
   const resetPassword = async (email: string) => {
     try {
-      setLoading(false);
       await sendPasswordResetEmail(auth, email);
     } catch (error) {
-      setLoading(false);
       console.error(error);
     }
   };
@@ -137,44 +174,24 @@ const AuthProvider = ({ children }: ChildrenProps) => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
 
-      if (currentUser?.email) {
-        setLoading(true);
-
-        // JWT response (HttpOnly cookie on the server)
-        const JWTresponse = await postJwt({
-          email: currentUser.email,
-          role: `${role}`,
-        });
-
-        if (JWTresponse.code === "success") {
-          // User response
-          const userResponse = await getSingleUser(currentUser?.email);
-
-          if (userResponse?.code === "success") {
-            const userData = userResponse.data;
-            setUserInfo(userData);
-
-            if (userData && userData.role) {
-              setRole(userData.role);
-            }
-          } else {
-            console.error(userResponse.error);
-          }
-        } else {
-          console.error(JWTresponse.error);
-        }
+      if (currentUser !== null) {
+        setRole(
+          ["regular", "merchant", "rider", "admin"].includes(
+            `${currentUser?.displayName}`
+          )
+            ? currentUser?.displayName
+            : "regular"
+        );
       }
 
       setLoading(false);
     });
 
     return () => unsubscribe();
-  }, [role]);
+  }, []);
 
   const value: AuthContextType = {
     user,
-    userInfo,
-    setUserInfo,
     role,
     registerUser,
     googleSignIn,

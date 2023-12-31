@@ -30,6 +30,9 @@ import {
 import { ChangeEvent, useCallback, useMemo, useState } from "react";
 
 // icons
+import { useAuth } from "@/hooks/useAuth";
+import Loading from "@/ui/Loading";
+import { useRouter } from "next/navigation";
 import { CiSearch as SearchIcon } from "react-icons/ci";
 import { FaChevronDown as ChevronDownIcon } from "react-icons/fa";
 import { HiDotsVertical as VerticalDotsIcon } from "react-icons/hi";
@@ -37,11 +40,13 @@ import ParcelUpdateModal from "./ParcelUpdateModal";
 
 const ParcelTable = () => {
   // hooks
-  const { parcels } = useParcel();
+  const { parcels, isLoading } = useParcel();
+  const { role } = useAuth();
   const { page, setPage, onNextPage, onPreviousPage } = usePagination();
   const { filterValue, onSearchChange, onClear } = useFilter();
   const { visibleColumns, setVisibleColumns } = useVisibleColumns();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const router = useRouter();
 
   // states
   const [statusFilter, setStatusFilter] = useState<Selection>("all");
@@ -110,6 +115,26 @@ const ParcelTable = () => {
         setUpdateId(id);
       };
 
+      const handleAcceptByAdmin = (id: string) => {
+        console.log(id);
+      };
+
+      const handleAcceptByRider = (id: string) => {
+        console.log(id);
+      };
+
+      const handleView = (id: string) => {
+        if (role !== "rider") {
+          router.push(`/dashboard/${role}/parcels/${id}`);
+        } else {
+          router.push(`/dashboard/${role}/deliveries/${id}`);
+        }
+      };
+
+      const handleDelete = (id: string) => {
+        console.log(id);
+      };
+
       switch (columnKey) {
         case "id":
           return (
@@ -160,11 +185,13 @@ const ParcelTable = () => {
             <>
               <p className="text-small capitalize">
                 Weight:{" "}
-                <span className="font-medium">{parcel?.parcelWeight}</span>
+                <span className="font-medium">{parcel?.parcelWeight} KG</span>
               </p>
               <p className="text-small capitalize">
                 Quantity:{" "}
-                <span className="font-medium">{parcel?.parcelQuantity}</span>
+                <span className="font-medium">
+                  {parcel?.parcelQuantity} PCS
+                </span>
               </p>
             </>
           );
@@ -180,7 +207,7 @@ const ParcelTable = () => {
               <p className="text-small capitalize whitespace-nowrap">
                 Amount:{" "}
                 <span className="font-medium">
-                  {parcel?.paymentInfo.amount}
+                  ${parcel?.paymentInfo.amount}
                 </span>
               </p>
             </>
@@ -207,7 +234,14 @@ const ParcelTable = () => {
                   </Button>
                 </DropdownTrigger>
                 <DropdownMenu aria-label="action-items">
-                  <DropdownItem textValue="view">View</DropdownItem>
+                  <DropdownItem
+                    className="text-left"
+                    textValue="view"
+                    as="button"
+                    onClick={() => handleView(`${parcel?.parcelId}`)}
+                  >
+                    View
+                  </DropdownItem>
                   <DropdownItem
                     className="text-left"
                     textValue="edit"
@@ -216,7 +250,42 @@ const ParcelTable = () => {
                   >
                     Edit
                   </DropdownItem>
-                  <DropdownItem textValue="delete">Delete</DropdownItem>
+                  <>
+                    {role !== "rider" && (
+                      <DropdownItem
+                        textValue="delete"
+                        className="text-left"
+                        as="button"
+                        onClick={() => handleDelete(`${parcel?._id}`)}
+                      >
+                        Delete
+                      </DropdownItem>
+                    )}
+                  </>
+                  <>
+                    {role === "admin" && (
+                      <DropdownItem
+                        textValue="accept by admin"
+                        className="text-left"
+                        as="button"
+                        onClick={() => handleAcceptByAdmin(`${parcel?._id}`)}
+                      >
+                        Accept
+                      </DropdownItem>
+                    )}
+                  </>
+                  <>
+                    {role === "rider" && (
+                      <DropdownItem
+                        textValue="accept by rider"
+                        className="text-left"
+                        as="button"
+                        onClick={() => handleAcceptByRider(`${parcel?._id}`)}
+                      >
+                        Accept
+                      </DropdownItem>
+                    )}
+                  </>
                 </DropdownMenu>
               </Dropdown>
             </div>
@@ -225,7 +294,7 @@ const ParcelTable = () => {
           return <>{cellValue}</>;
       }
     },
-    [onOpen]
+    [onOpen, role, router]
   );
 
   const onRowsPerPageChange = useCallback(
@@ -389,7 +458,10 @@ const ParcelTable = () => {
             </TableColumn>
           )}
         </TableHeader>
-        <TableBody emptyContent={"No parcels found"} items={items}>
+        <TableBody
+          emptyContent={isLoading ? <Loading size="lg" /> : "No parcels found"}
+          items={items}
+        >
           {(item) => (
             <TableRow key={item.parcelId}>
               {(columnKey) => (

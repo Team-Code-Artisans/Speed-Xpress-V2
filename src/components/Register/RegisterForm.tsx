@@ -1,22 +1,21 @@
 "use client";
 
 import { useAuth } from "@/hooks/useAuth";
-import { RegisterFormType } from "@/types/FormTypes";
+import { RegisterFormType, RegisterUserDataType } from "@/types/FormTypes";
 import CustomInput from "@/ui/CustomInput";
 import PrimaryButton from "@/ui/PrimaryButton";
 import SecondaryButton from "@/ui/SecondaryButton";
 import SelectDistrict from "@/ui/SelectDistrict";
 import SelectDivision from "@/ui/SelectDivision";
+import SelectVehicles from "@/ui/SelectVehicles";
 import { saveUser } from "@/utils/api/user";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-
-// icons
 import { FaEye, FaEyeSlash, FaGoogle } from "react-icons/fa";
 import { toast } from "react-toastify";
 
-const RegularForm = () => {
+const RegisterForm = ({ role }: { role: string }) => {
   const { googleSignIn, registerUser, loading } = useAuth();
 
   const [isVisible, setIsVisible] = useState<boolean>(false);
@@ -24,6 +23,7 @@ const RegularForm = () => {
 
   const [division, setDivision] = useState<string>("Dhaka");
   const [district, setDistrict] = useState<string>("Dhaka");
+  const [vehicle, setVehicle] = useState<string>("Bike");
 
   const router = useRouter();
 
@@ -35,9 +35,9 @@ const RegularForm = () => {
   } = useForm<any>();
 
   const handleForm = async (data: RegisterFormType) => {
-    const { name, email, password, number, address } = data;
-    const role = "regular";
-    const regularData = {
+    const { name, email, password, number, address, shopName } = data;
+
+    let userData: RegisterUserDataType = {
       name,
       email,
       number,
@@ -48,29 +48,50 @@ const RegularForm = () => {
       photoURL: "",
     };
 
-    const userCredential = await registerUser(email, password, name);
+    if (role === "merchant") {
+      userData = {
+        ...userData,
+        shopName,
+      };
+    }
+
+    if (role === "rider") {
+      userData = {
+        ...userData,
+        vehicle,
+      };
+    }
+
+    const userCredential = await registerUser(email, password, role);
 
     if (userCredential !== null) {
-      reset();
-      await saveUser(regularData);
-      router.push(`/dashboard/${role}`);
-      toast.success("Register successfully");
+      // User response
+      const userResponse = await saveUser(userData);
+      if (userResponse.code === "success") {
+        reset();
+        router.push(`/dashboard/${role}`);
+        toast.success("Register successfully");
+      } else {
+        console.error(userResponse.error);
+      }
     }
   };
 
   return (
     <form onSubmit={handleSubmit(handleForm)} className="flex flex-col gap-4">
-      <SecondaryButton
-        type="button"
-        fullWidth
-        onClick={() => {
-          googleSignIn("regular");
-        }}
-      >
-        <FaGoogle /> Sign in with Google
-      </SecondaryButton>
+      {role === "regular" && (
+        <SecondaryButton
+          type="button"
+          fullWidth
+          onClick={() => {
+            googleSignIn();
+          }}
+        >
+          <FaGoogle /> Sign in with Google
+        </SecondaryButton>
+      )}
       <CustomInput
-        label="Name"
+        label={role !== "merchant" ? "Name" : "Owner Name"}
         name="name"
         register={register}
         error={errors}
@@ -81,8 +102,25 @@ const RegularForm = () => {
           maxLength: { value: 20, message: "*name is invalid" },
         }}
       />
+      {role === "merchant" && (
+        <CustomInput
+          label="Shop Name"
+          name="shopName"
+          register={register}
+          error={errors}
+          validationRules={{
+            required: "*shop name is required",
+            pattern: {
+              value: /^[A-Za-z ]+$/i,
+              message: "*shop name is invalid",
+            },
+            minLength: { value: 2, message: "*shop name is invalid" },
+            maxLength: { value: 20, message: "*shop name is invalid" },
+          }}
+        />
+      )}
       <CustomInput
-        label="Email"
+        label={role !== "merchant" ? "Email" : "Business Email"}
         name="email"
         type="email"
         register={register}
@@ -127,23 +165,26 @@ const RegularForm = () => {
         validationRules={{
           required: "*phone number is required",
           pattern: {
-            value: /^[0-9]{11}$/,
+            value: /^[0-9+\\-]+$/,
             message: "invalid phone number",
           },
+          minLength: { value: 7, message: "*invalid phone number" },
+          maxLength: { value: 15, message: "*invalid phone number" },
         }}
       />
+      {role === "rider" && (
+        <SelectVehicles vehicle={vehicle} setVehicle={setVehicle} />
+      )}
       <div className="flex gap-4">
         <SelectDivision
           division={division}
           setDivision={setDivision}
           setDistrict={setDistrict}
-          variant="bordered"
         />
         <SelectDistrict
           division={division}
           district={district}
           setDistrict={setDistrict}
-          variant="bordered"
         />
       </div>
       <CustomInput
@@ -167,4 +208,4 @@ const RegularForm = () => {
   );
 };
 
-export default RegularForm;
+export default RegisterForm;

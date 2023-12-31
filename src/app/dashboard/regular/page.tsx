@@ -1,7 +1,5 @@
-import React from "react";
-
 const RegularDashboardPage = () => {
-  return <div>RegularDashboardPage</div>;
+  return <>RegularDashboardPage</>;
 };
 
 export default RegularDashboardPage;

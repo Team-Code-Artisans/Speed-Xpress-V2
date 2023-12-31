@@ -1,5 +1,4 @@
 import { weightData } from "@/data/deliveryData";
-import { useAuth } from "@/hooks/useAuth";
 import {
   ParcelDataType,
   ParcelFormProps,
@@ -28,9 +27,8 @@ const ParcelForm = ({
   setShippingMethod,
   setWeight,
   estimatedTotal,
+  userInfo,
 }: ParcelFormProps) => {
-  const { userInfo, role } = useAuth();
-
   const [district, setDistrict] = useState<string>("Dhaka");
   const [paymentMethod, setPaymentMethod] = useState<string>("online");
 
@@ -84,7 +82,7 @@ const ParcelForm = ({
       description,
     };
 
-    if (role === "merchant") {
+    if (userInfo.role === "merchant") {
       parcelData = {
         ...parcelData,
         merchantInfo: {
@@ -123,14 +121,22 @@ const ParcelForm = ({
         const paymentResponse = await createPayment(paymentData);
 
         if (paymentResponse.code === "success") {
-          const url = paymentResponse.data.url;
-          router.push(`${url}`);
+          router.push(`${paymentResponse.data.url}`);
         } else {
+          toast.error("Parcel created failed");
           console.error(paymentResponse.error);
+          router.push(`/dashboard/${userInfo.role}/parcels`);
         }
       } else {
-        router.push(`/dashboard/${role}/parcels`);
-        toast.success("Parcel created successfully");
+        // const paymentResponse = await savePayment(paymentData);
+        // if (paymentResponse.code === "success") {
+        //   toast.success("Parcel created successfully");
+        //   router.push(`/dashboard/${userInfo.role}/parcels`);
+        // } else {
+        //   toast.error("Parcel created failed");
+        //   console.error(paymentResponse.error);
+        //   router.push(`/dashboard/${userInfo.role}/parcels`);
+        // }
       }
       reset();
     }
@@ -174,9 +180,11 @@ const ParcelForm = ({
         validationRules={{
           required: "*phone number is required",
           pattern: {
-            value: /^[0-9]{11}$/,
+            value: /^[0-9+\\-]+$/,
             message: "invalid phone number",
           },
+          minLength: { value: 7, message: "*invalid phone number" },
+          maxLength: { value: 15, message: "*invalid phone number" },
         }}
       />
       <div className="flex gap-4">
@@ -210,7 +218,7 @@ const ParcelForm = ({
         <Select
           label={
             <p>
-              Select total weight <span className="text-danger">*</span>
+              Total Weight <span className="text-danger">*</span>
             </p>
           }
           {...register("weight", {
@@ -231,11 +239,12 @@ const ParcelForm = ({
           ))}
         </Select>
         <CustomInput
-          label="Quantity"
+          label="Total Quantity"
           name="quantity"
           type="number"
           register={register}
           error={errors}
+          endContent={<p className="text-small text-default-600">pcs</p>}
           validationRules={{
             required: "*quantity is required",
             pattern: {
@@ -288,7 +297,7 @@ const ParcelForm = ({
 
       <div className="flex gap-4 justify-end">
         <SecondaryButton
-          href={`/dashboard/${role}/parcels`}
+          href={`/dashboard/${userInfo.role}/parcels`}
           type="button"
           fullWidth={true}
         >

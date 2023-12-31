@@ -9,7 +9,7 @@ import WhatWeOffer from "@/components/Home/WhatWeOffer";
 
 const HomePage = () => {
   return (
-    <div>
+    <>
       <Hero />
       <WhatWeOffer />
       <Processes />
@@ -18,7 +18,7 @@ const HomePage = () => {
       <OrderNow />
       <FAQ />
       <GetStarted />
-    </div>
+    </>
   );
 };
 

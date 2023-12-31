@@ -84,11 +84,13 @@ const DashboardNavbar = () => {
             </Link>
           ))}
         </div>
-        <NavbarItem>
-          <PrimaryButton href={`/dashboard/${role}/create-parcel`} size="md">
-            Create Parcel
-          </PrimaryButton>
-        </NavbarItem>
+        {role !== "rider" && (
+          <NavbarItem>
+            <PrimaryButton href={`/dashboard/${role}/create-parcel`} size="md">
+              Create Parcel
+            </PrimaryButton>
+          </NavbarItem>
+        )}
         <Dropdown placement="bottom-end" backdrop="opaque" showArrow>
           <DropdownTrigger className="cursor-pointer">
             <Avatar

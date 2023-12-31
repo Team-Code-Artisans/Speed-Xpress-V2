@@ -1,3 +1,5 @@
+import { UserType } from "./UserType";
+
 export enum Status {
   Pending = "pending",
   Accepted = "accepted",
@@ -86,6 +88,7 @@ export type ParcelFormProps = {
   weight: string;
   setWeight: React.Dispatch<React.SetStateAction<string>>;
   estimatedTotal: number;
+  userInfo: UserType;
 };
 
 export type ParcelSummaryType = {

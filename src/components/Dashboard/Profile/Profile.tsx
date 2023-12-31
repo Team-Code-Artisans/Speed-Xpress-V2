@@ -1,10 +1,10 @@
 import Image from "next/image";
 import ProfileInfo from "./ProfileInfo";
-import UpdateProfileButton from "./UpdateProfileButton";
+import UpdateProfileModal from "./UpdateProfileModal";
 
 const Profile = () => {
   return (
-    <section className="max-w-screen-xl mx-auto px-4 lg:py-20 py-10">
+    <section className="max-w-screen-xl mx-auto px-6 lg:py-20 py-10">
       <div className="flex flex-col lg:flex-row justify-between items-center gap-10">
         <div className="flex flex-col gap-8 bg-gray-200 dark:bg-gray-900 p-8 rounded-lg max-w-[40rem] w-full h-full">
           <div className="flex justify-between items-center gap-4">
@@ -12,8 +12,12 @@ const Profile = () => {
               PROFILE
               <span className="text-primary"> INFO</span>
             </h1>
-            <UpdateProfileButton />
+
+            {/* Update profile modal */}
+            <UpdateProfileModal />
           </div>
+
+          {/* Profile info */}
           <ProfileInfo />
         </div>
         <div className="flex items-center justify-center">

@@ -7,7 +7,7 @@ const SelectDivision = ({
   division,
   setDivision,
   setDistrict,
-  variant,
+  variant = "bordered",
 }: DivisionPropsType) => {
   const handleChange = (e: { target: { value: string } }) => {
     // Select the division name

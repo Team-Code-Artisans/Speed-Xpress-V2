@@ -2,9 +2,9 @@ import Profile from "@/components/Dashboard/Profile/Profile";
 
 const ProfilePage = () => {
   return (
-    <div>
+    <>
       <Profile />
-    </div>
+    </>
   );
 };
 

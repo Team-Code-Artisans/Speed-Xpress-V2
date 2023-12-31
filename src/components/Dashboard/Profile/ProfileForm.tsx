@@ -1,4 +1,4 @@
-import { useAuth } from "@/hooks/useAuth";
+import { useUserInfo } from "@/hooks/useUserInfo";
 import { ProfileFormProps, ProfileFormType } from "@/types/FormTypes";
 import CustomInput from "@/ui/CustomInput";
 import PrimaryButton from "@/ui/PrimaryButton";
@@ -8,9 +8,10 @@ import SelectDivision from "@/ui/SelectDivision";
 import { updateUser } from "@/utils/api/user";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 const ProfileForm = ({ onClose }: ProfileFormProps) => {
-  const { userInfo, setUserInfo } = useAuth();
+  const { userInfo, refetch } = useUserInfo();
 
   const [division, setDivision] = useState<string>(`${userInfo?.division}`);
   const [district, setDistrict] = useState<string>(`${userInfo?.district}`);
@@ -37,10 +38,12 @@ const ProfileForm = ({ onClose }: ProfileFormProps) => {
       const profileResponse = await updateUser(params);
 
       if (profileResponse.code === "success") {
-        setUserInfo(profileResponse.data);
+        refetch();
         onClose();
+        toast.success("Profile updated successfully");
       } else {
         console.error(profileResponse.error);
+        toast.success("Profile updated failed");
       }
     }
   };
@@ -69,9 +72,11 @@ const ProfileForm = ({ onClose }: ProfileFormProps) => {
         validationRules={{
           required: "*phone number is required",
           pattern: {
-            value: /^[0-9]{11}$/,
+            value: /^[0-9+\\-]+$/,
             message: "invalid phone number",
           },
+          minLength: { value: 7, message: "*invalid phone number" },
+          maxLength: { value: 15, message: "*invalid phone number" },
         }}
       />
       <CustomInput

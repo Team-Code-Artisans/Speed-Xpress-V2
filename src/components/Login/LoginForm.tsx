@@ -31,6 +31,7 @@ const LoginForm = () => {
     const { email, password } = data;
 
     const userCredential = await loginUser(email, password);
+
     if (userCredential !== null) {
       reset();
       router.push(`/dashboard`);
@@ -44,7 +45,7 @@ const LoginForm = () => {
         type="button"
         fullWidth
         onClick={() => {
-          googleSignIn("regular");
+          googleSignIn();
         }}
       >
         <FaGoogle /> Sign in with Google

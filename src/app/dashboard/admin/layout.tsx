@@ -23,10 +23,10 @@ const AdminDashboardLayout = ({ children }: ChildrenProps) => {
   }
 
   return (
-    <div>
+    <>
       <DashboardNavbar />
       {children}
-    </div>
+    </>
   );
 };
 
