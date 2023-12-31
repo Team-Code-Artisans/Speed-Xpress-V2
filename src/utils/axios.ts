@@ -1,3 +1,4 @@
+import { getLogOutFunction } from "@/hooks/useAuth";
 import axios from "axios";
 
 const api = axios.create({
@@ -19,6 +20,15 @@ api.interceptors.response.use(
     return response;
   },
   function (error) {
+    const originalRequest = error.config;
+    const logOut = getLogOutFunction();
+
+    if (error.response.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
+      logOut();
+    }
+
     return Promise.reject(error);
   }
 );

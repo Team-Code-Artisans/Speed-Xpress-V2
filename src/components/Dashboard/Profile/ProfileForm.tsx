@@ -53,7 +53,7 @@ const ProfileForm = ({ onClose }: ProfileFormProps) => {
       <CustomInput
         label="Name"
         name="name"
-        defaultValue={`${userInfo?.name}`}
+        defaultValue={`${userInfo?.name || ""}`}
         register={register}
         error={errors}
         validationRules={{
@@ -66,7 +66,7 @@ const ProfileForm = ({ onClose }: ProfileFormProps) => {
       <CustomInput
         label="Phone Number"
         name="number"
-        defaultValue={`${userInfo?.number}`}
+        defaultValue={`${userInfo?.number || ""}`}
         register={register}
         error={errors}
         validationRules={{
@@ -82,7 +82,7 @@ const ProfileForm = ({ onClose }: ProfileFormProps) => {
       <CustomInput
         label="Address"
         name="address"
-        defaultValue={`${userInfo?.address}`}
+        defaultValue={`${userInfo?.address || ""}`}
         register={register}
         error={errors}
         validationRules={{
