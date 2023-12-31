@@ -12,7 +12,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
-const UpdateParcelForm = ({ onClose, id }: ParcelFormProps) => {
+const UpdateParcelForm = ({ onClose, id, refetchAll }: ParcelFormProps) => {
   // Get single parcel by id
   const {
     data: singleParcel = {} as ParcelType,
@@ -71,6 +71,7 @@ const UpdateParcelForm = ({ onClose, id }: ParcelFormProps) => {
     console.log("parcelResponse:", parcelResponse);
 
     if (parcelResponse.code === "success") {
+      refetchAll();
       refetch();
       onClose();
     } else {

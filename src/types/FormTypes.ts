@@ -1,3 +1,6 @@
+import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
+import { ParcelType } from "./ParcelType";
+
 export type RegisterFormType = {
   name: string;
   email: string;
@@ -62,4 +65,7 @@ export type ParcelFormType = {
 export type ParcelFormProps = {
   onClose: () => void;
   id: string | null;
+  refetchAll: (
+    options?: RefetchOptions | undefined
+  ) => Promise<QueryObserverResult<ParcelType[], Error>>;
 };

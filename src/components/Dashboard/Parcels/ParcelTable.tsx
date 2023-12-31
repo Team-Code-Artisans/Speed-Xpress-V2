@@ -40,7 +40,7 @@ import ParcelUpdateModal from "./ParcelUpdateModal";
 
 const ParcelTable = () => {
   // hooks
-  const { parcels, isLoading } = useParcel();
+  const { parcels, isLoading, refetch } = useParcel();
   const { role } = useAuth();
   const { page, setPage, onNextPage, onPreviousPage } = usePagination();
   const { filterValue, onSearchChange, onClear } = useFilter();
@@ -250,7 +250,7 @@ const ParcelTable = () => {
                   >
                     Edit
                   </DropdownItem>
-                  <>
+                  {/* <div>
                     {role !== "rider" && (
                       <DropdownItem
                         textValue="delete"
@@ -261,8 +261,8 @@ const ParcelTable = () => {
                         Delete
                       </DropdownItem>
                     )}
-                  </>
-                  <>
+                  </div> */}
+                  {/* <div>
                     {role === "admin" && (
                       <DropdownItem
                         textValue="accept by admin"
@@ -273,8 +273,8 @@ const ParcelTable = () => {
                         Accept
                       </DropdownItem>
                     )}
-                  </>
-                  <>
+                  </div> */}
+                  {/* <div>
                     {role === "rider" && (
                       <DropdownItem
                         textValue="accept by rider"
@@ -285,7 +285,7 @@ const ParcelTable = () => {
                         Accept
                       </DropdownItem>
                     )}
-                  </>
+                  </div> */}
                 </DropdownMenu>
               </Dropdown>
             </div>
@@ -476,6 +476,7 @@ const ParcelTable = () => {
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         id={updateId}
+        refetch={refetch}
       />
     </>
   );

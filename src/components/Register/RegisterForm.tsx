@@ -2,12 +2,14 @@
 
 import { useAuth } from "@/hooks/useAuth";
 import { RegisterFormType, RegisterUserDataType } from "@/types/FormTypes";
+import { ShopType } from "@/types/ShopType";
 import CustomInput from "@/ui/CustomInput";
 import PrimaryButton from "@/ui/PrimaryButton";
 import SecondaryButton from "@/ui/SecondaryButton";
 import SelectDistrict from "@/ui/SelectDistrict";
 import SelectDivision from "@/ui/SelectDivision";
 import SelectVehicles from "@/ui/SelectVehicles";
+import { createShop } from "@/utils/api/shop";
 import { saveUser } from "@/utils/api/user";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -68,11 +70,37 @@ const RegisterForm = ({ role }: { role: string }) => {
       // User response
       const userResponse = await saveUser(userData);
       if (userResponse.code === "success") {
-        reset();
-        router.push(`/dashboard/${role}`);
-        toast.success("Register successfully");
+        if (userResponse.data.role === "merchant") {
+          const shopData: ShopType = {
+            name: userResponse.data.shopName!,
+            email: userResponse.data.email!,
+            number: userResponse.data.number!,
+            address: {
+              division: userResponse.data.division!,
+              district: userResponse.data.district!,
+              address: userResponse.data.address!,
+            },
+            merchantId: userResponse.data._id!,
+            merchantEmail: userResponse.data.email!,
+          };
+
+          // Shop response
+          const shopResponse = await createShop(shopData);
+          console.log("shopResponse:", shopResponse);
+
+          if (shopResponse.code === "success") {
+            reset();
+            router.push(`/dashboard/${role}`);
+          } else {
+            console.error(shopResponse.error);
+          }
+        } else {
+          reset();
+          router.push(`/dashboard/${role}`);
+        }
       } else {
         console.error(userResponse.error);
+        toast.success("Register successfully");
       }
     }
   };
