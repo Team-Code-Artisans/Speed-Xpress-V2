@@ -124,7 +124,11 @@ const ParcelTable = () => {
       };
 
       const handleView = (id: string) => {
-        router.push(`/dashboard/${role}/parcels/${id}`);
+        if (role !== "rider") {
+          router.push(`/dashboard/${role}/parcels/${id}`);
+        } else {
+          router.push(`/dashboard/${role}/deliveries/${id}`);
+        }
       };
 
       const handleDelete = (id: string) => {
