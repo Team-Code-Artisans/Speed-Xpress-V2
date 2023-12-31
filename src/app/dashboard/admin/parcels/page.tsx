@@ -2,7 +2,7 @@ import ParcelTable from "@/components/Dashboard/Parcels/ParcelTable";
 
 const ParcelsPage = () => {
   return (
-    <div className="max-w-screen-xl mx-auto px-4 py-10">
+    <div className="max-w-screen-xl mx-auto px-6 py-10">
       <div className="pb-10 space-y-2">
         <h1 className="text-2xl font-semibold text-gray-600 capitalize lg:text-3xl">
           All <span className="text-primary">Parcels</span>

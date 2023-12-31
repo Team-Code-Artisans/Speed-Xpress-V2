@@ -8,7 +8,7 @@ const AuthLayout = ({ children }: ChildrenProps) => {
   const pathname = usePathname();
 
   return (
-    <div className="grid lg:grid-cols-2 max-w-screen-xl mx-auto px-4 lg:py-20 py-10 lg:place-items-center">
+    <div className="grid lg:grid-cols-2 max-w-screen-xl mx-auto px-6 lg:py-20 py-10 lg:place-items-center">
       <div className="hidden lg:block justify-self-start">
         {pathname === "/login" ? (
           <Image

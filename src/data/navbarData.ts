@@ -107,10 +107,6 @@ export const dropdownData = [
     link: "/profile",
   },
   {
-    name: "FAQ",
-    link: "/faq",
-  },
-  {
     name: "Password",
     link: "/password",
   },
@@ -132,10 +128,6 @@ export const adminDropdownData = [
   {
     name: "Profile",
     link: "/admin/profile",
-  },
-  {
-    name: "FAQ",
-    link: "/admin/faq",
   },
   {
     name: "Password",

@@ -7,7 +7,7 @@ const ParcelDetailsPage = async ({ params }: { params: { id: string } }) => {
   const parcelResponse = await getSingleParcel(params.id);
 
   return (
-    <div className="lg:py-20 py-10 px-4 max-w-screen-xl mx-auto space-y-8">
+    <div className="lg:py-20 py-10 px-6 max-w-screen-xl mx-auto space-y-8">
       <h1 className="font-bold text-4xl">
         <span className="text-primary">PARCEL</span> DETAILS
       </h1>

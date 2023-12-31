@@ -2,12 +2,12 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <div className="px-4 bg-dark dark:bg-blueGray-900">
-      <div className="mx-auto max-w-screen-xl py-10">
+    <div className="bg-gray-200 dark:bg-gray-900">
+      <div className="mx-auto max-w-screen-xl py-10 px-6">
         <div className="grid gap-10 mb-8 lg:grid-cols-5">
           <div className="grid grid-cols-2 gap-5 row-gap-8 lg:col-span-3 md:grid-cols-4">
             {/* single row of footer */}
-            <>
+            <div>
               <p className="font-medium tracking-wide text-primary">Company</p>
               <ul className="mt-2 space-y-2">
                 <li>
@@ -43,9 +43,9 @@ const Footer = () => {
                   </Link>
                 </li>
               </ul>
-            </>
+            </div>
 
-            <>
+            <div>
               <p className="font-medium tracking-wide text-primary">Services</p>
               <ul className="mt-2 space-y-2">
                 <li>
@@ -81,9 +81,9 @@ const Footer = () => {
                   </Link>
                 </li>
               </ul>
-            </>
+            </div>
 
-            <>
+            <div>
               <p className="font-medium tracking-wide text-primary">
                 Get in touch
               </p>
@@ -104,9 +104,8 @@ const Footer = () => {
                   </span>
                 </li>
               </ul>
-            </>
+            </div>
           </div>
-
           <h1 className="text-4xl text-light font-semibold lg:col-span-2 lg:justify-self-end">
             Speed<span className="text-primary">Xpress</span>
           </h1>
