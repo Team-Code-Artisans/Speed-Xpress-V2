@@ -20,6 +20,8 @@ export const useUserInfo = () => {
         const userResponse = await getSingleUser(user.email);
         if (userResponse.code === "success") {
           return userResponse.data || {};
+        } else {
+          console.error(userResponse.error);
         }
       }
       return {};

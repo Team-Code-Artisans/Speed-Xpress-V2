@@ -1,5 +1,4 @@
 import { weightData } from "@/data/deliveryData";
-import { useUserInfo } from "@/hooks/useUserInfo";
 import {
   ParcelDataType,
   ParcelFormProps,
@@ -122,10 +121,11 @@ const ParcelForm = ({
         const paymentResponse = await createPayment(paymentData);
 
         if (paymentResponse.code === "success") {
-          const url = paymentResponse.data.url;
-          router.push(`${url}`);
+          router.push(`${paymentResponse.data.url}`);
         } else {
-          console.error(paymentResponse.error.message);
+          toast.error("Parcel payment failed");
+          console.error(paymentResponse.error);
+          router.push(`/dashboard/${userInfo.role}/parcels`);
         }
       } else {
         router.push(`/dashboard/${userInfo.role}/parcels`);
@@ -211,7 +211,7 @@ const ParcelForm = ({
         <Select
           label={
             <p>
-              Select total weight <span className="text-danger">*</span>
+              Total Weight <span className="text-danger">*</span>
             </p>
           }
           {...register("weight", {
@@ -232,11 +232,12 @@ const ParcelForm = ({
           ))}
         </Select>
         <CustomInput
-          label="Quantity"
+          label="Total Quantity"
           name="quantity"
           type="number"
           register={register}
           error={errors}
+          endContent={<p className="text-small text-default-600">pcs</p>}
           validationRules={{
             required: "*quantity is required",
             pattern: {

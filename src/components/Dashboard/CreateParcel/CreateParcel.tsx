@@ -55,7 +55,7 @@ const CreateParcel = () => {
                   Please update your profile to create parcel{" "}
                   <Link
                     href={`/dashboard/${userInfo?.role}/profile`}
-                    className="text-primary font-medium"
+                    className="text-primary font-semibold"
                   >
                     Profile
                   </Link>
