@@ -1,5 +1,5 @@
 import { weightData } from "@/data/deliveryData";
-import { useAuth } from "@/hooks/useAuth";
+import { useUserInfo } from "@/hooks/useUserInfo";
 import {
   ParcelDataType,
   ParcelFormProps,
@@ -28,9 +28,8 @@ const ParcelForm = ({
   setShippingMethod,
   setWeight,
   estimatedTotal,
+  userInfo,
 }: ParcelFormProps) => {
-  const { userInfo, role } = useAuth();
-
   const [district, setDistrict] = useState<string>("Dhaka");
   const [paymentMethod, setPaymentMethod] = useState<string>("online");
 
@@ -84,7 +83,7 @@ const ParcelForm = ({
       description,
     };
 
-    if (role === "merchant") {
+    if (userInfo.role === "merchant") {
       parcelData = {
         ...parcelData,
         merchantInfo: {
@@ -129,7 +128,7 @@ const ParcelForm = ({
           console.error(paymentResponse.error.message);
         }
       } else {
-        router.push(`/dashboard/${role}/parcels`);
+        router.push(`/dashboard/${userInfo.role}/parcels`);
         toast.success("Parcel created successfully");
       }
       reset();
@@ -288,7 +287,7 @@ const ParcelForm = ({
 
       <div className="flex gap-4 justify-end">
         <SecondaryButton
-          href={`/dashboard/${role}/parcels`}
+          href={`/dashboard/${userInfo.role}/parcels`}
           type="button"
           fullWidth={true}
         >

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import ProfileInfo from "./ProfileInfo";
-import UpdateProfileButton from "./UpdateProfileButton";
+import UpdateProfileModal from "./UpdateProfileModal";
 
 const Profile = () => {
   return (
@@ -12,8 +12,12 @@ const Profile = () => {
               PROFILE
               <span className="text-primary"> INFO</span>
             </h1>
-            <UpdateProfileButton />
+
+            {/* Update profile modal */}
+            <UpdateProfileModal />
           </div>
+
+          {/* Profile info */}
           <ProfileInfo />
         </div>
         <div className="flex items-center justify-center">

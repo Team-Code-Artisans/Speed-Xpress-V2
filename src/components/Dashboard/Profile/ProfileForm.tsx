@@ -1,4 +1,4 @@
-import { useAuth } from "@/hooks/useAuth";
+import { useUserInfo } from "@/hooks/useUserInfo";
 import { ProfileFormProps, ProfileFormType } from "@/types/FormTypes";
 import CustomInput from "@/ui/CustomInput";
 import PrimaryButton from "@/ui/PrimaryButton";
@@ -10,7 +10,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 const ProfileForm = ({ onClose }: ProfileFormProps) => {
-  const { userInfo, setUserInfo } = useAuth();
+  const { userInfo, refetch } = useUserInfo();
 
   const [division, setDivision] = useState<string>(`${userInfo?.division}`);
   const [district, setDistrict] = useState<string>(`${userInfo?.district}`);
@@ -37,7 +37,7 @@ const ProfileForm = ({ onClose }: ProfileFormProps) => {
       const profileResponse = await updateUser(params);
 
       if (profileResponse.code === "success") {
-        setUserInfo(profileResponse.data);
+        refetch();
         onClose();
       } else {
         console.error(profileResponse.error);

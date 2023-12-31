@@ -9,7 +9,7 @@ export type AuthContextType = {
   setUserInfo: React.Dispatch<React.SetStateAction<UserType | null>>;
   role: string | null;
   registerUser: (email: string, password: string, displayName: string) => void;
-  googleSignIn: (role: string) => Promise<void>;
+  googleSignIn: () => void;
   loginUser: (email: string, password: string) => void;
   logOut: () => void;
   resetPassword: (email: string) => void;

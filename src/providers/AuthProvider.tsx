@@ -64,6 +64,8 @@ const AuthProvider = ({ children }: ChildrenProps) => {
             displayName,
           });
 
+          setRole(displayName);
+
           setLoading(false);
         }
       }
@@ -109,36 +111,38 @@ const AuthProvider = ({ children }: ChildrenProps) => {
     }
   };
 
-  const googleSignIn = async (role: string) => {
+  const googleSignIn = async () => {
     const provider = new GoogleAuthProvider();
 
     try {
       const userCredential = await signInWithPopup(auth, provider);
 
       const userData: UserType = {
-        name: userCredential.user.displayName || "",
-        email: userCredential.user.email || "",
-        photoURL: userCredential.user.photoURL || "",
+        name: userCredential.user.displayName,
+        email: userCredential.user.email,
+        photoURL: userCredential.user.photoURL,
         number: "",
         division: "",
         district: "",
         address: "",
-        role,
+        role: "regular",
       };
 
       if (userCredential.user.email) {
         const JwtResponse = await postJwt({
           email: userCredential.user.email,
-          role,
+          role: "regular",
         });
 
         if (JwtResponse.code === "success") {
-          setRole(role);
+          setRole("regular");
 
-          const saveResponse = await saveUser(userData);
-          if (saveResponse.code === "success") {
-            router.push(`/dashboard/${role}`);
+          const userResponse = await saveUser(userData);
+          if (userResponse.code === "success") {
+            router.push(`/dashboard/regular`);
             toast.success("Google sign in Successfully");
+          } else {
+            console.error(userResponse.error);
           }
         }
       }
@@ -169,35 +173,6 @@ const AuthProvider = ({ children }: ChildrenProps) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
-
-      // if (currentUser?.email) {
-      //   setLoading(true);
-
-      //   // JWT response (HttpOnly cookie on the server)
-      //   const JWTresponse = await postJwt({
-      //     email: currentUser.email,
-      //     role: `${role}`,
-      //   });
-
-      //   if (JWTresponse.code === "success") {
-      //     // User response
-      //     const userResponse = await getSingleUser(currentUser?.email);
-
-      //     if (userResponse?.code === "success") {
-      //       const userData = userResponse.data;
-      //       setUserInfo(userData);
-
-      //       if (userData && userData.role) {
-      //         setRole(userData.role);
-      //       }
-      //     } else {
-      //       console.error(userResponse.error);
-      //     }
-      //   } else {
-      //     console.error(JWTresponse.error);
-      //   }
-      // }
-
       setLoading(false);
     });
 

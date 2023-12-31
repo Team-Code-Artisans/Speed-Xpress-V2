@@ -6,7 +6,7 @@ import LoginForm from "./LoginForm";
 
 const Login = () => {
   return (
-    <div className="w-full sm:w-[30rem]">
+    <div className="w-full sm:w-[30rem] mx-auto">
       <Card
         radius="sm"
         className="divide-y divide-gray-200 dark:divide-gray-800"

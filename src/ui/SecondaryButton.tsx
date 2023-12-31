@@ -24,7 +24,7 @@ const SecondaryButton = ({
         href={href}
         isDisabled={isDisabled}
         isLoading={isLoading}
-        spinner={<Loading />}
+        spinner={<Loading size="sm" />}
         size={size}
         radius={radius}
         color={color}

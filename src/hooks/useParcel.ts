@@ -16,11 +16,15 @@ export const useParcel = () => {
           const parcelResponse = await getParcelByEmail(user.email);
           if (parcelResponse.code === "success") {
             return parcelResponse.data || [];
+          } else {
+            console.error(parcelResponse.error);
           }
         } else {
           const parcelResponse = await getAllParcel();
           if (parcelResponse.code === "success") {
             return parcelResponse.data || [];
+          } else {
+            console.error(parcelResponse.error);
           }
         }
       }

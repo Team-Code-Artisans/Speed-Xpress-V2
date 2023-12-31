@@ -30,7 +30,7 @@ const LoginForm = () => {
   const handleForm = async (data: { email: string; password: string }) => {
     const { email, password } = data;
 
-    const userCredential = await loginUser(email, password);
+    const userCredential = loginUser(email, password);
 
     if (userCredential !== null) {
       reset();
@@ -45,7 +45,7 @@ const LoginForm = () => {
         type="button"
         fullWidth
         onClick={() => {
-          googleSignIn("regular");
+          googleSignIn();
         }}
       >
         <FaGoogle /> Sign in with Google

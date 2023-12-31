@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuth } from "@/hooks/useAuth";
+import { useUserInfo } from "@/hooks/useUserInfo";
 import { calculateParcel } from "@/utils/calculateParcel";
 import { Card, CardBody, Divider } from "@nextui-org/react";
 import Link from "next/link";
@@ -9,7 +9,7 @@ import ParcelForm from "./ParcelForm";
 import ParcelSummary from "./ParcelSummary";
 
 const CreateParcel = () => {
-  const { userInfo } = useAuth();
+  const { userInfo } = useUserInfo();
 
   // Parcel form states
   const [division, setDivision] = useState<string>("Dhaka");
@@ -76,6 +76,7 @@ const CreateParcel = () => {
             setWeight={setWeight}
             weight={weight}
             estimatedTotal={estimatedTotal}
+            userInfo={userInfo}
           />
         </div>
         <div className="space-y-6 bg-gray-200 dark:bg-gray-900 w-full sm:max-w-xl p-6 lg:p-10 lg:col-span-2 lg:sticky top-20 lg:mt-[60px] rounded-lg">

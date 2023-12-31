@@ -13,7 +13,7 @@ const Register = () => {
   );
 
   return (
-    <div className="w-full sm:w-[30rem]">
+    <div className="w-full sm:w-[30rem] mx-auto">
       <Card radius="sm">
         <CardBody className="overflow-hidden">
           <Tabs

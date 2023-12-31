@@ -63,31 +63,33 @@ const RegisterForm = ({ role }: { role: string }) => {
       };
     }
 
-    console.log("userData:", userData);
-
-    const userCredential = await registerUser(email, password, role);
+    const userCredential = registerUser(email, password, role);
 
     if (userCredential !== null) {
       reset();
-      const saveResponse = await saveUser(userData);
-      if (saveResponse.code === "success") {
+      const userResponse = await saveUser(userData);
+      if (userResponse.code === "success") {
         router.push(`/dashboard/${role}`);
         toast.success("Register successfully");
+      } else {
+        console.error(userResponse.error);
       }
     }
   };
 
   return (
     <form onSubmit={handleSubmit(handleForm)} className="flex flex-col gap-4">
-      <SecondaryButton
-        type="button"
-        fullWidth
-        onClick={() => {
-          googleSignIn(role);
-        }}
-      >
-        <FaGoogle /> Sign in with Google
-      </SecondaryButton>
+      {role === "regular" && (
+        <SecondaryButton
+          type="button"
+          fullWidth
+          onClick={() => {
+            googleSignIn();
+          }}
+        >
+          <FaGoogle /> Sign in with Google
+        </SecondaryButton>
+      )}
       <CustomInput
         label={role !== "merchant" ? "Name" : "Owner Name"}
         name="name"
