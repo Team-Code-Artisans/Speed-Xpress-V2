@@ -115,8 +115,20 @@ const ParcelTable = () => {
         setUpdateId(id);
       };
 
+      const handleAcceptByAdmin = (id: string) => {
+        console.log(id);
+      };
+
+      const handleAcceptByRider = (id: string) => {
+        console.log(id);
+      };
+
       const handleView = (id: string) => {
         router.push(`/dashboard/${role}/parcels/${id}`);
+      };
+
+      const handleDelete = (id: string) => {
+        console.log(id);
       };
 
       switch (columnKey) {
@@ -234,7 +246,42 @@ const ParcelTable = () => {
                   >
                     Edit
                   </DropdownItem>
-                  <DropdownItem textValue="delete">Delete</DropdownItem>
+                  <>
+                    {role !== "rider" && (
+                      <DropdownItem
+                        textValue="delete"
+                        className="text-left"
+                        as="button"
+                        onClick={() => handleDelete(`${parcel?._id}`)}
+                      >
+                        Delete
+                      </DropdownItem>
+                    )}
+                  </>
+                  <>
+                    {role === "admin" && (
+                      <DropdownItem
+                        textValue="accept by admin"
+                        className="text-left"
+                        as="button"
+                        onClick={() => handleAcceptByAdmin(`${parcel?._id}`)}
+                      >
+                        Accept
+                      </DropdownItem>
+                    )}
+                  </>
+                  <>
+                    {role === "rider" && (
+                      <DropdownItem
+                        textValue="accept by rider"
+                        className="text-left"
+                        as="button"
+                        onClick={() => handleAcceptByRider(`${parcel?._id}`)}
+                      >
+                        Accept
+                      </DropdownItem>
+                    )}
+                  </>
                 </DropdownMenu>
               </Dropdown>
             </div>
@@ -243,7 +290,7 @@ const ParcelTable = () => {
           return <>{cellValue}</>;
       }
     },
-    [onOpen]
+    [onOpen, role, router]
   );
 
   const onRowsPerPageChange = useCallback(

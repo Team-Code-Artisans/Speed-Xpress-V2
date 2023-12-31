@@ -123,13 +123,20 @@ const ParcelForm = ({
         if (paymentResponse.code === "success") {
           router.push(`${paymentResponse.data.url}`);
         } else {
-          toast.error("Parcel payment failed");
+          toast.error("Parcel created failed");
           console.error(paymentResponse.error);
           router.push(`/dashboard/${userInfo.role}/parcels`);
         }
       } else {
-        router.push(`/dashboard/${userInfo.role}/parcels`);
-        toast.success("Parcel created successfully");
+        // const paymentResponse = await savePayment(paymentData);
+        // if (paymentResponse.code === "success") {
+        //   toast.success("Parcel created successfully");
+        //   router.push(`/dashboard/${userInfo.role}/parcels`);
+        // } else {
+        //   toast.error("Parcel created failed");
+        //   console.error(paymentResponse.error);
+        //   router.push(`/dashboard/${userInfo.role}/parcels`);
+        // }
       }
       reset();
     }

@@ -8,6 +8,7 @@ import SelectDivision from "@/ui/SelectDivision";
 import { updateUser } from "@/utils/api/user";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 const ProfileForm = ({ onClose }: ProfileFormProps) => {
   const { userInfo, refetch } = useUserInfo();
@@ -39,8 +40,10 @@ const ProfileForm = ({ onClose }: ProfileFormProps) => {
       if (profileResponse.code === "success") {
         refetch();
         onClose();
+        toast.success("Profile updated successfully");
       } else {
         console.error(profileResponse.error);
+        toast.success("Profile updated failed");
       }
     }
   };
