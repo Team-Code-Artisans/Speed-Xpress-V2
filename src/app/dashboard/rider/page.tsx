@@ -1,5 +1,5 @@
 const RiderDashboardPage = () => {
-  return <div>RiderDashboardPage</div>
-}
+  return <>RiderDashboardPage</>;
+};
 
-export default RiderDashboardPage
+export default RiderDashboardPage;

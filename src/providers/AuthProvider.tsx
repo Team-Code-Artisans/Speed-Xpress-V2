@@ -172,22 +172,21 @@ const AuthProvider = ({ children }: ChildrenProps) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      setUser(currentUser);
+
       if (currentUser !== null) {
         setRole(
-          `${
-            currentUser?.displayName !== "regular" ||
-            "merchant" ||
-            "rider" ||
-            "admin"
-              ? "regular"
-              : currentUser?.displayName
-          }`
+          ["regular", "merchant", "rider", "admin"].includes(
+            `${currentUser?.displayName}`
+          )
+            ? currentUser?.displayName
+            : "regular"
         );
-        setUser(currentUser);
       }
+
+      setLoading(false);
     });
 
-    setLoading(false);
     return () => unsubscribe();
   }, []);
 

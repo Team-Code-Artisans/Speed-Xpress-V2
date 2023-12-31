@@ -8,11 +8,11 @@ const ParcelsPage = () => {
           All <span className="text-primary">Parcels</span>
         </h1>
 
-        <div>
+        <>
           <span className="inline-block w-20 h-1 bg-primary rounded-full"></span>
           <span className="inline-block w-4 h-1 ml-1 bg-primary rounded-full"></span>
           <span className="inline-block w-2 h-1 ml-1 bg-primary rounded-full"></span>
-        </div>
+        </>
       </div>
       <ParcelTable />
     </div>

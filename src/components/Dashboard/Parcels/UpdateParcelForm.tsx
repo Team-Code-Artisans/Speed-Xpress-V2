@@ -125,9 +125,11 @@ const UpdateParcelForm = ({ onClose, id }: ParcelFormProps) => {
             validationRules={{
               required: "*phone number is required",
               pattern: {
-                value: /^[0-9]{11}$/,
+                value: /^[0-9+\\-]+$/,
                 message: "invalid phone number",
               },
+              minLength: { value: 7, message: "*invalid phone number" },
+              maxLength: { value: 15, message: "*invalid phone number" },
             }}
           />
           <div className="flex gap-4">

@@ -1,5 +1,5 @@
 const MerchantDashboardPage = () => {
-  return <div>MerchantDashboardPage</div>
-}
+  return <>MerchantDashboardPage</>;
+};
 
-export default MerchantDashboardPage
+export default MerchantDashboardPage;

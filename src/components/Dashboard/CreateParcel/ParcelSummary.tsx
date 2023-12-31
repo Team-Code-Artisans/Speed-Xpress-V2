@@ -11,11 +11,11 @@ const ParcelSummary = ({
 }: ParcelSummaryType) => {
   return (
     <div className="space-y-8">
-      <div>
+      <>
         <h1 className="font-bold text-2xl">
           PARCEL<span className="text-primary"> SUMMARY</span>
         </h1>
-      </div>
+      </>
       <div className="flex flex-col items-end w-full space-y-6">
         <div className="flex justify-between w-full items-center">
           <p className="text-lg leading-4 dark:text-gray-400 text-gray-600">

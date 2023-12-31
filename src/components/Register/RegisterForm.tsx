@@ -21,7 +21,6 @@ const RegisterForm = ({ role }: { role: string }) => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
 
-  // const [userData, setUserData] = useState<RegisterFormType>();
   const [division, setDivision] = useState<string>("Dhaka");
   const [district, setDistrict] = useState<string>("Dhaka");
   const [vehicle, setVehicle] = useState<string>("Bike");
@@ -63,12 +62,13 @@ const RegisterForm = ({ role }: { role: string }) => {
       };
     }
 
-    const userCredential = registerUser(email, password, role);
+    const userCredential = await registerUser(email, password, role);
 
     if (userCredential !== null) {
-      reset();
+      // User response
       const userResponse = await saveUser(userData);
       if (userResponse.code === "success") {
+        reset();
         router.push(`/dashboard/${role}`);
         toast.success("Register successfully");
       } else {
@@ -165,9 +165,11 @@ const RegisterForm = ({ role }: { role: string }) => {
         validationRules={{
           required: "*phone number is required",
           pattern: {
-            value: /^[0-9]{11}$/,
+            value: /^[0-9+\\-]+$/,
             message: "invalid phone number",
           },
+          minLength: { value: 7, message: "*invalid phone number" },
+          maxLength: { value: 15, message: "*invalid phone number" },
         }}
       />
       {role === "rider" && (

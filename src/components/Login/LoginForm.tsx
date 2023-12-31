@@ -30,7 +30,7 @@ const LoginForm = () => {
   const handleForm = async (data: { email: string; password: string }) => {
     const { email, password } = data;
 
-    const userCredential = loginUser(email, password);
+    const userCredential = await loginUser(email, password);
 
     if (userCredential !== null) {
       reset();

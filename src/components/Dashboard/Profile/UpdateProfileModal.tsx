@@ -14,7 +14,7 @@ const UpdateProfileModal = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
-    <div>
+    <>
       <PrimaryButton onClick={onOpen} size="md">
         Update Profile
       </PrimaryButton>
@@ -36,7 +36,7 @@ const UpdateProfileModal = () => {
           )}
         </ModalContent>
       </Modal>
-    </div>
+    </>
   );
 };
 

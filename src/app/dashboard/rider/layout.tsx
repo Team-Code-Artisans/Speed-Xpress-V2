@@ -23,10 +23,10 @@ const RiderDashboardLayout = ({ children }: ChildrenProps) => {
   }
 
   return (
-    <div>
+    <>
       <DashboardNavbar />
       {children}
-    </div>
+    </>
   );
 };
 
