@@ -31,7 +31,6 @@ export const AuthContext = createContext<AuthContextType>(
 const AuthProvider = ({ children }: ChildrenProps) => {
   const [user, setUser] = useState<User | null>(null);
   const [role, setRole] = useState<string | null>(null);
-  const [userInfo, setUserInfo] = useState<UserType | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const router = useRouter();
 
@@ -91,15 +90,14 @@ const AuthProvider = ({ children }: ChildrenProps) => {
       );
 
       if (userCredential.user) {
-        const JwtResponse = await postJwt({
+        await postJwt({
           email: `${userCredential.user.email}`,
           role: `${userCredential.user.displayName}`,
         });
 
-        if (JwtResponse.code === "success") {
-          setRole(userCredential.user.displayName);
-          setLoading(false);
-        }
+        setRole(userCredential.user.displayName);
+
+        setLoading(false);
       }
 
       return userCredential.user;
@@ -153,6 +151,8 @@ const AuthProvider = ({ children }: ChildrenProps) => {
 
   const logOut = async () => {
     try {
+      setUser(null);
+      setRole(null);
       await signOut(auth);
       router.push("/login");
       toast.success("Sign out successfully");
@@ -172,17 +172,27 @@ const AuthProvider = ({ children }: ChildrenProps) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      setUser(currentUser);
-      setLoading(false);
+      if (currentUser !== null) {
+        setRole(
+          `${
+            currentUser?.displayName !== "regular" ||
+            "merchant" ||
+            "rider" ||
+            "admin"
+              ? "regular"
+              : currentUser?.displayName
+          }`
+        );
+        setUser(currentUser);
+      }
     });
 
+    setLoading(false);
     return () => unsubscribe();
-  }, [role]);
+  }, []);
 
   const value: AuthContextType = {
     user,
-    userInfo,
-    setUserInfo,
     role,
     registerUser,
     googleSignIn,
