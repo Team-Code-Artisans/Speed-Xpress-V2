@@ -12,7 +12,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
-const UpdateParcelForm = ({ onClose, id }: ParcelFormProps) => {
+const UpdateParcelForm = ({ onClose, id, refetchAll }: ParcelFormProps) => {
   // Get single parcel by id
   const {
     data: singleParcel = {} as ParcelType,
@@ -71,6 +71,7 @@ const UpdateParcelForm = ({ onClose, id }: ParcelFormProps) => {
     console.log("parcelResponse:", parcelResponse);
 
     if (parcelResponse.code === "success") {
+      refetchAll();
       refetch();
       onClose();
     } else {
@@ -91,7 +92,7 @@ const UpdateParcelForm = ({ onClose, id }: ParcelFormProps) => {
           <CustomInput
             label="Name"
             name="name"
-            defaultValue={`${singleParcel?.recipientInfo?.name ?? ""}`}
+            defaultValue={`${singleParcel?.recipientInfo?.name || ""}`}
             register={register}
             error={errors}
             validationRules={{
@@ -105,7 +106,7 @@ const UpdateParcelForm = ({ onClose, id }: ParcelFormProps) => {
             label="Email"
             name="email"
             type="email"
-            defaultValue={`${singleParcel?.recipientInfo?.email ?? ""}`}
+            defaultValue={`${singleParcel?.recipientInfo?.email || ""}`}
             register={register}
             error={errors}
             validationRules={{
@@ -119,7 +120,7 @@ const UpdateParcelForm = ({ onClose, id }: ParcelFormProps) => {
           <CustomInput
             label="Phone Number"
             name="number"
-            defaultValue={`${singleParcel?.recipientInfo?.number ?? ""}`}
+            defaultValue={`${singleParcel?.recipientInfo?.number || ""}`}
             register={register}
             error={errors}
             validationRules={{
@@ -150,7 +151,7 @@ const UpdateParcelForm = ({ onClose, id }: ParcelFormProps) => {
             label="Address"
             name="address"
             defaultValue={`${
-              singleParcel?.recipientInfo?.address?.address ?? ""
+              singleParcel?.recipientInfo?.address?.address || ""
             }`}
             register={register}
             error={errors}
@@ -161,7 +162,7 @@ const UpdateParcelForm = ({ onClose, id }: ParcelFormProps) => {
 
           <Textarea
             {...register("description")}
-            defaultValue={`${singleParcel?.description ?? ""}`}
+            defaultValue={`${singleParcel?.description || ""}`}
             radius="sm"
             variant="bordered"
             label="Description"

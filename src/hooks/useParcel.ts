@@ -8,7 +8,11 @@ export const useParcel = () => {
   const { user, role } = useAuth();
 
   // Get parcels by email
-  const { data: parcels = [], isLoading } = useQuery({
+  const {
+    data: parcels = [],
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["parcels"],
     queryFn: async () => {
       if (user?.email && role) {
@@ -32,5 +36,5 @@ export const useParcel = () => {
     },
   });
 
-  return { parcels, isLoading };
+  return { parcels, isLoading, refetch };
 };
