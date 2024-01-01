@@ -115,11 +115,7 @@ const ParcelTable = () => {
         setUpdateId(id);
       };
 
-      const handleAcceptByAdmin = (id: string) => {
-        console.log(id);
-      };
-
-      const handleAcceptByRider = (id: string) => {
+      const handleAccept = (id: string, role: string) => {
         console.log(id);
       };
 
@@ -250,42 +246,31 @@ const ParcelTable = () => {
                   >
                     Edit
                   </DropdownItem>
-                  {/* <div>
-                    {role !== "rider" && (
-                      <DropdownItem
-                        textValue="delete"
-                        className="text-left"
-                        as="button"
-                        onClick={() => handleDelete(`${parcel?._id}`)}
-                      >
-                        Delete
-                      </DropdownItem>
-                    )}
-                  </div> */}
-                  {/* <div>
-                    {role === "admin" && (
-                      <DropdownItem
-                        textValue="accept by admin"
-                        className="text-left"
-                        as="button"
-                        onClick={() => handleAcceptByAdmin(`${parcel?._id}`)}
-                      >
-                        Accept
-                      </DropdownItem>
-                    )}
-                  </div> */}
-                  {/* <div>
-                    {role === "rider" && (
-                      <DropdownItem
-                        textValue="accept by rider"
-                        className="text-left"
-                        as="button"
-                        onClick={() => handleAcceptByRider(`${parcel?._id}`)}
-                      >
-                        Accept
-                      </DropdownItem>
-                    )}
-                  </div> */}
+
+                  {role === "admin" ? (
+                    <DropdownItem
+                      textValue="accept"
+                      className="text-left"
+                      as="button"
+                      onClick={() => handleAccept(`${parcel?._id}`, role)}
+                    >
+                      Accept
+                    </DropdownItem>
+                  ) : (
+                    <DropdownItem className="hidden"></DropdownItem>
+                  )}
+                  {role === "rider" ? (
+                    <DropdownItem className="hidden"></DropdownItem>
+                  ) : (
+                    <DropdownItem
+                      textValue="delete"
+                      className="text-left"
+                      as="button"
+                      onClick={() => handleDelete(`${parcel?._id}`)}
+                    >
+                      Delete
+                    </DropdownItem>
+                  )}
                 </DropdownMenu>
               </Dropdown>
             </div>

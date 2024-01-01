@@ -69,6 +69,7 @@ const RegisterForm = ({ role }: { role: string }) => {
     if (userCredential !== null) {
       // User response
       const userResponse = await saveUser(userData);
+
       if (userResponse.code === "success") {
         if (userResponse.data.role === "merchant") {
           const shopData: ShopType = {
@@ -86,7 +87,6 @@ const RegisterForm = ({ role }: { role: string }) => {
 
           // Shop response
           const shopResponse = await createShop(shopData);
-          console.log("shopResponse:", shopResponse);
 
           if (shopResponse.code === "success") {
             reset();

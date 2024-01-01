@@ -17,3 +17,10 @@ export type ShopResponseType = ShopType & {
   _id: string;
   shopId: string;
 };
+
+export type UpdateShopType = Omit<ShopType, "merchantId" & "merchantEmail">;
+
+export type UpdateShopRequestType = {
+  id: string;
+  data: UpdateShopType;
+};

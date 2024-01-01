@@ -9,8 +9,8 @@ const ProfileInfo = () => {
   return (
     <div>
       {isLoading ? (
-        <div>
-          <Loading />
+        <div className="grid place-items-center h-40">
+          <Loading size="lg" />
         </div>
       ) : (
         <div>
