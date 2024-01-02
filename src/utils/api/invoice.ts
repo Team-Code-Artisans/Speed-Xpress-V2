@@ -18,9 +18,13 @@ export const getInvoiceByEmail = requestHandler<string, InvoiceType[]>(
 );
 
 // update invoice status
-export const updateInvoiceStatus = requestHandler<string, InvoiceType>((id) =>
-  api.put(`/payment/update-status/${id}`)
-);
+export const updateInvoiceStatus = requestHandler<
+  { id: string; data: { status: string } },
+  InvoiceType
+>((params) => {
+  const { id, data } = params || {};
+  return api.put(`/payment/update-status/${id}`, data);
+});
 
 // create invoice
 export const createInvoice = requestHandler<InvoiceType, InvoiceType>((data) =>

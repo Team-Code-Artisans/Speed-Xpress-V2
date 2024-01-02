@@ -14,7 +14,7 @@ import SecondaryButton from "@/ui/SecondaryButton";
 import SelectDistrict from "@/ui/SelectDistrict";
 import SelectDivision from "@/ui/SelectDivision";
 import SelectShop from "@/ui/SelectShop";
-import { createInvoice } from "@/utils/api/invoice";
+import { createInvoice, updateInvoiceStatus } from "@/utils/api/invoice";
 import { createParcel } from "@/utils/api/parcel";
 import { createPayment } from "@/utils/api/payment";
 import { RadioGroup, Select, SelectItem, Textarea } from "@nextui-org/react";
@@ -130,8 +130,19 @@ const ParcelForm = ({
         const paymentResponse = await createPayment(paymentData);
 
         if (paymentResponse.code === "success") {
-          reset();
-          router.push(`${paymentResponse.data.url}`);
+          const updateResponse = await updateInvoiceStatus({
+            id: `${parcelResponse.data._id}`,
+            data: { status: PaymentStatus.Paid },
+          });
+
+          console.log("updateResponse:", updateResponse);
+
+          if (updateResponse.code === "success") {
+            // reset();
+            // router.push(`${paymentResponse.data.url}`);
+          } else {
+            console.error(updateResponse.error);
+          }
         } else {
           toast.error("Payment created failed");
           console.error(paymentResponse.error);
