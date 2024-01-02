@@ -62,10 +62,10 @@ export type ParcelFormType = {
   description: string;
 };
 
-export type ParcelFormProps = {
+export type ModalFormProps = {
   onClose: () => void;
-  id: string | null;
-  refetchAll: (
+  id: string;
+  refetch: (
     options?: RefetchOptions | undefined
   ) => Promise<QueryObserverResult<ParcelType[], Error>>;
 };

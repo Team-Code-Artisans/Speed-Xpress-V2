@@ -1,23 +1,25 @@
-import { useUserInfo } from "@/hooks/useUserInfo";
-import { OnCloseProps } from "@/types/FormTypes";
-import { ShopFormType, ShopType } from "@/types/ShopType";
+import {
+  ShopFormType,
+  ShopModalPropsType,
+  UpdateShopType,
+} from "@/types/ShopType";
 import CustomInput from "@/ui/CustomInput";
 import PrimaryButton from "@/ui/PrimaryButton";
 import SelectDistrict from "@/ui/SelectDistrict";
 import SelectDivision from "@/ui/SelectDivision";
-import { createShop as postShop } from "@/utils/api/shop";
-import { useRouter } from "next/navigation";
+import { updateShop } from "@/utils/api/shop";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
-const CreateShopForm = ({ onClose }: OnCloseProps) => {
-  const { userInfo } = useUserInfo();
-  const [division, setDivision] = useState<string>("Dhaka");
-  const [district, setDistrict] = useState<string>("Dhaka");
+const UpdateShopForm = ({ onClose, id, refetch, shop }: ShopModalPropsType) => {
+  const [division, setDivision] = useState<string>(
+    `${shop.address.division || ""}`
+  );
+  const [district, setDistrict] = useState<string>(
+    `${shop.address.district || ""}`
+  );
   const [loading, setLoading] = useState<boolean>(false);
-
-  const router = useRouter();
 
   const {
     register,
@@ -31,7 +33,7 @@ const CreateShopForm = ({ onClose }: OnCloseProps) => {
 
     setLoading(true);
 
-    const shopData: ShopType = {
+    const shopData: UpdateShopType = {
       name,
       email,
       number,
@@ -40,18 +42,17 @@ const CreateShopForm = ({ onClose }: OnCloseProps) => {
         district,
         address: address,
       },
-      merchantId: userInfo._id!,
-      merchantEmail: userInfo.email!,
     };
 
     // Shop response
-    const shopResponse = await postShop(shopData);
+    const shopResponse = await updateShop({ id, data: shopData });
 
     if (shopResponse.code === "success") {
       reset();
+      refetch();
+      onClose();
       setLoading(false);
       toast.success("Shop created successfully");
-      router.push(`/dashboard/merchant/shops`);
     } else {
       setLoading(false);
       toast.error("Shop created failed");
@@ -64,6 +65,7 @@ const CreateShopForm = ({ onClose }: OnCloseProps) => {
       <CustomInput
         label="Shop Name"
         name="name"
+        defaultValue={shop.name || ""}
         register={register}
         error={errors}
         validationRules={{
@@ -80,6 +82,7 @@ const CreateShopForm = ({ onClose }: OnCloseProps) => {
         label={"Shop Email"}
         name="email"
         type="email"
+        defaultValue={shop.email || ""}
         register={register}
         error={errors}
         validationRules={{
@@ -93,6 +96,7 @@ const CreateShopForm = ({ onClose }: OnCloseProps) => {
       <CustomInput
         label="Phone Number"
         name="number"
+        defaultValue={shop.number || ""}
         register={register}
         error={errors}
         validationRules={{
@@ -120,6 +124,7 @@ const CreateShopForm = ({ onClose }: OnCloseProps) => {
       <CustomInput
         label="Address"
         name="address"
+        defaultValue={shop.address.address || ""}
         register={register}
         error={errors}
         validationRules={{
@@ -132,10 +137,10 @@ const CreateShopForm = ({ onClose }: OnCloseProps) => {
         isDisabled={loading}
         isLoading={loading}
       >
-        Create New Shop
+        Update Shop
       </PrimaryButton>
     </form>
   );
 };
 
-export default CreateShopForm;
+export default UpdateShopForm;

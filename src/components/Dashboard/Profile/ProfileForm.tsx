@@ -12,7 +12,6 @@ import { toast } from "react-toastify";
 
 const ProfileForm = ({ onClose }: OnCloseProps) => {
   const { userInfo, refetch } = useUserInfo();
-  console.log("userInfo:", userInfo);
 
   const [division, setDivision] = useState<string>(`${userInfo?.division}`);
   const [district, setDistrict] = useState<string>(`${userInfo?.district}`);

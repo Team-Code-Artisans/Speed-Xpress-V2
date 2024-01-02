@@ -2,7 +2,7 @@
 
 import { useShop } from "@/hooks/useShop";
 import Loading from "@/ui/Loading";
-import CreateShopModal from "../CreateShop/CreateShopModal";
+import UpdateShopModal from "./UpdateShopModal";
 
 const ShopCard = () => {
   const { shops, isLoading, refetch } = useShop();
@@ -26,7 +26,11 @@ const ShopCard = () => {
                 </h1>
 
                 {/* Update shop modal */}
-                <CreateShopModal />
+                <UpdateShopModal
+                  id={shop.shopId}
+                  refetch={refetch}
+                  shop={shop}
+                />
               </div>
               {/* Shop info */}
               <div className="grid sm:grid-cols-2 sm:gap-8 gap-4">
