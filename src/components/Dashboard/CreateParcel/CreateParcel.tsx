@@ -9,7 +9,7 @@ import ParcelForm from "./ParcelForm";
 import ParcelSummary from "./ParcelSummary";
 
 const CreateParcel = () => {
-  const { userInfo } = useUserInfo();
+  const { userInfo, isLoading } = useUserInfo();
 
   // Parcel form states
   const [division, setDivision] = useState<string>("Dhaka");
@@ -48,7 +48,7 @@ const CreateParcel = () => {
     <div className="lg:py-20 py-10 px-6 max-w-screen-xl mx-auto">
       <div className="grid lg:grid-cols-5 place-items-center lg:place-items-start gap-6 relative">
         <div className="lg:col-span-3 space-y-6">
-          {!userInfo?.address && (
+          {!userInfo?.address && !isLoading && (
             <Card radius="sm">
               <CardBody className="bg-danger-100">
                 <h1>

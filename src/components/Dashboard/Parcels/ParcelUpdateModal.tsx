@@ -28,7 +28,7 @@ const ParcelUpdateModal = ({
               <UpdateParcelForm
                 onClose={onClose}
                 id={`${id}`}
-                refetchAll={refetch}
+                refetch={refetch}
               />
             </ModalBody>
           </>

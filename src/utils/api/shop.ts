@@ -1,10 +1,15 @@
-import { ShopResponseType, ShopType } from "@/types/ShopType";
+import {
+  ShopRequestType,
+  ShopResponseType,
+  ShopType,
+  UpdateShopRequestType,
+} from "@/types/ShopType";
 import api from "../axios";
 import { requestHandler } from "../requestHandler";
 
 // Create shop
-export const createShop = requestHandler<ShopType, ShopResponseType>(() =>
-  api.get(`/shops/create-shop`)
+export const createShop = requestHandler<ShopType, ShopResponseType>((data) =>
+  api.post(`/shops/create-shop`, data)
 );
 
 // Get all shop
@@ -19,10 +24,19 @@ export const getSingleShop = requestHandler<string, ShopResponseType>((id) =>
 
 // Get shops by email
 export const getShopsByEmail = requestHandler<string, ShopResponseType[]>(
-  (email) => api.get(`/shops?${email}`)
+  (email) => api.get(`/shops?email=${email}`)
 );
 
 // Update shop by id
-export const updateShop = requestHandler<ShopType, ShopResponseType>((id) =>
-  api.get(`/shops/update-shop/${id}`)
+export const updateShop = requestHandler<
+  UpdateShopRequestType,
+  ShopResponseType
+>((params) => {
+  const { id, data } = params || {};
+  return api.put(`/shops/update-shop/${id}`, data);
+});
+
+// Delete shop by id
+export const deleteShop = requestHandler<string, ShopResponseType>((id) =>
+  api.delete(`/shops/delete-shop/${id}`)
 );

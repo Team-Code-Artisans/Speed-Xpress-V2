@@ -1,4 +1,4 @@
-import { ParcelFormProps, ParcelFormType } from "@/types/FormTypes";
+import { ModalFormProps, ParcelFormType } from "@/types/FormTypes";
 import { ParcelType } from "@/types/ParcelType";
 import CustomInput from "@/ui/CustomInput";
 import Loading from "@/ui/Loading";
@@ -12,13 +12,9 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
-const UpdateParcelForm = ({ onClose, id, refetchAll }: ParcelFormProps) => {
+const UpdateParcelForm = ({ onClose, id, refetch }: ModalFormProps) => {
   // Get single parcel by id
-  const {
-    data: singleParcel = {} as ParcelType,
-    isLoading,
-    refetch,
-  } = useQuery({
+  const { data: singleParcel = {} as ParcelType, isLoading } = useQuery({
     queryKey: ["SingleParcel"],
     queryFn: async () => {
       const parcelResponse = await getSingleParcel(`${id}`);
@@ -71,7 +67,6 @@ const UpdateParcelForm = ({ onClose, id, refetchAll }: ParcelFormProps) => {
     console.log("parcelResponse:", parcelResponse);
 
     if (parcelResponse.code === "success") {
-      refetchAll();
       refetch();
       onClose();
     } else {
