@@ -1,5 +1,3 @@
-"use client";
-
 import { getAllParcel, getParcelByEmail } from "@/utils/api/parcel";
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "./useAuth";
