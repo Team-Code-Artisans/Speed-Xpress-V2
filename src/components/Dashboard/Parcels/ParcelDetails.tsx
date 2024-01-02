@@ -186,6 +186,7 @@ const ParcelDetails = ({ parcelData }: { parcelData: ParcelType }) => {
         </div>
       </div>
 
+      {/* Parcel Info */}
       <div className="space-y-4 p-6 sm:p-8 dark:bg-gray-900 bg-gray-200 rounded-lg">
         <h1 className="text-xl font-medium">PARCEL INFO</h1>
         <Divider />

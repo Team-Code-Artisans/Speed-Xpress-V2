@@ -23,7 +23,6 @@ import {
   TableColumn,
   TableHeader,
   TableRow,
-  useDisclosure,
 } from "@nextui-org/react";
 import { ChangeEvent, useCallback, useMemo, useState } from "react";
 
@@ -39,13 +38,11 @@ import { HiDotsVertical as VerticalDotsIcon } from "react-icons/hi";
 
 const InvoiceTable = () => {
   // hooks
-  const { invoices, isLoading, refetch } = useInvoice();
-  console.table(invoices);
+  const { invoices, isLoading } = useInvoice();
   const { role } = useAuth();
   const { page, setPage, onNextPage, onPreviousPage } = usePagination();
   const { filterValue, onSearchChange, onClear } = useFilter();
   const { visibleColumns, setVisibleColumns } = useVisibleColumns();
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const router = useRouter();
 
   // states
@@ -110,10 +107,6 @@ const InvoiceTable = () => {
     (invoice: InvoiceType, columnKey: string | number): React.ReactNode => {
       const cellValue = invoice[columnKey as keyof InvoiceType];
       const [date, time] = invoice?.paymentDateTime.split(", ");
-
-      const handleAccept = (id: string, role: string) => {
-        console.log(id);
-      };
 
       const handleView = (id: string) => {
         if (role !== "rider") {

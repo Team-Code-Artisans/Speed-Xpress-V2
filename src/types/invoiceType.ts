@@ -4,6 +4,7 @@ export type InvoiceType = {
   paymentId?: string;
   parcelId: string;
   userName: string;
+  userRole: string;
   userEmail: string;
   amount: string;
   currency: string;
