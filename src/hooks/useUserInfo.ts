@@ -1,5 +1,3 @@
-"use client";
-
 import { UserType } from "@/types/UserType";
 import { getSingleUser } from "@/utils/api/user";
 import { useQuery } from "@tanstack/react-query";

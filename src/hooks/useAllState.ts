@@ -1,5 +1,3 @@
-"use client";
-
 import { AllStateContext } from "@/providers/AllStateProvider";
 import { useContext } from "react";
 
