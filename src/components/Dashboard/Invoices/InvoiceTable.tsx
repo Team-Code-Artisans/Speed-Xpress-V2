@@ -73,6 +73,10 @@ const InvoiceTable = () => {
             invoice?.userEmail
               .toLowerCase()
               .includes(filterValue.toLowerCase())) ||
+          (invoice?.parcelId &&
+            invoice?.parcelId
+              .toLowerCase()
+              .includes(filterValue.toLowerCase())) ||
           (invoice?.invoiceId &&
             invoice?.invoiceId
               .toLowerCase()
