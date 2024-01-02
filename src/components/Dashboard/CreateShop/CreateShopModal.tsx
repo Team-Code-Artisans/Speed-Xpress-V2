@@ -16,7 +16,7 @@ const CreateShopModal = () => {
   return (
     <>
       <PrimaryButton onClick={onOpen} size="md">
-        Create SHop
+        Create New SHop
       </PrimaryButton>
 
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="center">
