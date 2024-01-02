@@ -40,7 +40,7 @@ export type ShopFormType = {
 };
 
 export type ShopModalPropsType = {
-  shop: ShopResponseType;
+  shop: ShopType[];
   onClose: () => void;
   id: string;
   refetch: (
@@ -52,3 +52,10 @@ export type UpdateShopPropsType = { shop: ShopResponseType } & Omit<
   ShopModalPropsType,
   "onClose"
 >;
+
+export type SelectShopType = {
+  shop: string;
+  shops: ShopResponseType[];
+  variant?: "flat" | "faded" | "bordered";
+  setShop: React.Dispatch<React.SetStateAction<string>>;
+};

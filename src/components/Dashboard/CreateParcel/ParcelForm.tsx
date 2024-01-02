@@ -1,4 +1,5 @@
 import { weightData } from "@/data/deliveryData";
+import { useShop } from "@/hooks/useShop";
 import {
   ParcelDataType,
   ParcelFormProps,
@@ -12,6 +13,7 @@ import PrimaryButton from "@/ui/PrimaryButton";
 import SecondaryButton from "@/ui/SecondaryButton";
 import SelectDistrict from "@/ui/SelectDistrict";
 import SelectDivision from "@/ui/SelectDivision";
+import SelectShop from "@/ui/SelectShop";
 import { createParcel } from "@/utils/api/parcel";
 import { createPayment } from "@/utils/api/payment";
 import { RadioGroup, Select, SelectItem, Textarea } from "@nextui-org/react";
@@ -29,7 +31,12 @@ const ParcelForm = ({
   estimatedTotal,
   userInfo,
 }: ParcelFormProps) => {
+  const { shops, isLoading } = useShop();
+
   const [district, setDistrict] = useState<string>("Dhaka");
+  const [shop, setShop] = useState<string>(
+    `${(!isLoading ? shops[0].name : "") || ""}`
+  );
   const [paymentMethod, setPaymentMethod] = useState<string>("online");
 
   const router = useRouter();
@@ -73,7 +80,8 @@ const ParcelForm = ({
       shippingMethod,
       parcelWeight: weight,
       parcelQuantity: quantity,
-      deliveryDateTime: new Date().toLocaleString(), // const [date, time] = deliveryDateTime.split(', ')
+      // const [date, time] = deliveryDateTime.split(', ')
+      deliveryDateTime: new Date().toLocaleString(),
       paymentInfo: {
         method: paymentMethod,
         status: paymentStatus,
@@ -88,7 +96,7 @@ const ParcelForm = ({
         merchantInfo: {
           merchantId: userInfo?._id || "",
           ownerName: userInfo?.name || "",
-          shopName: userInfo?.shopName || "",
+          shopName: shop,
           email: userInfo?.email || "",
           number: userInfo?.number || "",
           address: {
@@ -214,6 +222,9 @@ const ParcelForm = ({
       {/* parcel details */}
       <h1 className="text-xl font-medium">Parcel Details</h1>
 
+      {userInfo.role === "merchant" && (
+        <SelectShop shop={shop} setShop={setShop} shops={shops} />
+      )}
       <div className="grid sm:grid-cols-2 gap-4">
         <Select
           label={
