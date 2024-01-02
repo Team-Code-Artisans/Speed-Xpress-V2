@@ -1,3 +1,4 @@
+import { useShop } from "@/hooks/useShop";
 import { useUserInfo } from "@/hooks/useUserInfo";
 import { OnCloseProps } from "@/types/FormTypes";
 import { ShopFormType, ShopType } from "@/types/ShopType";
@@ -13,6 +14,7 @@ import { toast } from "react-toastify";
 
 const CreateShopForm = ({ onClose }: OnCloseProps) => {
   const { userInfo } = useUserInfo();
+  const { refetch } = useShop();
   const [division, setDivision] = useState<string>("Dhaka");
   const [district, setDistrict] = useState<string>("Dhaka");
   const [loading, setLoading] = useState<boolean>(false);
@@ -49,6 +51,8 @@ const CreateShopForm = ({ onClose }: OnCloseProps) => {
 
     if (shopResponse.code === "success") {
       reset();
+      refetch();
+      onClose();
       setLoading(false);
       toast.success("Shop created successfully");
       router.push(`/dashboard/merchant/shops`);
