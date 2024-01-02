@@ -14,6 +14,7 @@ import SecondaryButton from "@/ui/SecondaryButton";
 import SelectDistrict from "@/ui/SelectDistrict";
 import SelectDivision from "@/ui/SelectDivision";
 import SelectShop from "@/ui/SelectShop";
+import { createInvoice } from "@/utils/api/invoice";
 import { createParcel } from "@/utils/api/parcel";
 import { createPayment } from "@/utils/api/payment";
 import { RadioGroup, Select, SelectItem, Textarea } from "@nextui-org/react";
@@ -129,24 +130,28 @@ const ParcelForm = ({
         const paymentResponse = await createPayment(paymentData);
 
         if (paymentResponse.code === "success") {
+          reset();
           router.push(`${paymentResponse.data.url}`);
         } else {
-          toast.error("Parcel created failed");
+          toast.error("Payment created failed");
           console.error(paymentResponse.error);
           router.push(`/dashboard/${userInfo.role}/parcels`);
         }
       } else {
-        // const paymentResponse = await savePayment(paymentData);
-        // if (paymentResponse.code === "success") {
-        //   toast.success("Parcel created successfully");
-        //   router.push(`/dashboard/${userInfo.role}/parcels`);
-        // } else {
-        //   toast.error("Parcel created failed");
-        //   console.error(paymentResponse.error);
-        //   router.push(`/dashboard/${userInfo.role}/parcels`);
-        // }
+        const paymentResponse = await createInvoice(paymentData);
+        if (paymentResponse.code === "success") {
+          reset();
+          toast.success("Parcel created successfully");
+          router.push(`/dashboard/${userInfo.role}/parcels`);
+        } else {
+          toast.error("Payment created failed");
+          console.error(paymentResponse.error);
+          router.push(`/dashboard/${userInfo.role}/parcels`);
+        }
       }
-      reset();
+    } else {
+      toast.error("Parcel created failed");
+      console.error(parcelResponse.error);
     }
   };
 
