@@ -1,8 +1,4 @@
-import {
-  ShopResponseType,
-  ShopType,
-  UpdateShopRequestType,
-} from "@/types/ShopType";
+import { ShopResponseType, ShopType, ShopRequestType } from "@/types/ShopType";
 import api from "../axios";
 import { requestHandler } from "../requestHandler";
 
@@ -27,13 +23,12 @@ export const getShopsByEmail = requestHandler<string, ShopResponseType[]>(
 );
 
 // Update shop by id
-export const updateShop = requestHandler<
-  UpdateShopRequestType,
-  ShopResponseType
->((params) => {
-  const { id, data } = params || {};
-  return api.put(`/shops/update-shop/${id}`, data);
-});
+export const updateShop = requestHandler<ShopRequestType, ShopResponseType>(
+  (params) => {
+    const { id, data } = params || {};
+    return api.put(`/shops/update-shop/${id}`, data);
+  }
+);
 
 // Delete shop by id
 export const deleteShop = requestHandler<string, ShopResponseType>((id) =>

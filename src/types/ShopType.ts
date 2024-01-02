@@ -13,14 +13,19 @@ export type ShopType = {
   merchantEmail: string;
 };
 
-export type ShopResponseType = ShopType & {
-  _id: string;
-  shopId: string;
+export type ShopRequestType = {
+  id: string;
+  data: ShopType;
 };
 
-export type UpdateShopType = Omit<ShopType, "merchantId" & "merchantEmail">;
+export type ShopResponseType = {
+  _id: string;
+  shopId: string;
+} & ShopType;
 
-export type UpdateShopRequestType = {
-  id: string;
-  data: UpdateShopType;
+export type ShopFormType = {
+  name: string;
+  email: string;
+  number: string;
+  address: string;
 };
