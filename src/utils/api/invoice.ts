@@ -19,7 +19,7 @@ export const getInvoiceByEmail = requestHandler<string, InvoiceType[]>(
 
 // update invoice status
 export const updateInvoiceStatus = requestHandler<
-  { id: string; data: { status: string } },
+  { id: string; data: { parcelId: string; status: string } },
   InvoiceType
 >((params) => {
   const { id, data } = params || {};

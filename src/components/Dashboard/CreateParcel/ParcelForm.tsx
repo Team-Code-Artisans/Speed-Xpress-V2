@@ -131,15 +131,16 @@ const ParcelForm = ({
 
         if (paymentResponse.code === "success") {
           const updateResponse = await updateInvoiceStatus({
-            id: `${parcelResponse.data._id}`,
-            data: { status: PaymentStatus.Paid },
+            id: `${paymentResponse.data.id}`,
+            data: {
+              parcelId: `${parcelResponse.data._id}`,
+              status: PaymentStatus.Paid,
+            },
           });
 
-          console.log("updateResponse:", updateResponse);
-
           if (updateResponse.code === "success") {
-            // reset();
-            // router.push(`${paymentResponse.data.url}`);
+            reset();
+            router.push(`${paymentResponse.data.url}`);
           } else {
             console.error(updateResponse.error);
           }
