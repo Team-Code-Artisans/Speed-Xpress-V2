@@ -1,45 +1,36 @@
 import { ChipProps } from "@nextui-org/react";
 
 const columns = [
-  { name: "PARCEL ID", uid: "id" },
   { name: "DATE", uid: "date" },
+  { name: "PARCEL ID", uid: "parcelId" },
+  { name: "INVOICE ID", uid: "invoiceId" },
   { name: "NAME", uid: "name" },
-  { name: "NUMBER", uid: "number" },
-  { name: "SHIPPING", uid: "shipping" },
-  { name: "PARCEL INFO", uid: "info" },
-  { name: "PAYMENT", uid: "payment" },
+  { name: "AMOUNT", uid: "amount" },
+  { name: "METHOD", uid: "method" },
   { name: "STATUS", uid: "status" },
   { name: "ACTIONS", uid: "actions" },
 ];
 
 const statusOptions = [
   { name: "Pending", uid: "pending" },
-  { name: "Accepted", uid: "accepted" },
-  { name: "Picked", uid: "picked" },
-  { name: "Delivered", uid: "delivered" },
-  { name: "Returned", uid: "returned" },
+  { name: "Paid", uid: "paid" },
   { name: "Canceled", uid: "canceled" },
 ];
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
   pending: "default",
-  accepted: "primary",
-  picked: "secondary",
-  delivered: "success",
-  returned: "warning",
+  paid: "success",
   canceled: "danger",
 };
 
 const INITIAL_VISIBLE_COLUMNS = [
-  "id",
+  "parcelId",
+  "invoiceId",
   "date",
   "name",
-  "number",
-  "shipping",
-  "status",
-  "info",
-  "payment",
   "amount",
+  "method",
+  "status",
   "actions",
 ];
 

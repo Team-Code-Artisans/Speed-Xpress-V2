@@ -1,13 +1,11 @@
 "use client";
 
-import { columns, statusColorMap, statusOptions } from "@/data/parcelData";
-import { useParcel } from "@/hooks/useParcel";
+import { columns, statusColorMap, statusOptions } from "@/data/invoiceData";
 import {
   useFilter,
   usePagination,
   useVisibleColumns,
-} from "@/hooks/useParcelTable";
-import { ParcelType } from "@/types/ParcelType";
+} from "@/hooks/useInvoiceTable";
 import {
   Button,
   Chip,
@@ -31,16 +29,18 @@ import { ChangeEvent, useCallback, useMemo, useState } from "react";
 
 // icons
 import { useAuth } from "@/hooks/useAuth";
+import { useInvoice } from "@/hooks/useInvoice";
+import { InvoiceType } from "@/types/invoiceType";
 import Loading from "@/ui/Loading";
 import { useRouter } from "next/navigation";
 import { CiSearch as SearchIcon } from "react-icons/ci";
 import { FaChevronDown as ChevronDownIcon } from "react-icons/fa";
 import { HiDotsVertical as VerticalDotsIcon } from "react-icons/hi";
-import ParcelUpdateModal from "../Parcels/ParcelUpdateModal";
 
 const InvoiceTable = () => {
   // hooks
-  const { parcels, isLoading, refetch } = useParcel();
+  const { invoices, isLoading, refetch } = useInvoice();
+  console.table(invoices);
   const { role } = useAuth();
   const { page, setPage, onNextPage, onPreviousPage } = usePagination();
   const { filterValue, onSearchChange, onClear } = useFilter();
@@ -51,7 +51,6 @@ const InvoiceTable = () => {
   // states
   const [statusFilter, setStatusFilter] = useState<Selection>("all");
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [updateId, setUpdateId] = useState<string | null>(null);
 
   const hasSearchFilter = Boolean(filterValue);
 
@@ -64,21 +63,23 @@ const InvoiceTable = () => {
   }, [visibleColumns]);
 
   const filteredItems = useMemo(() => {
-    let filteredParcels = [...parcels];
+    let filteredInvoices = [...invoices];
 
     if (hasSearchFilter) {
-      filteredParcels = filteredParcels.filter((parcel) => {
+      filteredInvoices = filteredInvoices.filter((invoice) => {
         const isMatch =
-          (parcel?.recipientInfo?.name &&
-            parcel?.recipientInfo?.name
+          (invoice?.userName &&
+            invoice?.userName
               .toLowerCase()
               .includes(filterValue.toLowerCase())) ||
-          (parcel?.recipientInfo?.email &&
-            parcel?.recipientInfo?.email
+          (invoice?.userEmail &&
+            invoice?.userEmail
               .toLowerCase()
               .includes(filterValue.toLowerCase())) ||
-          (parcel?.parcelId &&
-            parcel?.parcelId.toLowerCase().includes(filterValue.toLowerCase()));
+          (invoice?.invoiceId &&
+            invoice?.invoiceId
+              .toLowerCase()
+              .includes(filterValue.toLowerCase()));
 
         return isMatch;
       });
@@ -88,13 +89,13 @@ const InvoiceTable = () => {
       statusFilter !== "all" &&
       Array.from(statusFilter).length !== statusOptions.length
     ) {
-      filteredParcels = filteredParcels.filter((parcel) =>
-        Array.from(statusFilter).includes(parcel?.parcelStatus)
+      filteredInvoices = filteredInvoices.filter((invoice) =>
+        Array.from(statusFilter).includes(invoice?.status)
       );
     }
 
-    return filteredParcels;
-  }, [parcels, hasSearchFilter, statusFilter, filterValue]);
+    return filteredInvoices;
+  }, [invoices, hasSearchFilter, statusFilter, filterValue]);
 
   const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
@@ -106,14 +107,9 @@ const InvoiceTable = () => {
   }, [page, filteredItems, rowsPerPage]);
 
   const renderCell = useCallback(
-    (parcel: ParcelType, columnKey: string | number): React.ReactNode => {
-      const cellValue = parcel[columnKey as keyof ParcelType];
-      const [date, time] = parcel?.deliveryDateTime.split(", ");
-
-      const handleEdit = (id: string) => {
-        onOpen();
-        setUpdateId(id);
-      };
+    (invoice: InvoiceType, columnKey: string | number): React.ReactNode => {
+      const cellValue = invoice[columnKey as keyof InvoiceType];
+      const [date, time] = invoice?.paymentDateTime.split(", ");
 
       const handleAccept = (id: string, role: string) => {
         console.log(id);
@@ -121,9 +117,7 @@ const InvoiceTable = () => {
 
       const handleView = (id: string) => {
         if (role !== "rider") {
-          router.push(`/dashboard/${role}/parcels/${id}`);
-        } else {
-          router.push(`/dashboard/${role}/deliveries/${id}`);
+          router.push(`/dashboard/${role}/invoices/${id}`);
         }
       };
 
@@ -132,12 +126,6 @@ const InvoiceTable = () => {
       };
 
       switch (columnKey) {
-        case "id":
-          return (
-            <Snippet variant="flat" radius="sm">
-              {parcel?.parcelId}
-            </Snippet>
-          );
         case "date":
           return (
             <>
@@ -145,78 +133,56 @@ const InvoiceTable = () => {
               <p className="text-small whitespace-nowrap">{time}</p>
             </>
           );
+        case "parcelId":
+          return (
+            <Snippet variant="flat" radius="sm">
+              {invoice?.parcelId}
+            </Snippet>
+          );
+        case "invoiceId":
+          return (
+            <Snippet variant="flat" radius="sm">
+              {invoice?.invoiceId}
+            </Snippet>
+          );
         case "name":
           return (
             <>
               <p className="font-medium text-small capitalize">
-                {parcel?.recipientInfo?.name}
+                {invoice?.userName}
               </p>
-              <p className="text-tiny text-default-500">
-                {parcel?.recipientInfo?.email}
-              </p>
+              <p className="text-tiny text-default-500">{invoice?.userEmail}</p>
             </>
           );
-        case "number":
+        case "amount":
           return (
             <p className="font-medium text-small capitalize">
-              {parcel?.recipientInfo?.number}
+              ${invoice?.amount}
             </p>
           );
-        case "shipping":
+        case "method":
           return (
             <Chip
               color={
-                parcel?.shippingMethod === "express" ? "primary" : "default"
+                invoice?.paymentMethod === "online" ? "primary" : "default"
               }
               size="sm"
               variant="flat"
             >
               <span className="font-medium capitalize text-small">
-                {parcel?.shippingMethod}
+                {invoice?.paymentMethod}
               </span>
             </Chip>
-          );
-        case "info":
-          return (
-            <>
-              <p className="text-small capitalize">
-                Weight:{" "}
-                <span className="font-medium">{parcel?.parcelWeight} KG</span>
-              </p>
-              <p className="text-small capitalize">
-                Quantity:{" "}
-                <span className="font-medium">
-                  {parcel?.parcelQuantity} PCS
-                </span>
-              </p>
-            </>
-          );
-        case "payment":
-          return (
-            <>
-              <p className="text-small capitalize whitespace-nowrap">
-                Status:{" "}
-                <span className="font-medium">
-                  {parcel?.paymentInfo.status}
-                </span>
-              </p>
-              <p className="text-small capitalize whitespace-nowrap">
-                Amount:{" "}
-                <span className="font-medium">
-                  ${parcel?.paymentInfo.amount}
-                </span>
-              </p>
-            </>
           );
         case "status":
           return (
             <Chip
-              color={statusColorMap[parcel?.parcelStatus]}
+              color={statusColorMap[invoice?.status]}
               size="sm"
               variant="flat"
             >
               <span className="font-medium capitalize text-small">
-                {parcel?.parcelStatus}
+                {invoice?.status}
               </span>
             </Chip>
           );
@@ -234,39 +200,19 @@ const InvoiceTable = () => {
                     className="text-left"
                     textValue="view"
                     as="button"
-                    onClick={() => handleView(`${parcel?.parcelId}`)}
+                    onClick={() => handleView(`${invoice?.invoiceId}`)}
                   >
                     View
                   </DropdownItem>
-                  <DropdownItem
-                    className="text-left"
-                    textValue="edit"
-                    as="button"
-                    onClick={() => handleEdit(`${parcel?.parcelId}`)}
-                  >
-                    Edit
-                  </DropdownItem>
 
-                  {role === "admin" ? (
-                    <DropdownItem
-                      textValue="accept"
-                      className="text-left"
-                      as="button"
-                      onClick={() => handleAccept(`${parcel?._id}`, role)}
-                    >
-                      Accept
-                    </DropdownItem>
-                  ) : (
-                    <DropdownItem className="hidden"></DropdownItem>
-                  )}
-                  {role === "rider" ? (
+                  {role !== "admin" ? (
                     <DropdownItem className="hidden"></DropdownItem>
                   ) : (
                     <DropdownItem
                       textValue="delete"
                       className="text-left"
                       as="button"
-                      onClick={() => handleDelete(`${parcel?._id}`)}
+                      onClick={() => handleDelete(`${invoice?._id}`)}
                     >
                       Delete
                     </DropdownItem>
@@ -279,7 +225,7 @@ const InvoiceTable = () => {
           return <>{cellValue}</>;
       }
     },
-    [onOpen, role, router]
+    [role, router]
   );
 
   const onRowsPerPageChange = useCallback(
@@ -358,7 +304,7 @@ const InvoiceTable = () => {
         </div>
         <div className="flex justify-between items-center">
           <span className="text-default-500 text-small">
-            Total {parcels.length} Parcels
+            Total {invoices.length} Invoices
           </span>
           <label className="flex items-center text-default-500 text-small">
             Rows per page:
@@ -380,7 +326,7 @@ const InvoiceTable = () => {
     statusFilter,
     visibleColumns,
     setVisibleColumns,
-    parcels.length,
+    invoices.length,
     onRowsPerPageChange,
     onClear,
   ]);
@@ -444,7 +390,7 @@ const InvoiceTable = () => {
           )}
         </TableHeader>
         <TableBody
-          emptyContent={isLoading ? <Loading size="lg" /> : "No parcels found"}
+          emptyContent={isLoading ? <Loading size="lg" /> : "No invoice found"}
           items={items}
         >
           {(item) => (
@@ -456,13 +402,6 @@ const InvoiceTable = () => {
           )}
         </TableBody>
       </Table>
-
-      <ParcelUpdateModal
-        isOpen={isOpen}
-        onOpenChange={onOpenChange}
-        id={updateId}
-        refetch={refetch}
-      />
     </>
   );
 };

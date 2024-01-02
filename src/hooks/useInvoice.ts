@@ -1,7 +1,8 @@
+import { getAllInvoice, getInvoiceByEmail } from "@/utils/api/invoice";
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "./useAuth";
 
-export const useParcel = () => {
+export const useInvoice = () => {
   const { user, role } = useAuth();
 
   // Get invoices by email
