@@ -7,7 +7,7 @@ import {
   usePagination,
   useVisibleColumns,
 } from "@/hooks/useParcelTable";
-import { ParcelType } from "@/types/ParcelType";
+import { ParcelType, Status } from "@/types/ParcelType";
 import {
   Button,
   Chip,
@@ -32,6 +32,7 @@ import { ChangeEvent, useCallback, useMemo, useState } from "react";
 // icons
 import { useAuth } from "@/hooks/useAuth";
 import Loading from "@/ui/Loading";
+import { updateParcelStatus } from "@/utils/api/parcel";
 import { useRouter } from "next/navigation";
 import { CiSearch as SearchIcon } from "react-icons/ci";
 import { FaChevronDown as ChevronDownIcon } from "react-icons/fa";
@@ -40,13 +41,19 @@ import ParcelUpdateModal from "./ParcelUpdateModal";
 
 const ParcelTable = () => {
   // hooks
-  const { parcels, isLoading, refetch } = useParcel();
+  let { parcels, isLoading, refetch } = useParcel();
   const { role } = useAuth();
   const { page, setPage, onNextPage, onPreviousPage } = usePagination();
   const { filterValue, onSearchChange, onClear } = useFilter();
   const { visibleColumns, setVisibleColumns } = useVisibleColumns();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const router = useRouter();
+
+  if (role === "rider") {
+    parcels = parcels.filter(
+      (parcel) => parcel.parcelStatus !== Status.Pending
+    );
+  }
 
   // states
   const [statusFilter, setStatusFilter] = useState<Selection>("all");
@@ -115,8 +122,43 @@ const ParcelTable = () => {
         setUpdateId(id);
       };
 
-      const handleAccept = (id: string, role: string) => {
-        console.log(id);
+      const handleAcceptByAdmin = async (id: string) => {
+        const updateResponse = await updateParcelStatus({
+          id,
+          data: { parcelStatus: Status.Accepted },
+        });
+
+        if (updateResponse.code === "success") {
+          refetch();
+        } else {
+          console.error(updateResponse.error);
+        }
+      };
+
+      const handleAcceptByRider = async (id: string) => {
+        const updateResponse = await updateParcelStatus({
+          id,
+          data: { parcelStatus: Status.Picked },
+        });
+
+        if (updateResponse.code === "success") {
+          refetch();
+        } else {
+          console.error(updateResponse.error);
+        }
+      };
+
+      const handleDeliveredByRider = async (id: string) => {
+        const updateResponse = await updateParcelStatus({
+          id,
+          data: { parcelStatus: Status.Delivered },
+        });
+
+        if (updateResponse.code === "success") {
+          refetch();
+        } else {
+          console.error(updateResponse.error);
+        }
       };
 
       const handleView = (id: string) => {
@@ -238,27 +280,65 @@ const ParcelTable = () => {
                   >
                     View
                   </DropdownItem>
-                  <DropdownItem
-                    className="text-left"
-                    textValue="edit"
-                    as="button"
-                    onClick={() => handleEdit(`${parcel?.parcelId}`)}
-                  >
-                    Edit
-                  </DropdownItem>
-
-                  {role === "admin" ? (
+                  {role !== "rider" ? (
                     <DropdownItem
-                      textValue="accept"
+                      className="text-left"
+                      textValue="edit"
+                      as="button"
+                      onClick={() => handleEdit(`${parcel?.parcelId}`)}
+                    >
+                      Edit
+                    </DropdownItem>
+                  ) : (
+                    <DropdownItem className="hidden"></DropdownItem>
+                  )}
+
+                  {role === "admin" &&
+                  parcel.parcelStatus !== Status.Accepted ? (
+                    <DropdownItem
+                      textValue="accept by admin"
                       className="text-left"
                       as="button"
-                      onClick={() => handleAccept(`${parcel?._id}`, role)}
+                      onClick={() => handleAcceptByAdmin(`${parcel?._id}`)}
                     >
                       Accept
                     </DropdownItem>
                   ) : (
                     <DropdownItem className="hidden"></DropdownItem>
                   )}
+
+                  {role === "rider" &&
+                  parcel.parcelStatus === Status.Accepted &&
+                  // @ts-ignore
+                  parcel.parcelStatus !== Status.Picked ? (
+                    <DropdownItem
+                      textValue="accept by rider"
+                      className="text-left"
+                      as="button"
+                      onClick={() => handleAcceptByRider(`${parcel?._id}`)}
+                    >
+                      Picked
+                    </DropdownItem>
+                  ) : (
+                    <DropdownItem className="hidden"></DropdownItem>
+                  )}
+
+                  {role === "rider" &&
+                  parcel.parcelStatus === Status.Picked &&
+                  // @ts-ignore
+                  parcel.parcelStatus !== Status.Delivered ? (
+                    <DropdownItem
+                      textValue="delivered"
+                      className="text-left"
+                      as="button"
+                      onClick={() => handleDeliveredByRider(`${parcel?._id}`)}
+                    >
+                      Delivered
+                    </DropdownItem>
+                  ) : (
+                    <DropdownItem className="hidden"></DropdownItem>
+                  )}
+
                   {role === "rider" ? (
                     <DropdownItem className="hidden"></DropdownItem>
                   ) : (
@@ -279,7 +359,7 @@ const ParcelTable = () => {
           return <>{cellValue}</>;
       }
     },
-    [onOpen, role, router]
+    [onOpen, refetch, role, router]
   );
 
   const onRowsPerPageChange = useCallback(

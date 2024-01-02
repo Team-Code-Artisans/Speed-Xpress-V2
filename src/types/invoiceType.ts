@@ -6,8 +6,8 @@ export type InvoiceType = {
   userName: string;
   userRole: string;
   userEmail: string;
-  amount: string;
-  currency: string;
+  amount: number;
+  currency?: string;
   paymentMethod: string;
   paymentDateTime: string;
   status: string;

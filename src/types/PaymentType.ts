@@ -9,5 +9,6 @@ export type PaymentType = {
 };
 
 export type PaymentResponseType = {
+  id: string;
   url: string;
 };

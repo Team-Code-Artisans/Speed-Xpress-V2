@@ -30,6 +30,15 @@ export const updateParcel = requestHandler<UpdateParcelType, ParcelType>(
   }
 );
 
+// update parcel status by id
+export const updateParcelStatus = requestHandler<
+  { id: string; data: { parcelStatus: string } },
+  ParcelType
+>((params) => {
+  const { id, data } = params || {};
+  return api.put(`/parcels/update-status/${id}`, data);
+});
+
 // delete parcel
 export const deleteParcel = requestHandler<string, ParcelType>((id) =>
   api.delete(`/parcels/${id}`)

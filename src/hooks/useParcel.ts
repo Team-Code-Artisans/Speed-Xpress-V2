@@ -14,7 +14,7 @@ export const useParcel = () => {
     queryKey: ["parcels"],
     queryFn: async () => {
       if (user?.email && role) {
-        if (role !== "admin") {
+        if (role !== "admin" && role !== "rider") {
           const parcelResponse = await getParcelByEmail(user.email);
           if (parcelResponse.code === "success") {
             return parcelResponse.data || [];
