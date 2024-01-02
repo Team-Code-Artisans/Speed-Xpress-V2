@@ -1,4 +1,4 @@
-import CreateShop from "@/components/Dashboard/CreateShop/CreateShop";
+import CreateShop from "@/components/Dashboard/CreateShop/CreateShopModal";
 
 const CreateShopPage = () => {
   return (

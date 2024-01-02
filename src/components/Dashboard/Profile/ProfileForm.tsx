@@ -1,5 +1,5 @@
 import { useUserInfo } from "@/hooks/useUserInfo";
-import { ProfileFormProps, ProfileFormType } from "@/types/FormTypes";
+import { OnCloseProps, ProfileFormType } from "@/types/FormTypes";
 import CustomInput from "@/ui/CustomInput";
 import PrimaryButton from "@/ui/PrimaryButton";
 import SecondaryButton from "@/ui/SecondaryButton";
@@ -10,7 +10,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
-const ProfileForm = ({ onClose }: ProfileFormProps) => {
+const ProfileForm = ({ onClose }: OnCloseProps) => {
   const { userInfo, refetch } = useUserInfo();
   console.log("userInfo:", userInfo);
 

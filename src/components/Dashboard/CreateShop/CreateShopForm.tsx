@@ -1,6 +1,5 @@
-"use client";
-
 import { useUserInfo } from "@/hooks/useUserInfo";
+import { OnCloseProps } from "@/types/FormTypes";
 import { ShopFormType, ShopType } from "@/types/ShopType";
 import CustomInput from "@/ui/CustomInput";
 import PrimaryButton from "@/ui/PrimaryButton";
@@ -12,7 +11,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
-const CreateShop = () => {
+const CreateShopForm = ({ onClose }: OnCloseProps) => {
   const { userInfo } = useUserInfo();
   const [division, setDivision] = useState<string>("Dhaka");
   const [district, setDistrict] = useState<string>("Dhaka");
@@ -139,4 +138,4 @@ const CreateShop = () => {
   );
 };
 
-export default CreateShop;
+export default CreateShopForm;

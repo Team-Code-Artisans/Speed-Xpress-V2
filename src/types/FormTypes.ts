@@ -50,7 +50,7 @@ export type ProfileFormType = {
   district?: string;
 };
 
-export type ProfileFormProps = {
+export type OnCloseProps = {
   onClose: () => void;
 };
 
