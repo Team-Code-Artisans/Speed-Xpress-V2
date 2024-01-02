@@ -15,21 +15,22 @@ export const useShop = () => {
   } = useQuery({
     queryKey: ["shops"],
     queryFn: async () => {
-      if (user?.displayName === "merchant") {
-        const shopResponse = await getShopsByEmail("merchant5@gmail.com");
-        if (shopResponse.code === "success") {
-          console.log(shopResponse);
-          return shopResponse.data;
-        } else {
-          console.error(shopResponse.error);
+      if (user?.email) {
+        if (user?.displayName === "merchant") {
+          const shopResponse = await getShopsByEmail(user.email);
+          if (shopResponse.code === "success") {
+            return shopResponse.data;
+          } else {
+            console.error(shopResponse.error);
+          }
         }
-      }
-      if (user?.displayName === "admin") {
-        const shopResponse = await getAllShop();
-        if (shopResponse.code === "success") {
-          return shopResponse.data;
-        } else {
-          console.error(shopResponse.error);
+        if (user?.displayName === "admin") {
+          const shopResponse = await getAllShop();
+          if (shopResponse.code === "success") {
+            return shopResponse.data;
+          } else {
+            console.error(shopResponse.error);
+          }
         }
       }
     },

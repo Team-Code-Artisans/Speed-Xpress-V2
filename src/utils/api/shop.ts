@@ -1,4 +1,4 @@
-import { ShopResponseType, ShopType, ShopRequestType } from "@/types/ShopType";
+import { ShopRequestType, ShopResponseType, ShopType } from "@/types/ShopType";
 import api from "../axios";
 import { requestHandler } from "../requestHandler";
 
@@ -19,7 +19,7 @@ export const getSingleShop = requestHandler<string, ShopResponseType>((id) =>
 
 // Get shops by email
 export const getShopsByEmail = requestHandler<string, ShopResponseType[]>(
-  (email) => api.get(`/shops?${email}`)
+  (email) => api.get(`/shops?email=${email}`)
 );
 
 // Update shop by id

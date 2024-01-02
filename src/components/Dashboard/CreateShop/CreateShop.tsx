@@ -16,7 +16,7 @@ const CreateShop = () => {
   const { userInfo } = useUserInfo();
   const [division, setDivision] = useState<string>("Dhaka");
   const [district, setDistrict] = useState<string>("Dhaka");
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const router = useRouter();
 
@@ -29,6 +29,8 @@ const CreateShop = () => {
 
   const handleForm = async (data: ShopFormType) => {
     const { name, email, number, address } = data;
+
+    setLoading(true);
 
     const shopData: ShopType = {
       name,
