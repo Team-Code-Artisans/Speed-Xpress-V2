@@ -1,13 +1,11 @@
 "use client";
 
-import { columns, statusColorMap, statusOptions } from "@/data/parcelData";
-import { useParcel } from "@/hooks/useParcel";
+import { columns } from "@/data/userData";
 import {
   useFilter,
   usePagination,
   useVisibleColumns,
-} from "@/hooks/useParcelTable";
-import { ParcelType, Status } from "@/types/ParcelType";
+} from "@/hooks/useUserTable";
 import {
   Button,
   Chip,
@@ -17,8 +15,6 @@ import {
   DropdownTrigger,
   Input,
   Pagination,
-  Selection,
-  Snippet,
   Table,
   TableBody,
   TableCell,
@@ -29,10 +25,9 @@ import {
 import { ChangeEvent, useCallback, useMemo, useState } from "react";
 
 // icons
-import { useAuth } from "@/hooks/useAuth";
 import { useUserInfo } from "@/hooks/useUserInfo";
+import { UserType } from "@/types/UserType";
 import Loading from "@/ui/Loading";
-import { updateParcelStatus } from "@/utils/api/parcel";
 import { usePathname, useRouter } from "next/navigation";
 import { CiSearch as SearchIcon } from "react-icons/ci";
 import { FaChevronDown as ChevronDownIcon } from "react-icons/fa";
@@ -41,11 +36,10 @@ import { HiDotsVertical as VerticalDotsIcon } from "react-icons/hi";
 const UserTable = () => {
   // hooks
   let { allIsLoading, allUser, refetchAll } = useUserInfo();
-  let { parcels, isLoading, refetch } = useParcel();
-  const { role } = useAuth();
   const { page, setPage, onNextPage, onPreviousPage } = usePagination();
   const { filterValue, onSearchChange, onClear } = useFilter();
   const { visibleColumns, setVisibleColumns } = useVisibleColumns();
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const router = useRouter();
   const pathname = usePathname();
 
@@ -60,10 +54,6 @@ const UserTable = () => {
 
   console.table(users);
 
-  // states
-  const [statusFilter, setStatusFilter] = useState<Selection>("all");
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-
   const hasSearchFilter = Boolean(filterValue);
 
   const headerColumns = useMemo(() => {
@@ -75,37 +65,24 @@ const UserTable = () => {
   }, [visibleColumns]);
 
   const filteredItems = useMemo(() => {
-    let filteredParcels = [...parcels];
+    let filteredUser = [...users];
 
     if (hasSearchFilter) {
-      filteredParcels = filteredParcels.filter((parcel) => {
+      filteredUser = filteredUser.filter((user) => {
         const isMatch =
-          (parcel?.recipientInfo?.name &&
-            parcel?.recipientInfo?.name
-              .toLowerCase()
-              .includes(filterValue.toLowerCase())) ||
-          (parcel?.recipientInfo?.email &&
-            parcel?.recipientInfo?.email
-              .toLowerCase()
-              .includes(filterValue.toLowerCase())) ||
-          (parcel?.parcelId &&
-            parcel?.parcelId.toLowerCase().includes(filterValue.toLowerCase()));
+          (user?.name &&
+            user?.name.toLowerCase().includes(filterValue.toLowerCase())) ||
+          (user?.email &&
+            user?.email.toLowerCase().includes(filterValue.toLowerCase())) ||
+          (user?.role &&
+            user?.role.toLowerCase().includes(filterValue.toLowerCase()));
 
         return isMatch;
       });
     }
 
-    if (
-      statusFilter !== "all" &&
-      Array.from(statusFilter).length !== statusOptions.length
-    ) {
-      filteredParcels = filteredParcels.filter((parcel) =>
-        Array.from(statusFilter).includes(parcel?.parcelStatus)
-      );
-    }
-
-    return filteredParcels;
-  }, [parcels, hasSearchFilter, statusFilter, filterValue]);
+    return filteredUser;
+  }, [users, hasSearchFilter, filterValue]);
 
   const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
@@ -117,55 +94,11 @@ const UserTable = () => {
   }, [page, filteredItems, rowsPerPage]);
 
   const renderCell = useCallback(
-    (parcel: ParcelType, columnKey: string | number): React.ReactNode => {
-      const cellValue = parcel[columnKey as keyof ParcelType];
-      const [date, time] = parcel?.deliveryDateTime.split(", ");
-
-      const handleAcceptByAdmin = async (id: string) => {
-        const updateResponse = await updateParcelStatus({
-          id,
-          data: { parcelStatus: Status.Accepted },
-        });
-
-        if (updateResponse.code === "success") {
-          refetch();
-        } else {
-          console.error(updateResponse.error);
-        }
-      };
-
-      const handleAcceptByRider = async (id: string) => {
-        const updateResponse = await updateParcelStatus({
-          id,
-          data: { parcelStatus: Status.Picked },
-        });
-
-        if (updateResponse.code === "success") {
-          refetch();
-        } else {
-          console.error(updateResponse.error);
-        }
-      };
-
-      const handleDeliveredByRider = async (id: string) => {
-        const updateResponse = await updateParcelStatus({
-          id,
-          data: { parcelStatus: Status.Delivered },
-        });
-
-        if (updateResponse.code === "success") {
-          refetch();
-        } else {
-          console.error(updateResponse.error);
-        }
-      };
+    (user: UserType, columnKey: string | number): React.ReactNode => {
+      const cellValue = user[columnKey as keyof UserType];
 
       const handleView = (id: string) => {
-        if (role !== "rider") {
-          router.push(`/dashboard/${role}/parcels/${id}`);
-        } else {
-          router.push(`/dashboard/${role}/deliveries/${id}`);
-        }
+        router.push(`/dashboard/users/${id}`);
       };
 
       const handleDelete = (id: string) => {
@@ -173,94 +106,50 @@ const UserTable = () => {
       };
 
       switch (columnKey) {
-        case "id":
-          return (
-            <Snippet variant="flat" radius="sm">
-              {parcel?.parcelId}
-            </Snippet>
-          );
-        case "date":
-          return (
-            <>
-              <p className="text-small whitespace-nowrap">{date}</p>
-              <p className="text-small whitespace-nowrap">{time}</p>
-            </>
-          );
         case "name":
           return (
-            <>
-              <p className="font-medium text-small capitalize">
-                {parcel?.recipientInfo?.name}
-              </p>
-              <p className="text-tiny text-default-500">
-                {parcel?.recipientInfo?.email}
-              </p>
-            </>
+            <p className="font-medium text-small capitalize">{user?.name}</p>
           );
+        case "email":
+          return <p className="text-tiny text-default-500">{user?.email}</p>;
         case "number":
           return (
-            <p className="font-medium text-small capitalize">
-              {parcel?.recipientInfo?.number}
-            </p>
+            <p className="font-medium text-small capitalize">{user?.number}</p>
           );
-        case "shipping":
+        case "role":
           return (
             <Chip
               color={
-                parcel?.shippingMethod === "express" ? "primary" : "default"
+                user?.role === "merchant"
+                  ? "primary"
+                  : user?.role === "rider"
+                  ? "secondary"
+                  : user?.role === "admin"
+                  ? "success"
+                  : "default"
               }
               size="sm"
               variant="flat"
             >
               <span className="font-medium capitalize text-small">
-                {parcel?.shippingMethod}
+                {user?.role}
               </span>
             </Chip>
           );
-        case "info":
+        case "division":
           return (
-            <>
-              <p className="text-small capitalize">
-                Weight:{" "}
-                <span className="font-medium">{parcel?.parcelWeight} KG</span>
-              </p>
-              <p className="text-small capitalize">
-                Quantity:{" "}
-                <span className="font-medium">
-                  {parcel?.parcelQuantity} PCS
-                </span>
-              </p>
-            </>
+            <p className="font-medium text-small capitalize">
+              {user?.division}
+            </p>
           );
-        case "payment":
+        case "district":
           return (
-            <>
-              <p className="text-small capitalize whitespace-nowrap">
-                Status:{" "}
-                <span className="font-medium">
-                  {parcel?.paymentInfo.status}
-                </span>
-              </p>
-              <p className="text-small capitalize whitespace-nowrap">
-                Amount:{" "}
-                <span className="font-medium">
-                  ${parcel?.paymentInfo.amount}
-                </span>
-              </p>
-            </>
+            <p className="font-medium text-small capitalize">
+              {user?.district}
+            </p>
           );
-        case "status":
-          return (
-            <Chip
-              color={statusColorMap[parcel?.parcelStatus]}
-              size="sm"
-              variant="flat"
-            >
-              <span className="font-medium capitalize text-small">
-                {parcel?.parcelStatus}
-              </span>
-            </Chip>
-          );
+        case "address":
+          return <p className="text-tiny text-default-500">{user?.address}</p>;
         case "actions":
           return (
             <div className="relative flex justify-end items-center gap-2">
@@ -275,69 +164,18 @@ const UserTable = () => {
                     className="text-left"
                     textValue="view"
                     as="button"
-                    onClick={() => handleView(`${parcel?.parcelId}`)}
+                    onClick={() => handleView(`${user?._id}`)}
                   >
                     View
                   </DropdownItem>
-
-                  {role === "admin" &&
-                  parcel.parcelStatus !== Status.Accepted ? (
-                    <DropdownItem
-                      textValue="accept by admin"
-                      className="text-left"
-                      as="button"
-                      onClick={() => handleAcceptByAdmin(`${parcel?._id}`)}
-                    >
-                      Accept
-                    </DropdownItem>
-                  ) : (
-                    <DropdownItem className="hidden"></DropdownItem>
-                  )}
-
-                  {role === "rider" &&
-                  parcel.parcelStatus === Status.Accepted &&
-                  // @ts-ignore
-                  parcel.parcelStatus !== Status.Picked ? (
-                    <DropdownItem
-                      textValue="accept by rider"
-                      className="text-left"
-                      as="button"
-                      onClick={() => handleAcceptByRider(`${parcel?._id}`)}
-                    >
-                      Picked
-                    </DropdownItem>
-                  ) : (
-                    <DropdownItem className="hidden"></DropdownItem>
-                  )}
-
-                  {role === "rider" &&
-                  parcel.parcelStatus === Status.Picked &&
-                  // @ts-ignore
-                  parcel.parcelStatus !== Status.Delivered ? (
-                    <DropdownItem
-                      textValue="delivered"
-                      className="text-left"
-                      as="button"
-                      onClick={() => handleDeliveredByRider(`${parcel?._id}`)}
-                    >
-                      Delivered
-                    </DropdownItem>
-                  ) : (
-                    <DropdownItem className="hidden"></DropdownItem>
-                  )}
-
-                  {role === "rider" ? (
-                    <DropdownItem className="hidden"></DropdownItem>
-                  ) : (
-                    <DropdownItem
-                      textValue="delete"
-                      className="text-left"
-                      as="button"
-                      onClick={() => handleDelete(`${parcel?._id}`)}
-                    >
-                      Delete
-                    </DropdownItem>
-                  )}
+                  <DropdownItem
+                    textValue="delete"
+                    className="text-left"
+                    as="button"
+                    onClick={() => handleDelete(`${user?._id}`)}
+                  >
+                    Delete
+                  </DropdownItem>
                 </DropdownMenu>
               </Dropdown>
             </div>
@@ -346,7 +184,7 @@ const UserTable = () => {
           return <>{cellValue}</>;
       }
     },
-    [refetch, role, router]
+    [router]
   );
 
   const onRowsPerPageChange = useCallback(
@@ -366,66 +204,40 @@ const UserTable = () => {
             radius="sm"
             isClearable
             className="w-full sm:max-w-[44%]"
-            placeholder="Search By ID, Name, Email"
+            placeholder="Search By Name, Email, Role"
             startContent={<SearchIcon />}
             value={filterValue}
             onClear={() => onClear()}
             onValueChange={onSearchChange}
           />
-          <div className="hidden sm:flex gap-4">
-            <Dropdown>
-              <DropdownTrigger className="hidden sm:flex">
-                <Button
-                  endContent={<ChevronDownIcon className="text-small" />}
-                  variant="flat"
-                >
-                  Status
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                disallowEmptySelection
-                aria-label="Table Columns"
-                closeOnSelect={false}
-                selectedKeys={statusFilter}
-                selectionMode="multiple"
-                onSelectionChange={setStatusFilter}
+          <Dropdown>
+            <DropdownTrigger>
+              <Button
+                endContent={<ChevronDownIcon className="text-small" />}
+                variant="flat"
               >
-                {statusOptions.map((status) => (
-                  <DropdownItem key={status.uid} className="capitalize">
-                    {status.name}
-                  </DropdownItem>
-                ))}
-              </DropdownMenu>
-            </Dropdown>
-            <Dropdown>
-              <DropdownTrigger>
-                <Button
-                  endContent={<ChevronDownIcon className="text-small" />}
-                  variant="flat"
-                >
-                  Columns
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                disallowEmptySelection
-                aria-label="Table Columns"
-                closeOnSelect={false}
-                selectedKeys={visibleColumns}
-                selectionMode="multiple"
-                onSelectionChange={setVisibleColumns}
-              >
-                {columns.map((column) => (
-                  <DropdownItem key={column.uid} className="capitalize">
-                    {column.name}
-                  </DropdownItem>
-                ))}
-              </DropdownMenu>
-            </Dropdown>
-          </div>
+                Columns
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu
+              disallowEmptySelection
+              aria-label="Table Columns"
+              closeOnSelect={false}
+              selectedKeys={visibleColumns}
+              selectionMode="multiple"
+              onSelectionChange={setVisibleColumns}
+            >
+              {columns.map((column) => (
+                <DropdownItem key={column.uid} className="capitalize">
+                  {column.name}
+                </DropdownItem>
+              ))}
+            </DropdownMenu>
+          </Dropdown>
         </div>
         <div className="flex justify-between items-center">
           <span className="text-default-500 text-small">
-            Total {parcels.length} Parcels
+            Total {users.length} Users
           </span>
           <label className="flex items-center text-default-500 text-small">
             Rows per page:
@@ -444,10 +256,9 @@ const UserTable = () => {
   }, [
     filterValue,
     onSearchChange,
-    statusFilter,
     visibleColumns,
     setVisibleColumns,
-    parcels.length,
+    users.length,
     onRowsPerPageChange,
     onClear,
   ]);
@@ -511,11 +322,11 @@ const UserTable = () => {
           )}
         </TableHeader>
         <TableBody
-          emptyContent={isLoading ? <Loading size="lg" /> : "No parcels found"}
+          emptyContent={allIsLoading ? <Loading size="lg" /> : "No users found"}
           items={items}
         >
           {(item) => (
-            <TableRow key={item.parcelId}>
+            <TableRow key={item._id}>
               {(columnKey) => (
                 <TableCell>{renderCell(item, columnKey)}</TableCell>
               )}
