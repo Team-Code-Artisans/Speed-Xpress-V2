@@ -107,6 +107,10 @@ export const dropdownData = [
     link: "/profile",
   },
   {
+    name: "FAQ",
+    link: "/faq",
+  },
+  {
     name: "Password",
     link: "/password",
   },
@@ -119,22 +123,26 @@ export const dropdownData = [
 export const adminDropdownData = [
   {
     name: "Merchants",
-    link: "/admin/merchants",
+    link: "/merchants",
   },
   {
     name: "Riders",
-    link: "/admin/riders",
+    link: "/riders",
   },
   {
     name: "Profile",
-    link: "/admin/profile",
+    link: "/profile",
+  },
+  {
+    name: "FAQ",
+    link: "/faq",
   },
   {
     name: "Password",
-    link: "/admin/password",
+    link: "/password",
   },
   {
     name: "Settings",
-    link: "/admin/settings",
+    link: "/settings",
   },
 ];

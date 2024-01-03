@@ -119,7 +119,7 @@ const DashboardNavbar = () => {
                     <DropdownItem
                       textValue="links"
                       as={Link}
-                      href={`/dashboard/admin/${item.link}`}
+                      href={`/dashboard/admin${item.link}`}
                       key={item.name}
                     >
                       {item.name}
