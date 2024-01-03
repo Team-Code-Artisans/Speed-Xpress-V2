@@ -52,8 +52,6 @@ const UserTable = () => {
     users = users.filter((user) => user.role === "rider");
   }
 
-  console.table(users);
-
   const hasSearchFilter = Boolean(filterValue);
 
   const headerColumns = useMemo(() => {
@@ -98,7 +96,7 @@ const UserTable = () => {
       const cellValue = user[columnKey as keyof UserType];
 
       const handleView = (id: string) => {
-        router.push(`/dashboard/users/${id}`);
+        router.push(`/dashboard/admin/users/${id}`);
       };
 
       const handleDelete = (id: string) => {
