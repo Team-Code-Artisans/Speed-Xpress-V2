@@ -1,6 +1,7 @@
 "use client";
 
 import { useUserInfo } from "@/hooks/useUserInfo";
+import StripeProvider from "@/providers/StripeProvider";
 import { calculateParcel } from "@/utils/calculateParcel";
 import { Card, CardBody, Divider } from "@nextui-org/react";
 import Link from "next/link";
@@ -45,53 +46,55 @@ const CreateParcel = () => {
   }, [division, shippingMethod, weight]);
 
   return (
-    <div className="lg:py-20 py-10 px-6 max-w-screen-xl mx-auto">
-      <div className="grid lg:grid-cols-5 place-items-center lg:place-items-start gap-6 relative">
-        <div className="lg:col-span-3 space-y-6">
-          {!userInfo?.address && !isLoading && (
-            <Card radius="sm">
-              <CardBody className="bg-danger-100">
-                <h1>
-                  Please update your profile to create parcel{" "}
-                  <Link
-                    href={`/dashboard/${userInfo?.role}/profile`}
-                    className="text-primary font-semibold"
-                  >
-                    Profile
-                  </Link>
-                </h1>
-              </CardBody>
-            </Card>
-          )}
-          <h1 className="font-bold text-4xl h-10">
-            CREATE<span className="text-primary"> PARCEL</span>
-          </h1>
-          <Divider />
-          {/* parcel form */}
-          <ParcelForm
-            shippingMethod={shippingMethod}
-            division={division}
-            setShippingMethod={setShippingMethod}
-            setDivision={setDivision}
-            setWeight={setWeight}
-            weight={weight}
-            estimatedTotal={estimatedTotal}
-            userInfo={userInfo}
-          />
-        </div>
-        <div className="space-y-6 bg-gray-200 dark:bg-gray-900 w-full sm:max-w-xl p-6 lg:p-10 lg:col-span-2 lg:sticky top-20 lg:mt-[60px] rounded-lg">
-          {/* parcel summary */}
-          <ParcelSummary
-            shippingFee={shippingFee}
-            weightCharge={weightCharge}
-            discount={discount}
-            subTotal={subTotal}
-            tax={tax}
-            estimatedTotal={estimatedTotal}
-          />
+    <StripeProvider>
+      <div className="lg:py-20 py-10 px-6 max-w-screen-xl mx-auto">
+        <div className="grid lg:grid-cols-5 place-items-center lg:place-items-start gap-6 relative">
+          <div className="lg:col-span-3 space-y-6">
+            {!userInfo?.address && !isLoading && (
+              <Card radius="sm">
+                <CardBody className="bg-danger-100">
+                  <h1>
+                    Please update your profile to create parcel{" "}
+                    <Link
+                      href={`/dashboard/${userInfo?.role}/profile`}
+                      className="text-primary font-semibold"
+                    >
+                      Profile
+                    </Link>
+                  </h1>
+                </CardBody>
+              </Card>
+            )}
+            <h1 className="font-bold text-4xl h-10">
+              CREATE<span className="text-primary"> PARCEL</span>
+            </h1>
+            <Divider />
+            {/* parcel form */}
+            <ParcelForm
+              shippingMethod={shippingMethod}
+              division={division}
+              setShippingMethod={setShippingMethod}
+              setDivision={setDivision}
+              setWeight={setWeight}
+              weight={weight}
+              estimatedTotal={estimatedTotal}
+              userInfo={userInfo}
+            />
+          </div>
+          <div className="space-y-6 bg-gray-200 dark:bg-gray-900 w-full sm:max-w-xl p-6 lg:p-10 lg:col-span-2 lg:sticky top-20 lg:mt-[60px] rounded-lg">
+            {/* parcel summary */}
+            <ParcelSummary
+              shippingFee={shippingFee}
+              weightCharge={weightCharge}
+              discount={discount}
+              subTotal={subTotal}
+              tax={tax}
+              estimatedTotal={estimatedTotal}
+            />
+          </div>
         </div>
       </div>
-    </div>
+    </StripeProvider>
   );
 };
 

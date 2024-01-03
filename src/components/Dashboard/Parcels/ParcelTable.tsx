@@ -541,7 +541,6 @@ const ParcelTable = () => {
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         id={updateId}
-        refetch={refetch}
       />
     </>
   );
