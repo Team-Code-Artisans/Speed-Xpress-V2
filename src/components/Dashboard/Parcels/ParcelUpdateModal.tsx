@@ -6,7 +6,6 @@ const ParcelUpdateModal = ({
   onOpenChange,
   isOpen,
   id,
-  refetch,
 }: ModalDisclosureType) => {
   return (
     <Modal
@@ -25,11 +24,7 @@ const ParcelUpdateModal = ({
               </h1>
             </ModalHeader>
             <ModalBody>
-              <UpdateParcelForm
-                onClose={onClose}
-                id={`${id}`}
-                refetch={refetch}
-              />
+              <UpdateParcelForm onClose={onClose} id={`${id}`} />
             </ModalBody>
           </>
         )}

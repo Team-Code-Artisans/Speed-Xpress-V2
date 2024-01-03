@@ -40,7 +40,7 @@ export type ShopFormType = {
 };
 
 export type ShopModalPropsType = {
-  shop: ShopType[];
+  shop: ShopType;
   onClose: () => void;
   id: string;
   refetch: (
@@ -48,10 +48,13 @@ export type ShopModalPropsType = {
   ) => Promise<QueryObserverResult<ShopResponseType[] | undefined, Error>>;
 };
 
-export type UpdateShopPropsType = { shop: ShopResponseType } & Omit<
-  ShopModalPropsType,
-  "onClose"
->;
+export type UpdateShopPropsType = {
+  shop: ShopResponseType;
+  id: string;
+  refetch: (
+    options?: RefetchOptions | undefined
+  ) => Promise<QueryObserverResult<ShopResponseType[] | undefined, Error>>;
+};
 
 export type SelectShopType = {
   shop: string;
