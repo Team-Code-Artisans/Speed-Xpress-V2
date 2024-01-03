@@ -1,5 +1,6 @@
 "use client";
 
+import { useAuth } from "@/hooks/useAuth";
 import { useUserInfo } from "@/hooks/useUserInfo";
 import StripeProvider from "@/providers/StripeProvider";
 import { calculateParcel } from "@/utils/calculateParcel";
@@ -11,6 +12,7 @@ import ParcelSummary from "./ParcelSummary";
 
 const CreateParcel = () => {
   const { userInfo, isLoading } = useUserInfo();
+  const { role } = useAuth();
 
   // Parcel form states
   const [division, setDivision] = useState<string>("Dhaka");
@@ -54,9 +56,9 @@ const CreateParcel = () => {
               <Card radius="sm">
                 <CardBody className="bg-danger-100">
                   <h1>
-                    Please update your profile to create parcel{" "}
+                    Please complete your profile to create parcel{" "}
                     <Link
-                      href={`/dashboard/${userInfo?.role}/profile`}
+                      href={`/dashboard/${role}/profile`}
                       className="text-primary font-semibold"
                     >
                       Profile

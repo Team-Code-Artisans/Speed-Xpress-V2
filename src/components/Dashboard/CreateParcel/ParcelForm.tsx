@@ -19,7 +19,7 @@ import { createParcel } from "@/utils/api/parcel";
 import { createPayment } from "@/utils/api/payment";
 import { RadioGroup, Select, SelectItem, Textarea } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
@@ -35,9 +35,16 @@ const ParcelForm = ({
   const { shops, isLoading } = useShop();
 
   const [district, setDistrict] = useState<string>("Dhaka");
-  const [shop, setShop] = useState<string>(
-    `${(!isLoading ? shops[0].name : "") || ""}`
-  );
+  const [shop, setShop] = useState<string>("");
+
+  useEffect(() => {
+    if (!isLoading && shops.length > 0) {
+      setShop(shops[0].name);
+    } else {
+      setShop("");
+    }
+  }, [isLoading, shops]);
+
   const [paymentMethod, setPaymentMethod] = useState<string>("online");
 
   const router = useRouter();
@@ -242,6 +249,7 @@ const ParcelForm = ({
       {userInfo.role === "merchant" && (
         <SelectShop shop={shop} setShop={setShop} shops={shops} />
       )}
+
       <div className="grid sm:grid-cols-2 gap-4">
         <Select
           label={
@@ -252,6 +260,7 @@ const ParcelForm = ({
           {...register("weight", {
             required: "*weight is required",
           })}
+          disallowEmptySelection
           defaultSelectedKeys={"1"}
           isInvalid={errors?.weight ? true : false}
           errorMessage={errors?.weight && `${errors?.weight?.message}`}
