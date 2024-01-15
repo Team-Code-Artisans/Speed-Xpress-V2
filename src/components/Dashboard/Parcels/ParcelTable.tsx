@@ -290,7 +290,10 @@ const ParcelTable = () => {
                       Edit
                     </DropdownItem>
                   ) : (
-                    <DropdownItem className="hidden"></DropdownItem>
+                    <DropdownItem
+                      className="hidden"
+                      textValue="hidden"
+                    ></DropdownItem>
                   )}
 
                   {role === "admin" &&
@@ -304,7 +307,10 @@ const ParcelTable = () => {
                       Accept
                     </DropdownItem>
                   ) : (
-                    <DropdownItem className="hidden"></DropdownItem>
+                    <DropdownItem
+                      className="hidden"
+                      textValue="hidden"
+                    ></DropdownItem>
                   )}
 
                   {role === "rider" &&
@@ -320,7 +326,10 @@ const ParcelTable = () => {
                       Picked
                     </DropdownItem>
                   ) : (
-                    <DropdownItem className="hidden"></DropdownItem>
+                    <DropdownItem
+                      className="hidden"
+                      textValue="hidden"
+                    ></DropdownItem>
                   )}
 
                   {role === "rider" &&
@@ -336,11 +345,17 @@ const ParcelTable = () => {
                       Delivered
                     </DropdownItem>
                   ) : (
-                    <DropdownItem className="hidden"></DropdownItem>
+                    <DropdownItem
+                      className="hidden"
+                      textValue="hidden"
+                    ></DropdownItem>
                   )}
 
                   {role === "rider" ? (
-                    <DropdownItem className="hidden"></DropdownItem>
+                    <DropdownItem
+                      className="hidden"
+                      textValue="hidden"
+                    ></DropdownItem>
                   ) : (
                     <DropdownItem
                       textValue="delete"

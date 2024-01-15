@@ -20,6 +20,7 @@ export const useParcel = () => {
             return parcelResponse.data || [];
           } else {
             console.error(parcelResponse.error);
+            return [];
           }
         } else {
           const parcelResponse = await getAllParcel();
@@ -27,6 +28,7 @@ export const useParcel = () => {
             return parcelResponse.data || [];
           } else {
             console.error(parcelResponse.error);
+            return [];
           }
         }
       }
