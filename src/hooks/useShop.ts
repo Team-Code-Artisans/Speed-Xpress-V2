@@ -17,20 +17,23 @@ export const useShop = () => {
         if (role === "merchant") {
           const shopResponse = await getShopsByEmail(user.email);
           if (shopResponse.code === "success") {
-            return shopResponse.data;
+            return shopResponse.data || [];
           } else {
             console.error(shopResponse.error);
+            return [];
           }
         }
         if (role === "admin") {
           const shopResponse = await getAllShop();
           if (shopResponse.code === "success") {
-            return shopResponse.data;
+            return shopResponse.data || [];
           } else {
             console.error(shopResponse.error);
+            return [];
           }
         }
       }
+      return [];
     },
   });
 

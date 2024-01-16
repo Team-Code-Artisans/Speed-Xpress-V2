@@ -203,7 +203,10 @@ const InvoiceTable = () => {
                   </DropdownItem>
 
                   {role !== "admin" ? (
-                    <DropdownItem className="hidden"></DropdownItem>
+                    <DropdownItem
+                      className="hidden"
+                      textValue="hidden"
+                    ></DropdownItem>
                   ) : (
                     <DropdownItem
                       textValue="delete"

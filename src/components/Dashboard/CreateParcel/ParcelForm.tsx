@@ -88,7 +88,6 @@ const ParcelForm = ({
       shippingMethod,
       parcelWeight: weight,
       parcelQuantity: quantity,
-      // const [date, time] = deliveryDateTime.split(', ')
       deliveryDateTime: new Date().toLocaleString(),
       paymentInfo: {
         method: paymentMethod,

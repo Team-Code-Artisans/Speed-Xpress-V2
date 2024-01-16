@@ -32,11 +32,12 @@ import { ChangeEvent, useCallback, useMemo, useState } from "react";
 // icons
 import { useAuth } from "@/hooks/useAuth";
 import Loading from "@/ui/Loading";
-import { updateParcelStatus } from "@/utils/api/parcel";
+import { deleteParcel, updateParcelStatus } from "@/utils/api/parcel";
 import { useRouter } from "next/navigation";
 import { CiSearch as SearchIcon } from "react-icons/ci";
 import { FaChevronDown as ChevronDownIcon } from "react-icons/fa";
 import { HiDotsVertical as VerticalDotsIcon } from "react-icons/hi";
+import { toast } from "react-toastify";
 import ParcelUpdateModal from "./ParcelUpdateModal";
 
 const ParcelTable = () => {
@@ -169,8 +170,16 @@ const ParcelTable = () => {
         }
       };
 
-      const handleDelete = (id: string) => {
-        console.log(id);
+      const handleDelete = async (id: string) => {
+        console.log("parcel id:", id);
+        const response = await deleteParcel(id);
+        refetch();
+        if (response.code === "success") {
+          console.log("response id", response.data._id);
+          toast.success("Parcel deleted successfully");
+        } else {
+          console.error(response.error);
+        }
       };
 
       switch (columnKey) {
@@ -290,7 +299,10 @@ const ParcelTable = () => {
                       Edit
                     </DropdownItem>
                   ) : (
-                    <DropdownItem className="hidden"></DropdownItem>
+                    <DropdownItem
+                      className="hidden"
+                      textValue="hidden"
+                    ></DropdownItem>
                   )}
 
                   {role === "admin" &&
@@ -304,7 +316,10 @@ const ParcelTable = () => {
                       Accept
                     </DropdownItem>
                   ) : (
-                    <DropdownItem className="hidden"></DropdownItem>
+                    <DropdownItem
+                      className="hidden"
+                      textValue="hidden"
+                    ></DropdownItem>
                   )}
 
                   {role === "rider" &&
@@ -320,7 +335,10 @@ const ParcelTable = () => {
                       Picked
                     </DropdownItem>
                   ) : (
-                    <DropdownItem className="hidden"></DropdownItem>
+                    <DropdownItem
+                      className="hidden"
+                      textValue="hidden"
+                    ></DropdownItem>
                   )}
 
                   {role === "rider" &&
@@ -336,11 +354,17 @@ const ParcelTable = () => {
                       Delivered
                     </DropdownItem>
                   ) : (
-                    <DropdownItem className="hidden"></DropdownItem>
+                    <DropdownItem
+                      className="hidden"
+                      textValue="hidden"
+                    ></DropdownItem>
                   )}
 
                   {role === "rider" ? (
-                    <DropdownItem className="hidden"></DropdownItem>
+                    <DropdownItem
+                      className="hidden"
+                      textValue="hidden"
+                    ></DropdownItem>
                   ) : (
                     <DropdownItem
                       textValue="delete"
