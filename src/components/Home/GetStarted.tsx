@@ -1,5 +1,5 @@
+import PrimaryButton from "@/ui/PrimaryButton";
 import Image from "next/image";
-import PrimaryButton from "../../ui/PrimaryButton";
 
 const GetStarted = () => {
   return (
