@@ -13,7 +13,7 @@ import { FaEye, FaEyeSlash, FaGoogle } from "react-icons/fa";
 import { toast } from "react-toastify";
 
 const LoginForm = () => {
-  const { googleSignIn, loginUser } = useAuth();
+  const { googleSignIn, loginUser, loading } = useAuth();
 
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
@@ -88,7 +88,7 @@ const LoginForm = () => {
           minLength: { value: 6, message: "*password must be 6 characters" },
         }}
       />
-      <PrimaryButton type="submit" fullWidth={true}>
+      <PrimaryButton type="submit" fullWidth={true} isLoading={loading}>
         Login Now
       </PrimaryButton>
     </form>

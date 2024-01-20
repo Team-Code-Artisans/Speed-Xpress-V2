@@ -39,6 +39,8 @@ const AuthProvider = ({ children }: ChildrenProps) => {
     password: string,
     displayName: string
   ): Promise<User | null> => {
+    setLoading(true);
+
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
@@ -82,6 +84,8 @@ const AuthProvider = ({ children }: ChildrenProps) => {
   };
 
   const loginUser = async (email: string, password: string) => {
+    setLoading(true);
+
     try {
       const userCredential = await signInWithEmailAndPassword(
         auth,
