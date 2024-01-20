@@ -1,7 +1,7 @@
 "use client";
 
+import ModalButton from "@/ui/ModalButton";
 import HeroVideo from "./HeroVideo";
-import ModalButton from "./ModalButton";
 
 const Hero = () => {
   return (

@@ -1,6 +1,6 @@
+import PrimaryButton from "@/ui/PrimaryButton";
+import SecondaryButton from "@/ui/SecondaryButton";
 import Image from "next/image";
-import PrimaryButton from "../../ui/PrimaryButton";
-import SecondaryButton from "../../ui/SecondaryButton";
 
 const OrderNow = () => {
   return (
