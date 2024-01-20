@@ -171,11 +171,10 @@ const ParcelTable = () => {
       };
 
       const handleDelete = async (id: string) => {
-        console.log("parcel id:", id);
         const response = await deleteParcel(id);
         refetch();
+
         if (response.code === "success") {
-          console.log("response id", response.data._id);
           toast.success("Parcel deleted successfully");
         } else {
           console.error(response.error);

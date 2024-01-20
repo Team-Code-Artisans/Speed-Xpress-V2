@@ -23,6 +23,7 @@ const PasswordForm = () => {
         label="Email"
         variant="bordered"
         radius="sm"
+        readOnly
         value={`${user?.email}`}
         description="Click reset and check your mail"
         className="max-w-xs"

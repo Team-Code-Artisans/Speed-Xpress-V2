@@ -31,14 +31,16 @@ import { useAuth } from "@/hooks/useAuth";
 import { useInvoice } from "@/hooks/useInvoice";
 import { InvoiceType } from "@/types/invoiceType";
 import Loading from "@/ui/Loading";
+import { deleteInvoice } from "@/utils/api/invoice";
 import { useRouter } from "next/navigation";
 import { CiSearch as SearchIcon } from "react-icons/ci";
 import { FaChevronDown as ChevronDownIcon } from "react-icons/fa";
 import { HiDotsVertical as VerticalDotsIcon } from "react-icons/hi";
+import { toast } from "react-toastify";
 
 const InvoiceTable = () => {
   // hooks
-  const { invoices, isLoading } = useInvoice();
+  const { invoices, isLoading, refetch } = useInvoice();
   const { role } = useAuth();
   const { page, setPage, onNextPage, onPreviousPage } = usePagination();
   const { filterValue, onSearchChange, onClear } = useFilter();
@@ -118,8 +120,15 @@ const InvoiceTable = () => {
         }
       };
 
-      const handleDelete = (id: string) => {
-        console.log(id);
+      const handleDelete = async (id: string) => {
+        const response = await deleteInvoice(id);
+
+        if (response.code === "success") {
+          refetch();
+          toast.success("Invoice deleted successfully");
+        } else {
+          console.error(response.error);
+        }
       };
 
       switch (columnKey) {
@@ -202,7 +211,7 @@ const InvoiceTable = () => {
                     View
                   </DropdownItem>
 
-                  {role !== "admin" ? (
+                  {role === "rider" ? (
                     <DropdownItem
                       className="hidden"
                       textValue="hidden"
@@ -225,7 +234,7 @@ const InvoiceTable = () => {
           return <>{cellValue}</>;
       }
     },
-    [role, router]
+    [refetch, role, router]
   );
 
   const onRowsPerPageChange = useCallback(
