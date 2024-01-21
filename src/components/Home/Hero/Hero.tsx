@@ -1,6 +1,4 @@
-"use client";
-
-import ModalButton from "@/ui/ModalButton";
+import TrackParcel from "@/ui/TrackParcel";
 import HeroVideo from "./HeroVideo";
 
 const Hero = () => {
@@ -22,13 +20,8 @@ const Hero = () => {
             customers, merchants, and admins. Your shortcut to efficient parcel
             management.
           </p>
-          <div className="flex items-center justify-center sm:max-w-sm mx-auto">
-            <input
-              className="p-4 border border-r-0 border-solid border-primary rounded-l-md bg-transparent focus:outline-none w-full"
-              type="text"
-              placeholder="Parcel ID Here"
-            />
-            <ModalButton />
+          <div className="grid place-items-center">
+            <TrackParcel />
           </div>
         </div>
         <div className="mt-14">

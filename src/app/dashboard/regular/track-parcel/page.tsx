@@ -1,4 +1,4 @@
-import ModalButton from "@/ui/ModalButton";
+import TrackParcel from "@/ui/TrackParcel";
 import Image from "next/image";
 
 const TrackParcelPage = () => {
@@ -16,22 +16,16 @@ const TrackParcelPage = () => {
         </div>
         <div className="flex flex-col justify-center text-center md:text-left">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold capitalize">
-            Effortless <span className="text-primary">Tracking</span> Your{" "}
-            <span className="text-primary">Parcel</span> Status
+            Effortless <span className="text-primary">Tracking</span> Your
+            <span className="text-primary"> Parcel</span> Status
           </h1>
           <p className="mt-6 mb-8 text-lg sm:mb-12 text-gray-500 line-clamp-3">
             Track your parcel hassle-free with our intuitive system. Enter your
             parcel id for instant access to real-time status. Know the current
             status and expected delivery time.
           </p>
-          <div className="flex items-center justify-center md:max-w-sm">
-            <input
-              className="p-4 border border-r-0 border-solid border-primary rounded-l-md bg-transparent focus:outline-none w-full"
-              type="text"
-              placeholder="Parcel ID Here"
-            />
-            <ModalButton />
-          </div>
+
+          <TrackParcel />
         </div>
       </div>
     </section>
