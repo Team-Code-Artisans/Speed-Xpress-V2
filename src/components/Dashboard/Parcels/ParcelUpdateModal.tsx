@@ -1,4 +1,4 @@
-import { ModalDisclosureType } from "@/types/ModalDisclosureType";
+import { ModalDisclosureType } from "@/types/ModalType";
 import { Modal, ModalBody, ModalContent, ModalHeader } from "@nextui-org/react";
 import UpdateParcelForm from "./UpdateParcelForm";
 

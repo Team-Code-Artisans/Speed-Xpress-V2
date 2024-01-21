@@ -4,8 +4,14 @@ import { ParcelType } from "./ParcelType";
 export type ModalDisclosureType = {
   isOpen: boolean;
   onOpenChange: () => void;
-  id?: string | null;
+  id: string | null;
   refetch?: (
     options?: RefetchOptions | undefined
   ) => Promise<QueryObserverResult<ParcelType[], Error>>;
+};
+
+export type TrackingModalType = {
+  isOpen: boolean;
+  onOpenChange: () => void;
+  parcel: ParcelType | null;
 };
