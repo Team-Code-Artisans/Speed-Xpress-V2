@@ -192,7 +192,7 @@ const UserTable = () => {
           return <>{cellValue}</>;
       }
     },
-    [router]
+    [refetchAll, router]
   );
 
   const onRowsPerPageChange = useCallback(

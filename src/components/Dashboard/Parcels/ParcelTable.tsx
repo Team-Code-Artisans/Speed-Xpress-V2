@@ -33,7 +33,7 @@ import { ChangeEvent, useCallback, useMemo, useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import Loading from "@/ui/Loading";
 import { deleteParcel, updateParcelStatus } from "@/utils/api/parcel";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { CiSearch as SearchIcon } from "react-icons/ci";
 import { FaChevronDown as ChevronDownIcon } from "react-icons/fa";
 import { HiDotsVertical as VerticalDotsIcon } from "react-icons/hi";
@@ -48,12 +48,24 @@ const ParcelTable = () => {
   const { filterValue, onSearchChange, onClear } = useFilter();
   const { visibleColumns, setVisibleColumns } = useVisibleColumns();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const pathname = usePathname();
   const router = useRouter();
 
   if (role === "rider") {
-    parcels = parcels.filter(
-      (parcel) => parcel.parcelStatus !== Status.Pending
-    );
+    // parcels = parcels.filter(
+    //   (parcel) => parcel.parcelStatus !== Status.Pending
+    // );
+    if (pathname.split("/")[3] === "completed-deliveries") {
+      parcels = parcels.filter(
+        (parcel) => parcel.parcelStatus === Status.Delivered
+      );
+    } else {
+      parcels = parcels.filter(
+        (parcel) =>
+          parcel.parcelStatus === Status.Accepted ||
+          parcel.parcelStatus === Status.Picked
+      );
+    }
   }
 
   // states
