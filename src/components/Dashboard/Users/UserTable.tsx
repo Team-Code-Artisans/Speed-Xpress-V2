@@ -28,10 +28,12 @@ import { ChangeEvent, useCallback, useMemo, useState } from "react";
 import { useUserInfo } from "@/hooks/useUserInfo";
 import { UserType } from "@/types/UserType";
 import Loading from "@/ui/Loading";
+import { deleteUserById } from "@/utils/api/user";
 import { usePathname, useRouter } from "next/navigation";
 import { CiSearch as SearchIcon } from "react-icons/ci";
 import { FaChevronDown as ChevronDownIcon } from "react-icons/fa";
 import { HiDotsVertical as VerticalDotsIcon } from "react-icons/hi";
+import { toast } from "react-toastify";
 
 const UserTable = () => {
   // hooks
@@ -99,8 +101,16 @@ const UserTable = () => {
         router.push(`/dashboard/admin/users/${id}`);
       };
 
-      const handleDelete = (id: string) => {
-        console.log(id);
+      const handleDelete = async (id: string) => {
+        const response = await deleteUserById(id);
+
+        if (response.code === "success") {
+          toast.success("User deleted successfully");
+          refetchAll();
+        } else {
+          toast.error("Something went wrong");
+          console.error(response.error);
+        }
       };
 
       switch (columnKey) {

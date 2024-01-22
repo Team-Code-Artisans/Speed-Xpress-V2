@@ -1,10 +1,10 @@
 import UserDetails from "@/components/Dashboard/Users/UserDetails";
-import { getSingleUser } from "@/utils/api/user";
+import { getUserById } from "@/utils/api/user";
 import { Divider } from "@nextui-org/react";
 import Image from "next/image";
 
 const UserDetailsPage = async ({ params }: { params: { id: string } }) => {
-  const userResponse = await getSingleUser(params.id);
+  const userResponse = await getUserById(params.id);
 
   return (
     <div className="lg:py-20 py-10 px-6 max-w-screen-xl mx-auto space-y-8">
