@@ -5,7 +5,7 @@ const Password = () => {
   return (
     <section className="max-w-screen-xl mx-auto px-6 lg:py-20 py-10">
       <div className="flex flex-col lg:flex-row justify-between items-center gap-10">
-        <div className="flex flex-col gap-8 bg-gray-200 dark:bg-gray-900 p-8 rounded-lg max-w-[40rem] w-full h-full">
+        <div className="flex flex-col gap-8 bg-white dark:bg-gray-900 p-8 rounded-lg max-w-[40rem] w-full h-full">
           <div className="flex justify-between items-center gap-4">
             <h1 className="text-xl sm:text-2xl font-semibold whitespace-nowrap">
               RESET

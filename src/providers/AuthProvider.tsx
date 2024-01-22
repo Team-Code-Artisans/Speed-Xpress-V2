@@ -95,11 +95,17 @@ const AuthProvider = ({ children }: ChildrenProps) => {
 
       if (userCredential.user) {
         await postJwt({
-          email: `${userCredential.user.email}`,
-          role: `${userCredential.user.displayName}`,
+          email: `${userCredential.user?.email}`,
+          role: `${userCredential.user?.displayName}`,
         });
 
-        setRole(userCredential.user.displayName);
+        setRole(
+          ["regular", "merchant", "rider", "admin"].includes(
+            `${userCredential.user?.displayName}`
+          )
+            ? userCredential.user?.displayName
+            : "regular"
+        );
 
         setLoading(false);
       }
