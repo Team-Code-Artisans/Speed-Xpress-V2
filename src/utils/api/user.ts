@@ -10,6 +10,10 @@ export const getSingleUser = requestHandler<string, UserType>((email) =>
   api.get(`/users?email=${email}`)
 );
 
+export const getUserById = requestHandler<string, UserType>((id) =>
+  api.get(`/users/${id}`)
+);
+
 export const saveUser = requestHandler<UserType, UserType>((data) =>
   api.post("/users/create-user", data)
 );
@@ -19,6 +23,6 @@ export const updateUser = requestHandler<UpdateUserType, UserType>((params) => {
   return api.put(`/users/update-user/${id}`, data);
 });
 
-export const deleteUser = requestHandler<string, UserType>((id) =>
-  api.delete(`/users/:${id}`)
+export const deleteUserById = requestHandler<string, UserType>((id) =>
+  api.delete(`/users/${id}`)
 );

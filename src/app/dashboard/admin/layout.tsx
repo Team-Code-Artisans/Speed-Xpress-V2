@@ -1,6 +1,5 @@
 "use client";
 
-import DashboardNavbar from "@/components/Dashboard/Navbar/Navbar";
 import { useAuth } from "@/hooks/useAuth";
 import usePrivateRoute from "@/hooks/usePrivateRoute";
 import { ChildrenProps } from "@/types/ChildrenProps";
@@ -22,12 +21,7 @@ const AdminDashboardLayout = ({ children }: ChildrenProps) => {
     return null;
   }
 
-  return (
-    <>
-      <DashboardNavbar />
-      {children}
-    </>
-  );
+  return <>{children}</>;
 };
 
 export default AdminDashboardLayout;
