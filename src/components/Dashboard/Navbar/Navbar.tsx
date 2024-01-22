@@ -13,6 +13,7 @@ import { NavbarDataType } from "@/types/NavbarDataType";
 import PrimaryButton from "@/ui/PrimaryButton";
 import {
   Avatar,
+  Checkbox,
   Dropdown,
   DropdownItem,
   DropdownMenu,
@@ -109,7 +110,10 @@ const DashboardNavbar = () => {
                 className="h-14 gap-2"
                 textValue="sing in"
               >
-                Signed in as
+                Signed in as{" "}
+                {user?.emailVerified && (
+                  <Checkbox defaultSelected radius="full" size="sm" />
+                )}
                 <p className="font-semibold">{user?.email}</p>
               </DropdownItem>
             </DropdownSection>

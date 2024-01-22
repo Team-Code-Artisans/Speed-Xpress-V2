@@ -15,7 +15,6 @@ const config: Config = {
       ...colors,
       light: "#f3f4f6",
       dark: "#030712",
-      accent: "#91cff3",
     },
   },
   darkMode: "class",
@@ -24,18 +23,12 @@ const config: Config = {
       themes: {
         light: {
           colors: {
-            // default: "#111827",
-            // foreground: "#030712",
-            // background: "#f3f4f6",
             primary: { DEFAULT: "#3b82f6", foreground: "#f3f4f6" },
             secondary: "#93c5fd",
           },
         },
         dark: {
           colors: {
-            // default: "#f3f4f6",
-            // foreground: "#f3f4f6",
-            // background: "#111827",
             primary: { DEFAULT: "#3b82f6", foreground: "#f3f4f6" },
             secondary: "#93c5fd",
           },
