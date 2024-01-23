@@ -40,7 +40,11 @@ import { HiDotsVertical as VerticalDotsIcon } from "react-icons/hi";
 import { toast } from "react-toastify";
 import ParcelUpdateModal from "./ParcelUpdateModal";
 
-const ParcelTable = () => {
+const ParcelTable = ({
+  setEarnings,
+}: {
+  setEarnings?: React.Dispatch<React.SetStateAction<number>>;
+}) => {
   // hooks
   let { parcels, isLoading, refetch } = useParcel();
   const { role } = useAuth();
@@ -52,13 +56,21 @@ const ParcelTable = () => {
   const router = useRouter();
 
   if (role === "rider") {
-    // parcels = parcels.filter(
-    //   (parcel) => parcel.parcelStatus !== Status.Pending
-    // );
-    if (pathname.split("/")[3] === "completed-deliveries") {
+    if (
+      pathname.split("/")[3] === "completed-deliveries" ||
+      pathname.split("/")[3] === "earnings"
+    ) {
       parcels = parcels.filter(
         (parcel) => parcel.parcelStatus === Status.Delivered
       );
+
+      const totalAmount = parcels.reduce((accumulator, parcel) => {
+        return accumulator + parcel.paymentInfo.amount;
+      }, 0);
+
+      if (setEarnings) {
+        setEarnings(totalAmount);
+      }
     } else {
       parcels = parcels.filter(
         (parcel) =>
