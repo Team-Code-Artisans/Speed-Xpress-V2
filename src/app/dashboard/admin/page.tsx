@@ -1,7 +1,9 @@
 "use client";
 
 import InvoiceStats from "@/components/Dashboard/Home/InvoiceStats";
+import LineChart from "@/components/Dashboard/Home/LineChart";
 import ParcelStats from "@/components/Dashboard/Home/ParcelStats";
+import PieChart from "@/components/Dashboard/Home/PieChart";
 import { useParcel } from "@/hooks/useParcel";
 import Loading from "@/ui/Loading";
 
@@ -18,6 +20,15 @@ const AdminDashboardPage = () => {
         <>
           <ParcelStats parcels={parcels} />
           <InvoiceStats />
+          <div className="space-y-10">
+            <h1 className="text-2xl font-semibold lg:text-3xl">
+              PARCEL <span className="text-primary">CHART</span>
+            </h1>
+            <div className="flex gap-4 items-center justify-between">
+              <LineChart parcels={parcels} />
+              <PieChart parcels={parcels} />
+            </div>
+          </div>
         </>
       )}
     </div>
