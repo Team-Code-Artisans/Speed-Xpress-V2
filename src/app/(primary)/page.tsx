@@ -5,6 +5,7 @@ import Hero from "@/components/Home/Hero/Hero";
 import OrderNow from "@/components/Home/OrderNow";
 import OrderPlace from "@/components/Home/OrderPlace";
 import Processes from "@/components/Home/Processes";
+import WhatSend from "@/components/Home/WhatSend";
 import WhatWeOffer from "@/components/Home/WhatWeOffer";
 
 const HomePage = () => {
@@ -14,6 +15,7 @@ const HomePage = () => {
       <WhatWeOffer />
       <Processes />
       <Feature />
+      <WhatSend />
       <OrderPlace />
       <OrderNow />
       <FAQ />

@@ -13,7 +13,7 @@ const GetStarted = () => {
 
       <div className="flex justify-center">
         <Image
-          className="object-cover w-full h-60 md:h-96 rounded-xl lg:w-4/5"
+          className="object-cover w-full h-60 md:h-96 rounded-xl lg:w-4/5 contrast-90"
           src={"/assets/images/delivery.png"}
           width={2000}
           height={2000}
