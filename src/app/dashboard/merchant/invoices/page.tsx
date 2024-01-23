@@ -1,11 +1,10 @@
 import InvoiceTable from "@/components/Dashboard/Invoices/InvoiceTable";
-import React from "react";
 
 const InvoicesPage = () => {
   return (
     <div className="max-w-screen-xl mx-auto px-6 py-10">
       <div className="pb-10 space-y-2">
-        <h1 className="text-2xl font-semibold text-gray-600 capitalize lg:text-3xl">
+        <h1 className="text-2xl font-semibold uppercase lg:text-3xl">
           All <span className="text-primary">INVOICES</span>
         </h1>
 

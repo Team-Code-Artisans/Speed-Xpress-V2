@@ -7,7 +7,7 @@ const ShopsPage = () => {
       <div className="pb-10 space-y-2">
         <div className="flex justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-semibold text-gray-600 capitalize lg:text-3xl">
+            <h1 className="text-2xl font-semibold uppercase lg:text-3xl">
               All <span className="text-primary">SHOPS</span>
             </h1>
 
