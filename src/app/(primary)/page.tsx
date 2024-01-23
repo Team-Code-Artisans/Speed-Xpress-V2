@@ -6,6 +6,7 @@ import LogoCloud from "@/components/Home/LogoCloud";
 import OrderNow from "@/components/Home/OrderNow";
 import OrderPlace from "@/components/Home/OrderPlace";
 import Processes from "@/components/Home/Processes";
+import Review from "@/components/Home/Review";
 import WhatSend from "@/components/Home/WhatSend";
 import WhatWeOffer from "@/components/Home/WhatWeOffer";
 
@@ -21,6 +22,7 @@ const HomePage = () => {
       <OrderNow />
       <FAQ />
       <LogoCloud />
+      <Review />
       <GetStarted />
     </>
   );

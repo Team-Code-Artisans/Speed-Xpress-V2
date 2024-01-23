@@ -11,7 +11,7 @@ const LogoCloud = () => {
         <div className="rounded-lg bg-white dark:bg-gray-900 py-2 px-4 flex items-center justify-center shadow-lg">
           <Image
             src={"/assets/images/logo/ajkerdeal.png"}
-            className="w-40 h-18 "
+            className="w-40 h-18 contrast-200"
             width={600}
             height={600}
             alt="logo"
@@ -29,7 +29,7 @@ const LogoCloud = () => {
         <div className="rounded-lg bg-white dark:bg-gray-900 py-2 px-4 flex items-center justify-center shadow-lg">
           <Image
             src={"/assets/images/logo/daraz.png"}
-            className="w-40 h-18"
+            className="w-40 h-16"
             width={600}
             height={600}
             alt="logo"
@@ -38,7 +38,7 @@ const LogoCloud = () => {
         <div className="rounded-lg bg-white dark:bg-gray-900 py-2 px-4 flex items-center justify-center shadow-lg">
           <Image
             src={"/assets/images/logo/pathao.png"}
-            className="w-40 h-18"
+            className="w-40 h-18 contrast-200"
             width={600}
             height={600}
             alt="logo"
@@ -47,7 +47,7 @@ const LogoCloud = () => {
         <div className="rounded-lg bg-white dark:bg-gray-900 py-2 px-4 flex items-center justify-center shadow-lg">
           <Image
             src={"/assets/images/logo/redx.png"}
-            className="w-40 h-18 "
+            className="w-40 h-16 contrast-200"
             width={600}
             height={600}
             alt="logo"
