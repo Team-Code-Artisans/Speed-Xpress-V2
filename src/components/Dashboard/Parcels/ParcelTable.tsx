@@ -205,6 +205,19 @@ const ParcelTable = ({
         }
       };
 
+      const handleReturn = async (id: string) => {
+        const updateResponse = await updateParcelStatus({
+          id,
+          data: { parcelStatus: Status.Returned },
+        });
+
+        if (updateResponse.code === "success") {
+          refetch();
+        } else {
+          console.error(updateResponse.error);
+        }
+      };
+
       switch (columnKey) {
         case "id":
           return (
@@ -397,6 +410,27 @@ const ParcelTable = ({
                     >
                       Delete
                     </DropdownItem>
+                  )}
+
+                  {role === "rider" ? (
+                    <DropdownItem
+                      className="hidden"
+                      textValue="hidden"
+                    ></DropdownItem>
+                  ) : parcel.parcelStatus === Status.Delivered ? (
+                    <DropdownItem
+                      textValue="return"
+                      className="text-left"
+                      as="button"
+                      onClick={() => handleReturn(`${parcel?._id}`)}
+                    >
+                      Return
+                    </DropdownItem>
+                  ) : (
+                    <DropdownItem
+                      className="hidden"
+                      textValue="hidden"
+                    ></DropdownItem>
                   )}
                 </DropdownMenu>
               </Dropdown>
