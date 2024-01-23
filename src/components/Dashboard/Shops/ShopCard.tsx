@@ -2,6 +2,7 @@
 
 import { useShop } from "@/hooks/useShop";
 import Loading from "@/ui/Loading";
+import Image from "next/image";
 import UpdateShopModal from "./UpdateShopModal";
 
 const ShopCard = () => {
@@ -12,6 +13,17 @@ const ShopCard = () => {
       {isLoading ? (
         <div className="grid place-items-center h-[40rem]">
           <Loading size="lg" />
+        </div>
+      ) : shops.length === 0 ? (
+        <div className="grid place-items-center">
+          <Image
+            className="w-[30rem]"
+            src={"/assets/images/no_data.png"}
+            width={600}
+            height={600}
+            alt="no data"
+          />
+          <h1 className="text-xl font-bold">CANNOT GET SHOP DATA</h1>
         </div>
       ) : (
         <div className="grid md:grid-cols-2 gap-4 lg:gap-8">

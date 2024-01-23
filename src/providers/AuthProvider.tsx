@@ -4,7 +4,7 @@ import app from "@/config/firebaseConfig";
 import { AuthContextType } from "@/types/AuthContextType";
 import { ChildrenProps } from "@/types/ChildrenProps";
 import { UserType } from "@/types/UserType";
-import { postJwt } from "@/utils/api/jwt";
+import { deleteJwt, postJwt } from "@/utils/api/jwt";
 import { saveUser } from "@/utils/api/user";
 import {
   GoogleAuthProvider,
@@ -164,6 +164,7 @@ const AuthProvider = ({ children }: ChildrenProps) => {
       setUser(null);
       setRole(null);
       await signOut(auth);
+      await deleteJwt();
       router.push("/login");
       toast.success("Sign out successfully");
     } catch (error) {

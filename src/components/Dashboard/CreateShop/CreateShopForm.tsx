@@ -6,7 +6,7 @@ import CustomInput from "@/ui/CustomInput";
 import PrimaryButton from "@/ui/PrimaryButton";
 import SelectDistrict from "@/ui/SelectDistrict";
 import SelectDivision from "@/ui/SelectDivision";
-import { createShop as postShop } from "@/utils/api/shop";
+import { createShop } from "@/utils/api/shop";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -47,7 +47,7 @@ const CreateShopForm = ({ onClose }: OnCloseProps) => {
     };
 
     // Shop response
-    const shopResponse = await postShop(shopData);
+    const shopResponse = await createShop(shopData);
 
     if (shopResponse.code === "success") {
       reset();
@@ -64,7 +64,10 @@ const CreateShopForm = ({ onClose }: OnCloseProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(handleForm)} className="flex flex-col gap-4">
+    <form
+      onSubmit={handleSubmit(handleForm)}
+      className="flex flex-col gap-4 py-2"
+    >
       <CustomInput
         label="Shop Name"
         name="name"
