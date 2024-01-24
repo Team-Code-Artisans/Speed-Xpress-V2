@@ -32,7 +32,7 @@ const MainNavbar = () => {
     <Navbar
       shouldHideOnScroll
       isBordered
-      onMenuOpenChange={setIsMenuOpen}
+      onClick={() => setIsMenuOpen(!isMenuOpen)}
       className="bg-light dark:bg-dark border-gray-200 dark:border-gray-800"
       maxWidth="xl"
     >
@@ -103,6 +103,18 @@ const MainNavbar = () => {
             {item.name}
           </Link>
         ))}
+        <Link
+          href="/login"
+          className="text-dark dark:text-light hover:text-primary before:bg-primary text-xl before:absolute before:-bottom-1 before:h-0.5 before:w-full before:origin-left before:scale-x-0 before:transition hover:before:scale-100 relative"
+        >
+          Login
+        </Link>
+        <Link
+          href="/register"
+          className="text-dark dark:text-light hover:text-primary before:bg-primary text-xl before:absolute before:-bottom-1 before:h-0.5 before:w-full before:origin-left before:scale-x-0 before:transition hover:before:scale-100 relative"
+        >
+          Register
+        </Link>
       </NavbarMenu>
     </Navbar>
   );
