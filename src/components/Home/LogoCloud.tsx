@@ -4,7 +4,7 @@ const LogoCloud = () => {
   return (
     <div className="max-w-screen-xl mx-auto px-4 pb-20 space-y-10">
       <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold capitalize text-center">
-        Owr Awesome <span className="text-primary">Partners</span>
+        Our Awesome <span className="text-primary">Partners</span>
       </h1>
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
