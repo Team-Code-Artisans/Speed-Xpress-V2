@@ -4,16 +4,16 @@ export const mainNavbarData = [
     link: "/",
   },
   {
-    name: "Services",
-    link: "/",
-  },
-  {
-    name: "Blog",
-    link: "/",
+    name: "Features",
+    link: "/features",
   },
   {
     name: "About",
-    link: "/",
+    link: "/about-us",
+  },
+  {
+    name: "Contact",
+    link: "/contact-us",
   },
 ];
 

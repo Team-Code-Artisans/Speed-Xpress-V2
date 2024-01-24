@@ -28,7 +28,8 @@ const Review = () => {
     };
   }, [currentSlider]);
 
-  const isSmallScreen = window.innerWidth <= 1024;
+  const isSmallScreen =
+    typeof window !== "undefined" && window.innerWidth <= 1024;
 
   return (
     <div className="max-w-screen-xl mx-auto px-4 pb-20 space-y-10">
