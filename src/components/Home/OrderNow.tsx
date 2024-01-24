@@ -1,6 +1,9 @@
 import PrimaryButton from "@/ui/PrimaryButton";
 import SecondaryButton from "@/ui/SecondaryButton";
 import Image from "next/image";
+import cardboard from "/public/assets/images/cardboard.png";
+import truck from "/public/assets/images/mobile_truck.png";
+import worldwide from "/public/assets/images/worldwide.png";
 
 const OrderNow = () => {
   return (
@@ -8,15 +11,17 @@ const OrderNow = () => {
       <div className="grid md:grid-cols-2 gap-10">
         <div className="grid grid-cols-2 gap-4 max-sm:order-last">
           <Image
-            src={"/assets/images/worldwide.png"}
+            src={worldwide}
             className="rounded-full"
+            placeholder="blur"
             width="640"
             height="640"
             alt="image 3"
           />
           <Image
-            src={"/assets/images/cardboard.png"}
+            src={cardboard}
             className="rounded-xl"
+            placeholder="blur"
             width="640"
             height="640"
             alt="image 2"
@@ -24,8 +29,9 @@ const OrderNow = () => {
           <div className="col-span-2 grid grid-cols-2">
             <div></div>
             <Image
-              src={"/assets/images/mobile_truck.png"}
+              src={truck}
               className="rounded-xl"
+              placeholder="blur"
               width="640"
               height="640"
               alt="image 3"

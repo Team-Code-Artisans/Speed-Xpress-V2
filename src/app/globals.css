@@ -2,20 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-body::-webkit-scrollbar {
-  width: 4px;
-}
-
-body::-webkit-scrollbar-track {
-  border-radius: 100vh;
-  background: #252525;
-}
-
-body::-webkit-scrollbar-thumb {
-  background: #0da2e7;
-  border-radius: 100vh;
-}
-
 /*
   1. Use a more-intuitive box-sizing model.
 */
@@ -77,4 +63,20 @@ h6 {
 #root,
 #__next {
   isolation: isolate;
+}
+/*
+  9. Create a custom scrollbar
+*/
+body::-webkit-scrollbar {
+  width: 8px;
+}
+
+body::-webkit-scrollbar-track {
+  border-radius: 100vh;
+  background: #252525;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: #0da2e7;
+  border-radius: 100vh;
 }

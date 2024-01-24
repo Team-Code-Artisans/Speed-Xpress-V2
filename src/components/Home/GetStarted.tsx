@@ -1,5 +1,6 @@
 import PrimaryButton from "@/ui/PrimaryButton";
 import Image from "next/image";
+import delivery from "/public/assets/images/delivery.png";
 
 const GetStarted = () => {
   return (
@@ -14,10 +15,11 @@ const GetStarted = () => {
       <div className="flex justify-center">
         <Image
           className="object-cover w-full h-60 md:h-96 rounded-xl lg:w-4/5 contrast-80"
-          src={"/assets/images/delivery.png"}
+          src={delivery}
           width={2000}
           height={2000}
           alt="get started"
+          placeholder="blur"
         />
       </div>
     </div>

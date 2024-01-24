@@ -16,7 +16,7 @@ const Features = () => {
         </>
       </div>
 
-      <div className="mt-8 xl:mt-12 lg:flex lg:items-center">
+      <div className="mt-8 xl:mt-12 lg:flex">
         <div className="grid w-full grid-cols-1 gap-8 lg:w-1/2 xl:gap-16 md:grid-cols-2">
           <div className="space-y-3">
             <span className="inline-block p-3 text-blue-500 bg-blue-100 rounded-xl dark:text-white dark:bg-blue-500">
@@ -139,7 +139,6 @@ const Features = () => {
 
         <div className="hidden lg:flex lg:w-1/2 lg:justify-center">
           <Image
-            className="w-[30rem] object-cover h-[30rem] rounded-full"
             src="/assets/images/warehouse.png"
             alt="warehouse"
             width={600}
