@@ -1,5 +1,3 @@
-"use client";
-
 import { Card, CardBody } from "@nextui-org/react";
 import Link from "next/link";
 import LoginForm from "./LoginForm";

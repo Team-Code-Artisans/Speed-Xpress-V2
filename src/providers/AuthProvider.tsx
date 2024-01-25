@@ -4,7 +4,7 @@ import app from "@/config/firebaseConfig";
 import { AuthContextType } from "@/types/AuthContextType";
 import { ChildrenProps } from "@/types/ChildrenProps";
 import { UserType } from "@/types/UserType";
-import { deleteJwt, postJwt } from "@/utils/api/jwt";
+import { createJWT, removeJWT } from "@/utils/api/jwt";
 import { saveUser } from "@/utils/api/user";
 import {
   GoogleAuthProvider,
@@ -53,22 +53,20 @@ const AuthProvider = ({ children }: ChildrenProps) => {
           displayName: displayName,
         });
 
-        const jwtResponse = await postJwt({
+        await createJWT({
           email: userCredential.user.email,
-          role: `${displayName}`,
+          role: displayName,
         });
 
-        if (jwtResponse.code === "success") {
-          setUser({
-            ...userCredential.user,
-            email,
-            displayName,
-          });
+        setUser({
+          ...userCredential.user,
+          email,
+          displayName,
+        });
 
-          setRole(displayName);
+        setRole(displayName);
 
-          setLoading(false);
-        }
+        setLoading(false);
       }
 
       return userCredential.user;
@@ -78,7 +76,10 @@ const AuthProvider = ({ children }: ChildrenProps) => {
       } else {
         toast.error("Something went wrong!");
       }
+
       setLoading(false);
+
+      console.error(error);
       return null;
     }
   };
@@ -94,9 +95,9 @@ const AuthProvider = ({ children }: ChildrenProps) => {
       );
 
       if (userCredential.user) {
-        await postJwt({
-          email: `${userCredential.user?.email}`,
-          role: `${userCredential.user?.displayName}`,
+        await createJWT({
+          email: userCredential.user?.email as string,
+          role: userCredential.user?.displayName as string,
         });
 
         setRole(
@@ -137,7 +138,7 @@ const AuthProvider = ({ children }: ChildrenProps) => {
       };
 
       if (userCredential.user.email) {
-        const JwtResponse = await postJwt({
+        const JwtResponse = await createJWT({
           email: userCredential.user.email,
           role: "regular",
         });
@@ -163,8 +164,8 @@ const AuthProvider = ({ children }: ChildrenProps) => {
     try {
       setUser(null);
       setRole(null);
+      await removeJWT();
       await signOut(auth);
-      await deleteJwt();
       router.push("/login");
       toast.success("Sign out successfully");
     } catch (error) {

@@ -73,16 +73,16 @@ const RegisterForm = ({ role }: { role: string }) => {
       if (userResponse.code === "success") {
         if (userResponse.data.role === "merchant") {
           const shopData: ShopType = {
-            name: userResponse.data.shopName!,
-            email: userResponse.data.email!,
-            number: userResponse.data.number!,
+            name: userResponse.data.shopName as string,
+            email: userResponse.data.email as string,
+            number: userResponse.data.number as string,
             address: {
-              division: userResponse.data.division!,
-              district: userResponse.data.district!,
-              address: userResponse.data.address!,
+              division: userResponse.data.division as string,
+              district: userResponse.data.district as string,
+              address: userResponse.data.address as string,
             },
-            merchantId: userResponse.data._id!,
-            merchantEmail: userResponse.data.email!,
+            merchantId: userResponse.data._id as string,
+            merchantEmail: userResponse.data.email as string,
           };
 
           // Shop response

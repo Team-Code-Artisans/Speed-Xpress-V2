@@ -1,12 +1,36 @@
 import { JWTUserType } from "@/types/UserType";
-import api from "../axios";
-import { requestHandler } from "../requestHandler";
 
-export const postJwt = requestHandler<JWTUserType, JWTUserType>((data) =>
-  api.post("/jwt", data)
-);
+export const createJWT = async (payload: JWTUserType) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/auth`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      }
+    );
 
-export const deleteJwt = requestHandler<
-  void,
-  { success: boolean; message: string }
->(() => api.delete("/jwt"));
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const removeJWT = async () => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/auth/logout`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
