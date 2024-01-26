@@ -10,7 +10,7 @@ export const POST = async (req: NextRequest) => {
   const token = await new SignJWT(body)
     .setProtectedHeader({ alg })
     .setIssuedAt()
-    .setExpirationTime("3d")
+    .setExpirationTime("30d")
     .sign(secret);
 
   cookies().set({
@@ -18,6 +18,7 @@ export const POST = async (req: NextRequest) => {
     value: token,
     secure: true,
     httpOnly: true,
+    sameSite: "strict",
   });
 
   return NextResponse.json({ success: true, message: "Token created" });

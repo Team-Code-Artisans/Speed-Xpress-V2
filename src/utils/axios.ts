@@ -20,14 +20,14 @@ api.interceptors.response.use(
     return response;
   },
   function (error) {
-    const originalRequest = error.config;
-    const logOut = getLogOutFunction();
+    // const originalRequest = error.config;
+    // const logOut = getLogOutFunction();
 
-    if (error.response.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
+    // if (error.response.status === 401 && !originalRequest._retry) {
+    //   originalRequest._retry = true;
 
-      logOut();
-    }
+    //   logOut();
+    // }
 
     return Promise.reject(error);
   }
