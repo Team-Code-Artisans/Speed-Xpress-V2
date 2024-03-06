@@ -147,7 +147,7 @@ const TrackingModal = ({ onOpenChange, isOpen, parcel }: TrackingModalType) => {
                     </label>
                     <div>
                       <h1 className="sm:text-lg whitespace-nowrap capitalize">
-                        {parcel?.paymentInfo?.amount ?? ""}
+                        ${parcel?.paymentInfo?.amount ?? ""}
                       </h1>
                     </div>
                   </div>

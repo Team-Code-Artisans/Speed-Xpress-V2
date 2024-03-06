@@ -1,3 +1,4 @@
+import ThemeSwitch from "@/ui/ThemeSwitch";
 import Link from "next/link";
 
 const Footer = () => {
@@ -110,6 +111,7 @@ const Footer = () => {
           <h1 className="text-4xl font-semibold lg:col-span-2 lg:justify-self-end">
             Speed<span className="text-primary">Xpress</span>
           </h1>
+          <ThemeSwitch />
         </div>
 
         <div className="flex flex-col justify-between pt-5 border-t border-gray-400 dark:border-gray-800 sm:flex-row">
