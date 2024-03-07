@@ -235,7 +235,7 @@ const UserTable = () => {
               selectionMode="multiple"
               onSelectionChange={setVisibleColumns}
             >
-              {columns.map((column) => (
+              {columns.slice(1, -1).map((column) => (
                 <DropdownItem key={column.uid} className="capitalize">
                   {column.name}
                 </DropdownItem>

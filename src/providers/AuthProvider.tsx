@@ -138,6 +138,8 @@ const AuthProvider = ({ children }: ChildrenProps) => {
       };
 
       if (userCredential.user.email) {
+        router.push("/dashboard/regular");
+
         const JwtResponse = await createJWT({
           email: userCredential.user.email,
           role: "regular",
@@ -148,7 +150,6 @@ const AuthProvider = ({ children }: ChildrenProps) => {
 
           const userResponse = await saveUser(userData);
           if (userResponse.code === "success") {
-            router.push(`/dashboard/regular`);
             toast.success("Google sign in Successfully");
           } else {
             console.error(userResponse.error);

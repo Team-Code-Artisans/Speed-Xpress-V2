@@ -5,10 +5,12 @@ import PrimaryButton from "@/ui/PrimaryButton";
 import SecondaryButton from "@/ui/SecondaryButton";
 import { Input } from "@nextui-org/react";
 import { sendEmailVerification } from "firebase/auth";
+import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
 const VerifyForm = () => {
-  const { user, role } = useAuth();
+  const { user } = useAuth();
+  const router = useRouter();
 
   const handleForm = async () => {
     if (user) {
@@ -32,7 +34,7 @@ const VerifyForm = () => {
         className="max-w-xs"
       />
       <div className="flex gap-4">
-        <SecondaryButton size="md" href={`/dashboard/${role}`}>
+        <SecondaryButton size="md" onClick={() => router.back()}>
           Back
         </SecondaryButton>
         <PrimaryButton size="md" onClick={handleForm}>

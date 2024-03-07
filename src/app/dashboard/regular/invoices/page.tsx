@@ -1,18 +1,21 @@
 import InvoiceTable from "@/components/Dashboard/Invoices/InvoiceTable";
+import InfoAlert from "@/ui/InfoAlert";
 
 const InvoicesPage = () => {
   return (
     <div className="max-w-screen-xl mx-auto px-6 py-10">
-      <div className="pb-10 space-y-2">
-        <h1 className="text-2xl font-semibold uppercase lg:text-3xl">
-          All <span className="text-primary">INVOICES</span>
-        </h1>
-
-        <>
-          <span className="inline-block w-20 h-1 bg-primary rounded-full"></span>
-          <span className="inline-block w-4 h-1 ml-1 bg-primary rounded-full"></span>
-          <span className="inline-block w-2 h-1 ml-1 bg-primary rounded-full"></span>
-        </>
+      <div className="flex sm:flex-row flex-col justify-between gap-4 mb-10 sm:h-20">
+        <div className="space-y-2">
+          <h1 className="text-2xl font-semibold uppercase lg:text-3xl">
+            All <span className="text-primary">INVOICES</span>
+          </h1>
+          <>
+            <span className="inline-block w-20 h-1 bg-primary rounded-full"></span>
+            <span className="inline-block w-4 h-1 ml-1 bg-primary rounded-full"></span>
+            <span className="inline-block w-2 h-1 ml-1 bg-primary rounded-full"></span>
+          </>
+        </div>
+        <InfoAlert message="Your invoices have arrived!" />
       </div>
       <InvoiceTable />
     </div>

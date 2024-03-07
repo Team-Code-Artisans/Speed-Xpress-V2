@@ -1,5 +1,4 @@
 import {
-  ShopRequestType,
   ShopResponseType,
   ShopType,
   UpdateShopRequestType,
@@ -38,5 +37,5 @@ export const updateShop = requestHandler<
 
 // Delete shop by id
 export const deleteShop = requestHandler<string, ShopResponseType>((id) =>
-  api.delete(`/shops/delete-shop/${id}`)
+  api.delete(`/shops/${id}`)
 );

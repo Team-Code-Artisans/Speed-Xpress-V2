@@ -1,30 +1,27 @@
 "use client";
 
-import { AllStateContext } from "@/providers/AllStateProvider";
+import { useAllState } from "@/hooks/useAllState";
 import { Switch } from "@nextui-org/react";
 import { useTheme } from "next-themes";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const ThemeSwitch = () => {
-  const { setLocalTheme } = useContext(AllStateContext);
+  const { setLocalTheme } = useAllState();
 
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [isSelected, setIsSelected] = useState(theme === "dark" ? true : false);
 
-  if (isSelected) {
-    setTheme("dark");
-  } else {
-    setTheme("light");
-  }
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
-    if (theme) {
-      setLocalTheme(theme as "dark" | "light");
+    if (mounted) {
+      setTheme(isSelected ? "dark" : "light");
+      setLocalTheme(isSelected ? "dark" : "light");
     }
-
-    setMounted(true);
-  }, [theme, setLocalTheme]);
+  }, [isSelected, mounted, setLocalTheme, setTheme]);
 
   if (!mounted) return null;
 

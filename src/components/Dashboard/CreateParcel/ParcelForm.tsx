@@ -333,7 +333,7 @@ const ParcelForm = ({
 
       <div className="flex gap-4 justify-end">
         <SecondaryButton
-          href={`/dashboard/${userInfo.role}/parcels`}
+          onClick={() => router.back()}
           type="button"
           fullWidth={true}
         >

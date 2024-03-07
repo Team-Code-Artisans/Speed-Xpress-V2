@@ -2,11 +2,31 @@
 
 import { useShop } from "@/hooks/useShop";
 import Loading from "@/ui/Loading";
+import SecondaryButton from "@/ui/SecondaryButton";
+import { deleteShop } from "@/utils/api/shop";
 import Image from "next/image";
+import { FiTrash } from "react-icons/fi";
+import { toast } from "react-toastify";
 import UpdateShopModal from "./UpdateShopModal";
 
 const ShopCard = () => {
   const { shops, isLoading, refetch } = useShop();
+
+  const handleDeleteShop = async (id: string) => {
+    if (shops.length !== 1) {
+      const response = await deleteShop(id);
+
+      if (response.code === "success") {
+        refetch();
+        toast.success("Shop deleted successfully");
+      } else {
+        toast.error("Something went wrong");
+        console.error(response.error);
+      }
+    } else {
+      toast.warning("You have only one shop");
+    }
+  };
 
   return (
     <>
@@ -37,12 +57,21 @@ const ShopCard = () => {
                   {shop.name}
                 </h1>
 
-                {/* Update shop modal */}
-                <UpdateShopModal
-                  id={shop.shopId}
-                  refetch={refetch}
-                  shop={shop}
-                />
+                {/* Update and Delete shop */}
+                <div className="flex gap-4">
+                  <UpdateShopModal
+                    id={shop.shopId}
+                    refetch={refetch}
+                    shop={shop}
+                  />
+
+                  <SecondaryButton
+                    size="sm"
+                    onClick={() => handleDeleteShop(shop._id)}
+                  >
+                    <FiTrash />
+                  </SecondaryButton>
+                </div>
               </div>
               {/* Shop info */}
               <div className="grid sm:grid-cols-2 sm:gap-8 gap-4">
