@@ -4,17 +4,19 @@
 
 Effortlessly manage parcels with Speed Xpress. Send, receive, and track with ease. Tailored dashboards for customers, merchants, and admins. Swift local delivery and real-time updates. Your shortcut to efficient parcel management.
 
+![App Screenshot](https://drive.google.com/file/d/1nGGxmcvAeVPHx7xlXwZbxvOA2mA7xh5C/view?usp=sharing)
+
 
 ## Live Preview
 
-#### [Speed Xpress](https://speed-xpress.netlify.app/)
+#### [Speed Xpress](https://speed-xpress-v2.vercel.app)
 
 
 ## Tech Stack
 
-**Client:** React, Next, TypeScript, TailwindCSS
+**Client:** React.js, Next.js, TypeScript, TailwindCSS, NextUI
 
-**Server:** Node, Express
+**Server:** Node.js, Express.js, MongoDB
 
 
 ## Features
@@ -36,27 +38,19 @@ Effortlessly manage parcels with Speed Xpress. Send, receive, and track with eas
 - [@Ashikur Rahman](https://www.github.com/ashikur540)
 - [@Anas Mahmud](https://www.github.com/anas-mahmud)
 
-## Installation
 
-Install my-project with npm
-
-```bash
-  npx create-next-app@latest
-  cd project-name
-```
-    
 ## Run Locally
 
 Clone the project
 
 ```bash
-  git clone https://github.com/Team-Code-Artisans/Speed-Xpress-V2.git
+  git clone https://github.com/Team-Code-Artisans/speed-xpress-v2.git
 ```
 
 Go to the project directory
 
 ```bash
-  cd project-name
+  cd speed-xpress-v2
 ```
 
 Install dependencies
@@ -64,12 +58,44 @@ Install dependencies
 ```bash
   npm install
 ```
+```bash
+  yarn
+```
 
 Start the server
 
 ```bash
   npm run dev
 ```
+```bash
+  yarn dev
+```
+
+
+## Environment Variables
+
+To run this project, you will need to add the following environment variables to your .env file
+
+`NEXT_PUBLIC_FIREBASE_apiKey`
+`NEXT_PUBLIC_FIREBASE_authDomain`
+`NEXT_PUBLIC_FIREBASE_projectId`
+`NEXT_PUBLIC_FIREBASE_storageBucket`
+`NEXT_PUBLIC_FIREBASE_messagingSenderId`
+`NEXT_PUBLIC_FIREBASE_appId`
+`NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`
+`NEXT_PUBLIC_JWT_SECRET`
+`NEXT_PUBLIC_SERVER_URL=https://speed-xpress-v2-server.vercel.app/api/v2`
+`NEXT_PUBLIC_CLIENT_URL=https://speed-xpress-v2.vercel.app`
+
+
+## Color Reference
+
+| Color             | Hex                |
+| ----------------- |------------------- |
+| primary           | #0a192f            |
+| secondary         | #93c5fd            |
+| light             | #f3f4f6            |
+| dark              | #030712            |
 
 
 ## Documentation
@@ -87,3 +113,6 @@ If you have any feedback, please reach out to us at teamcodeartisans@gmail.com
 For support, email teamcodeartisans@gmail.com or join our Slack channel.
 
 
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
