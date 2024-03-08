@@ -92,10 +92,6 @@ To run this project, you will need to add the following environment variables to
 
 `NEXT_PUBLIC_JWT_SECRET`
 
-`NEXT_PUBLIC_SERVER_URL=https://speed-xpress-v2-server.vercel.app/api/v2`
-
-`NEXT_PUBLIC_CLIENT_URL=https://speed-xpress-v2.vercel.app`
-
 
 ## Color Reference
 
