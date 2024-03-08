@@ -4,7 +4,7 @@
 
 Effortlessly manage parcels with Speed Xpress. Send, receive, and track with ease. Tailored dashboards for customers, merchants, and admins. Swift local delivery and real-time updates. Your shortcut to efficient parcel management.
 
-![App Screenshot](https://drive.google.com/file/d/1nGGxmcvAeVPHx7xlXwZbxvOA2mA7xh5C/view?usp=sharing)
+![App Screenshot]([https://drive.google.com/file/d/1nGGxmcvAeVPHx7xlXwZbxvOA2mA7xh5C/view?usp=sharing](https://res.cloudinary.com/df7zqzc8x/image/upload/v1709920322/speed-xpress-screenshot_tymwvf.png))
 
 
 ## Live Preview
