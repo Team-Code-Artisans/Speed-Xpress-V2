@@ -77,14 +77,23 @@ Start the server
 To run this project, you will need to add the following environment variables to your .env file
 
 `NEXT_PUBLIC_FIREBASE_apiKey`
+
 `NEXT_PUBLIC_FIREBASE_authDomain`
+
 `NEXT_PUBLIC_FIREBASE_projectId`
+
 `NEXT_PUBLIC_FIREBASE_storageBucket`
+
 `NEXT_PUBLIC_FIREBASE_messagingSenderId`
+
 `NEXT_PUBLIC_FIREBASE_appId`
+
 `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`
+
 `NEXT_PUBLIC_JWT_SECRET`
+
 `NEXT_PUBLIC_SERVER_URL=https://speed-xpress-v2-server.vercel.app/api/v2`
+
 `NEXT_PUBLIC_CLIENT_URL=https://speed-xpress-v2.vercel.app`
 
 
