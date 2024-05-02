@@ -4,7 +4,6 @@ import app from "@/config/firebaseConfig";
 import { AuthContextType } from "@/types/AuthContextType";
 import { ChildrenProps } from "@/types/ChildrenProps";
 import { UserType } from "@/types/UserType";
-import { createJWT, removeJWT } from "@/utils/api/jwt";
 import { saveUser } from "@/utils/api/user";
 import {
   GoogleAuthProvider,
@@ -18,7 +17,7 @@ import {
   signOut,
   updateProfile,
 } from "firebase/auth";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { createContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
@@ -33,6 +32,7 @@ const AuthProvider = ({ children }: ChildrenProps) => {
   const [role, setRole] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const router = useRouter();
+  const pathname = usePathname();
 
   const registerUser = async (
     email: string,
@@ -53,10 +53,10 @@ const AuthProvider = ({ children }: ChildrenProps) => {
           displayName: displayName,
         });
 
-        await createJWT({
-          email: userCredential.user.email,
-          role: displayName,
-        });
+        // await createJWT({
+        //   email: userCredential.user.email,
+        //   role: displayName,
+        // });
 
         setUser({
           ...userCredential.user,
@@ -65,7 +65,6 @@ const AuthProvider = ({ children }: ChildrenProps) => {
         });
 
         setRole(displayName);
-
         setLoading(false);
       }
 
@@ -78,8 +77,7 @@ const AuthProvider = ({ children }: ChildrenProps) => {
       }
 
       setLoading(false);
-
-      console.error(error);
+      // console.error(error);
       return null;
     }
   };
@@ -95,10 +93,10 @@ const AuthProvider = ({ children }: ChildrenProps) => {
       );
 
       if (userCredential.user) {
-        await createJWT({
-          email: userCredential.user?.email as string,
-          role: userCredential.user?.displayName as string,
-        });
+        // await createJWT({
+        //   email: userCredential.user?.email as string,
+        //   role: userCredential.user?.displayName as string,
+        // });
 
         setRole(
           ["regular", "merchant", "rider", "admin"].includes(
@@ -114,7 +112,7 @@ const AuthProvider = ({ children }: ChildrenProps) => {
       return userCredential.user;
     } catch (error) {
       toast.error("Invalid email or password");
-      console.error(error);
+      // console.error(error);
       setLoading(false);
       return null;
     }
@@ -140,20 +138,18 @@ const AuthProvider = ({ children }: ChildrenProps) => {
       if (userCredential.user.email) {
         router.push("/dashboard/regular");
 
-        const JwtResponse = await createJWT({
-          email: userCredential.user.email,
-          role: "regular",
-        });
+        // await createJWT({
+        //   email: userCredential.user.email,
+        //   role: "regular",
+        // });
 
-        if (JwtResponse.code === "success") {
-          setRole("regular");
+        setRole("regular");
 
-          const userResponse = await saveUser(userData);
-          if (userResponse.code === "success") {
-            toast.success("Google sign in Successfully");
-          } else {
-            console.error(userResponse.error);
-          }
+        const userResponse = await saveUser(userData);
+        if (userResponse.code === "success") {
+          toast.success("Google sign in Successfully");
+        } else {
+          console.error(userResponse.error);
         }
       }
     } catch (error) {
@@ -165,9 +161,13 @@ const AuthProvider = ({ children }: ChildrenProps) => {
     try {
       setUser(null);
       setRole(null);
-      await removeJWT();
+      // await removeJWT();
       await signOut(auth);
-      router.push("/login");
+
+      if (pathname !== "/") {
+        router.push("/login");
+      }
+
       toast.success("Sign out successfully");
     } catch (error) {
       console.error(error);

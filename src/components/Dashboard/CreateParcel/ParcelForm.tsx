@@ -97,7 +97,7 @@ const ParcelForm = ({
       description,
     };
 
-    if (userInfo.role === "merchant") {
+    if (userInfo?.role === "merchant") {
       parcelData = {
         ...parcelData,
         merchantInfo: {
@@ -153,18 +153,18 @@ const ParcelForm = ({
         } else {
           toast.error("Payment created failed");
           console.error(paymentResponse.error);
-          router.push(`/dashboard/${userInfo.role}/parcels`);
+          router.push(`/dashboard/${userInfo?.role}/parcels`);
         }
       } else {
         const paymentResponse = await createInvoice(paymentData);
         if (paymentResponse.code === "success") {
           reset();
           toast.success("Parcel created successfully");
-          router.push(`/dashboard/${userInfo.role}/parcels`);
+          router.push(`/dashboard/${userInfo?.role}/parcels`);
         } else {
           toast.error("Payment created failed");
           console.error(paymentResponse.error);
-          router.push(`/dashboard/${userInfo.role}/parcels`);
+          router.push(`/dashboard/${userInfo?.role}/parcels`);
         }
       }
     } else {
@@ -245,7 +245,7 @@ const ParcelForm = ({
       {/* parcel details */}
       <h1 className="text-xl font-medium">Parcel Details</h1>
 
-      {userInfo.role === "merchant" && (
+      {userInfo?.role === "merchant" && (
         <SelectShop shop={shop} setShop={setShop} shops={shops} />
       )}
 

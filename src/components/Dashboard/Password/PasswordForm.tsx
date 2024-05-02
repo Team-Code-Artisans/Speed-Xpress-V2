@@ -5,15 +5,28 @@ import PrimaryButton from "@/ui/PrimaryButton";
 import SecondaryButton from "@/ui/SecondaryButton";
 import { Input } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 const PasswordForm = () => {
+  const [email, setEmail] = useState("");
+
   const { user, resetPassword } = useAuth();
   const router = useRouter();
 
+  useEffect(() => {
+    if (user?.email) {
+      setEmail(user.email);
+    }
+  }, [user]);
+
   const handleForm = async () => {
-    resetPassword(`${user?.email}`);
-    toast.info("Please check your mail");
+    if (email.includes("@")) {
+      resetPassword(`${email}`);
+      toast.info("Please check your mail");
+    } else {
+      toast.error("Invalid email");
+    }
   };
 
   return (
@@ -25,8 +38,9 @@ const PasswordForm = () => {
         label="Email"
         variant="bordered"
         radius="sm"
-        readOnly
-        value={`${user?.email}`}
+        readOnly={user?.email ? true : false}
+        value={`${email}`}
+        onChange={(e) => setEmail(e.target.value)}
         description="Click reset and check your mail"
         className="max-w-xs"
       />

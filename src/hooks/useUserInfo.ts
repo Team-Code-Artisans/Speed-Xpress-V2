@@ -40,7 +40,10 @@ export const useUserInfo = () => {
             return userResponse.data;
           } else {
             console.error(userResponse.error);
+            return [];
           }
+        } else {
+          return [];
         }
       }
     },

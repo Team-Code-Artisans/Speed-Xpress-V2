@@ -18,9 +18,7 @@ const ProfileInfo = () => {
             <label htmlFor="name" className="text-sm">
               Name
             </label>
-            <h1 className="text-lg sm:text-xl whitespace-nowrap capitalize">
-              {userInfo?.name}
-            </h1>
+            <h1 className="text-lg sm:text-xl capitalize">{userInfo?.name}</h1>
           </div>
           <div>
             <label htmlFor="email" className="text-sm">
@@ -32,15 +30,13 @@ const ProfileInfo = () => {
             <label htmlFor="number" className="text-sm">
               Number
             </label>
-            <h1 className="text-lg sm:text-xl whitespace-nowrap">
-              {userInfo?.number}
-            </h1>
+            <h1 className="text-lg sm:text-xl">{userInfo?.number}</h1>
           </div>
           <div>
             <label htmlFor="address" className="text-sm">
               Address
             </label>
-            <h1 className="text-lg sm:text-xl whitespace-nowrap capitalize">
+            <h1 className="text-lg sm:text-xl capitalize">
               {userInfo?.address}
             </h1>
           </div>
@@ -48,7 +44,7 @@ const ProfileInfo = () => {
             <label htmlFor="division" className="text-sm">
               Division
             </label>
-            <h1 className="text-lg sm:text-xl whitespace-nowrap capitalize">
+            <h1 className="text-lg sm:text-xl capitalize">
               {userInfo?.division}
             </h1>
           </div>
@@ -56,7 +52,7 @@ const ProfileInfo = () => {
             <label htmlFor="district" className="text-sm">
               District
             </label>
-            <h1 className="text-lg sm:text-xl whitespace-nowrap capitalize">
+            <h1 className="text-lg sm:text-xl capitalize">
               {userInfo?.district}
             </h1>
           </div>
@@ -64,7 +60,7 @@ const ProfileInfo = () => {
             <label htmlFor="account" className="text-sm">
               Account
             </label>
-            <h1 className="text-lg sm:text-xl whitespace-nowrap uppercase text-primary font-semibold">
+            <h1 className="text-lg sm:text-xl uppercase text-primary font-semibold">
               {userInfo?.role}
             </h1>
           </div>
