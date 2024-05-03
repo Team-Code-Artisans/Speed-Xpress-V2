@@ -80,3 +80,8 @@ body::-webkit-scrollbar-thumb {
   background: #0da2e7;
   border-radius: 100vh;
 }
+
+@page {
+  size: auto;
+  margin: 20mm;
+}
